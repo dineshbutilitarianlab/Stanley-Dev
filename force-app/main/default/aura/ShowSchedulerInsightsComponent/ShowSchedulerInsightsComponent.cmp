@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="Scheduler_Insight_MonthYear_handler">
+    <aura:attribute name="ShowToCreateMonthlyBeatPlan" type="Boolean" default="false"/>
+    <aura:handler name="sampleCmpEvent" event="c:SampleComponentEvent" action="{!c.parentComponentEvent}"/>
+    <aura:attribute name="selectedMonthNumber" type="Integer" />
+    <aura:attribute name="selectedMonth" type="String" />
+    <aura:attribute name="selectedYear" type="String" />
+    <aura:attribute name="MonthlyBeatPlanDataList" type="Object"/>
+    <aura:attribute name="approvalDetails" type="object" />
+    <aura:attribute name="userName" type="String" />
+    <aura:attribute name="refresh" type="Boolean" default="true"/>
+    
+    <div class="mainContain" >
+        <div class="slds-col slds-size_12-of-12">
+        <c:SchedulerDayBarComponent></c:SchedulerDayBarComponent>
+    </div>
+        <aura:if isTrue="{!not(v.ShowToCreateMonthlyBeatPlan)}">
+            <div class="slds-col slds-size_12-of-12">
+                <c:SchedulerInsightsMonthYear MonthlyBeatPlanDataList="{!v.MonthlyBeatPlanDataList}" userName="{!v.userName}"/>
+            </div>
+           <aura:if isTrue = "{!v.refresh}">
+            <div class="slds-col slds-size_12-of-12" style="margin-top:10px;">
+                <c:SchedulerInsightsProgressRing selectedMonth="{!v.selectedMonth}" selectedYear="{!v.selectedYear}"/>
+            </div>
+            </aura:if>
+            <aura:if isTrue = "{!v.refresh}">
+            <div class="slds-col slds-size_12-of-12">
+                <c:SchedulerInsightsDataTable monthName = "{!v.selectedMonth}" monthYear = "{!v.selectedYear}"/>
+            </div>
+            </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.ShowToCreateMonthlyBeatPlan}">
+            <div class="noBeat" style="margin-top:1%; margin-left:1.5%; margin-right:1%">
+                <c:SchedulerInsightNoRecordPage />
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

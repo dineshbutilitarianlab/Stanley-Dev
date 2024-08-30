@@ -1,0 +1,51 @@
+<template>
+
+	<lightning-quick-action-panel header="Warehouse Transfer">
+		<template if:false={showProductWareHouseSearchBox}>
+			<!--div class="slds-modal__header">
+			<h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Warehouse Transfer</h1>
+		</div-->
+			<div style="height:100px;">
+				<div class="slds-p-horizontal_small">
+					<!--Custom Lookup without Pre-Populate Value for Contact Object-->
+					<c-transfer-Warehouse-Products icon-name="standard:contact" record-id={recordId}
+						s-object-api-name="Warehouse_Master__c" label="Warehouse Master"
+						onlookupupdate={handleLookupSelection} placeholder="Search Warehouse...">
+					</c-transfer-Warehouse-Products>
+					<br/>
+			</div>
+				</div>
+				<div class="slds-modal__footer" style=" height:45px; margin-right: 0px; padding-top:5px;">
+					<lightning-button variant="brand" label="Next" onclick={handleClick}></lightning-button>
+				</div>
+
+		</template>
+
+		<template if:true={showRadioOptions}>
+			<lightning-card class="slds-size_4-of-12">
+				<div class="slds-m-left_xx-large">
+					<div>
+						<lightning-radio-group name="options" label="Select Option" options={options}
+							value={selectedOption} onchange={handleRadioValue}>
+						</lightning-radio-group>
+					</div>
+
+					<div class="slds-m-vertical_large">
+						<lightning-button variant="brand" label="Next" onclick={handleRadio}></lightning-button>
+					</div>
+
+				</div>
+
+			</lightning-card>
+		</template>
+
+
+		<template if:true={showProductWareHouse}>
+			<c-warehouse-transfer selected-option={selectedOption} record-id={recordId} selectedware-house-id={recId}
+				onclose={modalCloseHandler}>
+			</c-warehouse-transfer>
+		</template>
+	</lightning-quick-action-panel>
+
+
+</template>

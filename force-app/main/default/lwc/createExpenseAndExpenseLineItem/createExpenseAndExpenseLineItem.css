@@ -1,0 +1,46 @@
+/* Style for the header */
+.slds-modal__header {
+    background-color: #0176D3;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Style for the table header */
+.slds-table th .slds-truncate {
+    font-size: 16px; /* Increase label size */
+    font-family: 'Arial, sans-serif'; /* Apply font family */
+    color: #4CAF50; /* Change color */
+    font-weight: bold; /* Make labels bold */
+    text-align: center; /* Center the header text */
+}
+
+/* Style for the table data */
+.slds-table td .slds-truncate {
+    font-size: 14px; /* Data size */
+    font-family: 'Arial, sans-serif'; /* Apply font family */
+    color: #000000; /* Change color */
+    text-align: center; /* Center the data text */
+}
+
+/* Style for the input fields */
+.slds-table td lightning-input {
+    font-size: 14px; /* Data size */
+    font-family: 'Arial, sans-serif'; /* Apply font family */
+    color: #000000; /* Change color */
+    text-align: center; /* Center the input fields */
+}
+
+/* Style for the buttons */
+.slds-button {
+    margin: 5px;
+    font-size: 16px;
+    font-family: 'Arial, sans-serif';
+}
+
+.theadhead{
+	background-color:#022154 !important; 
+	color:white;
+}

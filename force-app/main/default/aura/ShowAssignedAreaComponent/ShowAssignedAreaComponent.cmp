@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+        <div class="slds-grid slds-wrap slds-size_12-of-12">
+            <div class="slds-grid slds-wrap mapArea slds-size_12-of-12">
+                <div class="slds-card" style="width: -webkit-fill-available;">
+                    <c:AssignedAreaMap/>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap contanerCompo slds-size_12-of-12" >
+                <c:ClientsSummary/>
+            </div>
+        </div>
+</aura:component>

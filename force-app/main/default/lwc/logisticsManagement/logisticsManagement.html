@@ -1,0 +1,265 @@
+<template>
+    <div class="mainDiv">
+        <div class="container">
+            <lightning-accordion active-section-name="filters" allow-multiple-sections-open>
+                <lightning-card variant="Narrow">
+                    <lightning-accordion-section label="Filters" name="filters" is-open={isFiltersOpen}>
+                        <div class="slds-grid slds-wrap slds-gutters slds-form-element__control">
+                            <!-- Filter inputs here -->
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <lightning-input class="filter-input" type="date" label="Start Date" value={effectiveDate} onchange={handleEffectiveDateChange}></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <lightning-input class="filter-input" type="date" label="End Date" value={endDate} onchange={handleEndDateChange}></lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <lightning-combobox class="filter-input" label="Order Status" placeholder="Select Status" options={statusOptions} value={status} onchange={handleStatusChange}></lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <lightning-combobox class="filter-input" label="Route" placeholder="Select Route" options={routeOptions} value={route} onchange={handleRouteChange}></lightning-combobox>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <lightning-input type="search" label="Pin Code" value={pinCode} onchange={handlePinCodeChange} placeholder="Search by Pin Code" class="slds-input_right search-input-extended">
+                                    <lightning-icon icon-name="utility:search" slot="left" alternative-text="Search" size="small"></lightning-icon>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6 slds-p-horizontal_x-small">
+                                <div class="slds-m-top_large">
+                                    <lightning-button label="Clear All Filters" onclick={clearAllFilters} class="clear-button" style="margin-top:10px;" variant="success"></lightning-button>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-card>
+                <div style="margin-top:1rem;"></div>
+                <template if:true={showRecordsSection}>
+                    <lightning-card variant="Narrow" style="margin-top:1rem;">
+                        <lightning-accordion-section label="Orders" name="records" is-open={isRecordsOpen}>
+                            <template if:true={orders.length}>
+                                <div class="slds-grid slds-wrap slds-form-element__control slds-p-bottom_small">
+                                    <div class="slds-col slds-size_8-of-12">
+                                        <!-- Placeholder for any additional elements -->
+                                    </div>
+                                    <div class="slds-col slds-size_4-of-12 slds-align_absolute-center">
+                                        <lightning-input type="search" label="Search by Order ID" value={searchKey} onchange={handleSearchKeyChange} placeholder="Search by Order ID" class="slds-input_right search-input-extended-large">
+                                            <lightning-icon icon-name="utility:search" slot="left" alternative-text="Search" size="small"></lightning-icon>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                                <div class="slds-scrollable_x">
+                                    <table class="slds-table slds-table_cell-buffer slds-table_striped slds-m-top_small">
+                                        <thead class="tableHeading" style="background:black;">
+                                            <tr class="slds-line-height_reset tableHeading">
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <input type="checkbox" onchange={handleSelectAllCheckboxChange} />
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Order Number">Order Number</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Account">Account</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Customer Name">Customer Name</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Status">Status</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Route">Route</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="Delivery Address">Delivery Address</div>
+                                                </th>
+                                                <th scope="col" class="slds-p-around_x-small">
+                                                    <div class="slds-truncate" title="End Date">Delivery Date</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={orders} for:item="order">
+                                                <tr key={order.Id}>
+                                                    <td class="slds-p-around_x-small">
+                                                        <input type="checkbox" data-record-id={order.Id} checked={order.selected} onchange={handleCheckboxChange} />
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.OrderNumber}>
+                                                            {order.OrderNumber}
+                                                        </div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.AccountName}>
+                                                            {order.AccountName}
+                                                        </div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.ContactName}>
+                                                            {order.ContactName}
+                                                        </div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div style="width: max-content;">
+                                                            <div title={order.Status} class={order.statusClass}>{order.Status}</div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.Route__c}>{order.Route__c}</div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.DeliveryAddress}>{order.DeliveryAddress}</div>
+                                                    </td>
+                                                    <td class="slds-p-around_x-small">
+                                                        <div class="slds-truncate" title={order.Delivery_Date__c}>{order.Delivery_Date__c}</div>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                    <div class="slds-m-top_medium slds-float_left">
+                                        <p>Showing {startRecord} to {endRecord} of {totalRecords} entries</p>
+                                    </div>
+                                    <div class="slds-m-top_medium slds-float_right pagination">
+                                        <button class="slds-button pagination-button" title="Previous" onclick={handlePrevious} disabled={isPreviousDisabled}>
+                                            <span>&larr;</span> Prev
+                                        </button>
+                                        <template for:each={paginationControls} for:item="page">
+                                            <button key={page.value} class={page.className} data-page={page.value} onclick={handlePageChange}>{page.label}</button>
+                                        </template>
+                                        <button class="slds-button pagination-button" title="Next" onclick={handleNext} disabled={isNextDisabled}>
+                                            Next <span>&rarr;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap slds-form-element__control slds-m-top_large button-container">
+                                    <div class="slds-col slds-size_1-of-1 slds-grid slds-align_absolute-center">
+                                        <lightning-button label="Assign to Driver" onclick={openAssignDriverModal} class="clear-button" variant="success"></lightning-button>
+                                        <lightning-button label="Assign to Technician" onclick={openAssignTechnicianModal} class="clear-button" variant="success"></lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={orders.length}>
+                                <div class="slds-p-around_medium slds-text-align_center">
+                                    <p class="slds-text-heading_medium slds-text-color_error">Sorry, no results found for your search.</p>
+                                </div>
+                            </template>
+                        </lightning-accordion-section>
+                    </lightning-card>
+                </template>
+            </lightning-accordion>
+        </div>
+    </div>
+
+    <!-- Modal for Assign to Driver -->
+    <template if:true={showDriverModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeDriverModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Assign to Driver</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={serviceResources.length}>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Select Driver">Select Driver</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Driver Name">Driver Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Route">Route</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={serviceResources} for:item="resource">
+                                    <tr key={resource.Id} class="slds-hint-parent">
+                                        <td>
+                                            <lightning-input type="radio" name="driverOptions" data-id={resource.Id} onchange={handleServiceResourceChange}></lightning-input>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={resource.Name}>{resource.Name}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={resource.Route__c}>{resource.Route__c}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                    <template if:false={serviceResources.length}>
+                        <p>No drivers available for the selected routes.</p>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeDriverModal}></lightning-button>
+                    <lightning-button variant="brand" label="Select" class="slds-m-left_small" onclick={assignDriver}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Modal for Assign to Technician -->
+    <template if:true={showTechnicianModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeTechnicianModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Assign to Technician</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={serviceResources.length}>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Select Technician">Select Technician</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Technician Name">Technician Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Route">Route</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={serviceResources} for:item="resource">
+                                    <tr key={resource.Id} class="slds-hint-parent">
+                                        <td>
+                                            <lightning-input type="radio" name="technicianOptions" data-id={resource.Id} onchange={handleServiceResourceChange}></lightning-input>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={resource.Name}>{resource.Name}</div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" title={resource.Route__c}>{resource.Route__c}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                    <template if:false={serviceResources.length}>
+                        <p>No technicians available for the selected routes.</p>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="neutral" label="Cancel" onclick={closeTechnicianModal}></lightning-button>
+                    <lightning-button variant="brand" label="Select" class="slds-m-left_small" onclick={assignTechnician}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

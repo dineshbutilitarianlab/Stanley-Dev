@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template" > 
+    <aura:attribute name="showStartVisitComponent" type="Boolean"/> 
+    <aura:attribute name="showTodaysTaskComponent" type="Boolean"/> 
+</aura:event>

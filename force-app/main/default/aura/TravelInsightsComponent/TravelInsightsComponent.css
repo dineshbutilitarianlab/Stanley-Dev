@@ -1,0 +1,140 @@
+@media (min-width:820px) and (max-width:1680px){
+    .THIS .NameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+        padding:11px;
+        width: 103.5%;
+        margin-left: -1.5%;
+    }
+    .THIS .top-button {
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .THIS .headingMain{
+        display: inline; 
+        font-size:180%;
+        width:100%;
+        color:white;
+    }
+    
+    .THIS p{
+        display: inline; 
+        font-size:120%; 
+        color:white;
+    }
+    .THIS .Status{
+        background-color:#00C6B7; 
+        color:white; 
+        height: 48%; 
+        padding: 3%; 
+        border-radius: 16px;
+        text-align: center;
+        
+    }
+       .THIS .monthDetails{
+        color: aliceblue;
+        font-size: xx-large;
+    } 
+
+}
+@media (min-width:1680px){
+    .THIS .NameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+        padding:11px;
+        width: 103.5%;
+        margin-left: -1.5%;
+    }
+    .THIS .top-button {
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .THIS .headingMain{
+        display: inline; 
+        font-size:180%;
+        width:100%;
+        color:white;
+    }
+    
+    .THIS p{
+        display: inline; 
+        font-size:120%; 
+        color:white;
+    }
+    .THIS .Status{
+        background-color:#00C6B7; 
+        color:white; 
+        height: 48%; 
+        padding: 3%; 
+        border-radius: 16px;
+        text-align: center;
+        
+    }
+     .THIS .monthDetails{
+        color: aliceblue;
+        font-size: xx-large;
+    } 
+
+}
+
+@media (max-width:820px){
+    .THIS .NameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+        padding:11px;
+        margin-left: -12%;
+        min-width: 150%;   
+    }
+    .THIS .top-button {
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .THIS .headingMain{
+        display: inline; 
+        font-size:120%;
+        width:100%;
+        color:white;
+    }
+    
+    .THIS .headingSection{
+        width:80%;
+    }
+    
+    .THIS p{
+        display: block; 
+        font-size:80%; 
+        color:white;
+    }
+    .THIS .Status{
+        background-color:#00C6B7; 
+        color:white; 
+        padding-left: 12%; 
+        padding-top: 3%; 
+        border-radius: 16px;
+        text-align: center;
+        min-width: 80px;
+        margin-left: -15px;
+    } 
+     .THIS .cardDetails{
+        max-width: 97%;
+    } 
+    .THIS .monthDetails{
+        color: aliceblue;
+        font-size: 116%;
+    } 
+
+}

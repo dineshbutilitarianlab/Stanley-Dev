@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="BeatPlannerHelper">
+    
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="SelectVisitAccountId" type="string"/>
+    <aura:attribute name="visitRecId" type="string"/>
+    <aura:attribute name="Visits" type="list"/>
+    <aura:attribute name="title" type="string"/>
+
+    
+    
+    
+    
+    <div class="slds-grid_align-spread slds-grid slds-wrap">
+        <aura:iteration items="{!v.Visits}" var="rec">
+            <div class="slds-size_5-of-12">
+                <div><span>Beat type Site vsisit</span>{!rec.Beat_type__c}</div>
+                <div><span>Task Id </span>{!rec.Name}</div>
+                <div><span>Beat type</span>{!rec.Route_Name__c}</div>
+                <div><span>Visit Date</span>{!rec.Actual_visit_date__c}</div>
+                <div><span>Visit Status</span>{!rec.Visit_Status__c}</div>
+                <div><span>Visit Description</span>{!rec.Description__c}</div>
+            </div>
+            <div class="slds-size_5-of-12">
+                <div><span>Beat Id</span>{!rec.Beat_type__c}</div>
+                <!--div><span>Month</span>Site visit</div-->
+                <div><span>Client Name</span>{!v.title}</div>
+                <div><span>Visit Duration</span>{!rec.Duration__c}</div>
+            </div>
+        </aura:iteration>
+    </div>
+</aura:component>

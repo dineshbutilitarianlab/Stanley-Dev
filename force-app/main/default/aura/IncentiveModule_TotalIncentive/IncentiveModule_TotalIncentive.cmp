@@ -1,0 +1,59 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global"  >
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="Id" description="Id of record on which this component is hosted." />
+    <aura:attribute name="sObjectName" type="String" description="API name of record on which this component is hosted." />
+    <aura:attribute name="Legend" type="String" description="Legend to display" />
+    
+    <aura:attribute name="perText" type="String" default="" description="Text to display inside circle. It is auto calculated field and used internally." />
+    <aura:attribute name="cirDeg" type="String" default="0" description="Degree of Progress to show. It is auto calculated field and used internally." />
+    
+    <aura:attribute name="totalProgress" type="String" default="100" description="Total progress. It can be number OR API name of field." />
+    <aura:attribute name="actualProgress"  type="string"  default="1220" description="Actual progress. It can be number OR API name of field." />
+   
+   <!--aura:attribute name="achievedPercentage" type="string"   /-->
+    <!--aura:attribute name="theme" type="String" default="green" description="Theme of Circular Progress Bar. Possible values are blue, green, orange." />
+    <aura:attribute name="size" type="String" default="small" description="Size of Circular Progress Bar. Possible values are small, medium, big." /-->
+    
+    <aura:attribute name="themeBeforeThreshold" type="String" default="green" description="Theme of Circular Progress Bar. Possible values are blue, green, orange." />
+   
+    <aura:attribute name="themeAfterThreshold" type="String" default="red" description="Theme of Circular Progress Bar. Possible values are blue, green, orange." />
+   
+    <aura:attribute name="theme" type="String" default="green" description="Internally used attribute to decide final theme on basis of threshold value"/> 
+    
+    <aura:attribute name="size" type="String" default="small" description="Size of Circular Progress Bar. Possible values are small, medium, big." />
+   
+    <aura:attribute name="threshold" type="String" default="50" description="This field can be used to support multiple theme after threshold value" />
+     
+     <div class="clearFloats slds-align--absolute-center  slds-p-vertical_x-large achieved-target">
+        <span></span> 
+         <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-2">
+                <span style="color: #000; font-size: 20px; font-style: normal; font-weight: 600; line-height: 24px">Achieved <br/> Target</span>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <span> <div class="{! ( v.cirDeg >
+                    179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+            <span class="text">{!v.perText}</span> 
+            <div class="slice">
+
+<div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+
+<div class="fill"></div>
+            </div>
+        </div></span>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+    
+    
+    
+
+
+<div class="clearFloats slds-align--absolute-center legend"> 
+        {!v.Legend}
+    </div>
+             
+</aura:component>

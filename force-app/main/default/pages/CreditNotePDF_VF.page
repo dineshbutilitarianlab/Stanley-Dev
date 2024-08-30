@@ -1,0 +1,347 @@
+<apex:page controller="CreditNoteWrapper" applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+            size: landscape;
+            margin-left: 0.1cm;
+            margin-right: 0.1cm;
+            margin-top: 0.3cm;
+            margin-bottom: 3cm;
+            
+            @bottom-left {
+            content: element(footer);
+            }
+            }
+            
+            div.footer {
+            display: block;
+            padding: 5px;
+            text-align:center;
+            position: running(footer);
+            }
+            .pagenumber:before {
+            content: counter(page);
+            }
+            .pagecount:before {
+            content: counter(pages);
+            }
+            td, th {
+            border: 1px solid black;
+            padding: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            text-align: center;
+            }
+            .header-text {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            }
+            .declaration-table td {
+            border: none;
+            text-align: left;
+            font-size: 12px;
+            padding: 5px;
+            }
+            .declaration-table {
+            width: 100%;
+            margin-top: 20px;
+            }
+            .content {
+            width: 100%;
+            }
+            .page-break {
+            page-break-before: always;
+            }
+            .first-page-header {
+            display: block;
+            }
+            .subsequent-page-header {
+            display: none;
+            }
+            .subsequent-page-footer {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            }
+            .left-table {
+            width: 68.5%;
+            float: left;
+            margin-left:0.9%;
+            border-collapse: collapse;
+            }
+            .right-table {
+            width: 28%;
+            float: right;
+            margin-top:0.5%;
+            border-collapse: collapse;
+            }
+            .clear {
+            clear: both;
+            }
+        </style>
+    </head>
+    
+    <!-- HEADER (First Page Only) -->
+    <div class="header first-page-header">
+        <table style="width: 100%; border: none;">
+            <tr>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:100px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:90px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="float:center;text-align:center;">
+                        <div class="header-text">{!companyName}</div>
+                        <div style="clear: both;"></div>
+                        <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div>
+                        <div style="font-size: 12px;">GSTIN/UIN: {!CIN} <br/> STATE: {!state} CODE: {!code}</div>
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">CREDIT NOTE</div><br/>
+                        <div>(Original)</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="footer">
+        <table style="width:100%;">
+            <tr>
+                <td style="width:80%;border:hidden;text-align:left;">
+                    <p><b>Corporate Office</b>: #16/2 and 16/3 part, Hosur Road, Veerasandra village, Attibelle Hobli, Anekal Taluk, Bangalore KA 560100 IN</p>
+                </td>
+                <td style="width:20%;border:hidden;text-align:center;">
+                    <p><b>CIN</b>: {!CIN}</p>
+                </td>
+            </tr>
+        </table>
+        <span style="float:center;text-align:center;font-family: sans-serif;font-size: 12px;">
+            This is Computer Generated Credit Note | Page <span class="pagenumber"/> of <span class="pagecount"/>
+        </span>
+    </div>
+    
+    <!-- CONTENT -->
+    <div class="content">
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td rowspan="4" colspan="3" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div><b>Bill To:</b> 2006737</div><br/>
+                    <div>
+                        <b>Gopalan Enterprises</b><br/>
+                        <apex:outputText value="{!billTo}" escape="false"/>
+                    </div>
+                    <div><b>Contact No.:</b></div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td rowspan="4" colspan="3" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div><b>Ship To:</b> (If other than consignee)</div><br/>
+                    <div>
+                        <b>Gopalan Enterprises</b><br/>
+                        <apex:outputText value="{!shipTo}" escape="false"/>
+                    </div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td style="text-align:center;"><b>Document No</b><br/> {!documentNo}</td>
+                <td colspan="3" style="text-align:center;"><b>Document Date</b><br/> {!documentDate}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer's Ref</b><br/> {!customerRef}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Mode/Terms of payment</b><br/>{!modelTermPay}</td>
+                <td colspan="3" style="text-align:center;"><b>Destination</b><br/>{!destination}</td>
+                <td rowspan="4" colspan="3" style="text-align:center;"><img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Branch</b><br/>{!branch}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer PO Date</b><br/> {!documentDate}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <b>E-Way Bill No.</b><br/><br/>
+                    <b>Despatched thro</b><br/><br/>
+                </td>
+                <td colspan="3" style="text-align:center;">
+                    <b>E-Way Bill Date</b><br/><br/>
+                    <b>Motor Vehicle No.</b><br/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align:left;">
+                    <b>IRN N0:</b>
+                </td>
+                <td style="text-align:center;"><b>Sale Order No</b><br/>2402068</td>
+                <td colspan="3" style="text-align:center;"><b>Sales Employee</b><br/> SRL-Accounts</td>
+            </tr>
+            <tr>
+                <th>Sl.No</th>
+                <th>Item No</th>
+                <th>Classification</th>
+                <th>Model</th>
+                <th>Special Case / Legs / Hides</th>
+                <th>Range</th>
+                <th>Colour</th>
+                <th>Seater</th>
+                <th>Quantity</th>
+                <th>UOM</th>
+                <th>Pack</th>
+                <th>Rate</th>
+                <th>Net Value</th>
+            </tr>
+            <apex:repeat value="{!creditNoteItems}" var="item" id="items">
+                <tr>
+                    <td>{!item.slNo}</td>
+                    <td>{!item.itemNo}</td>
+                    <td>{!item.classification}</td>
+                    <td>{!item.model}</td>
+                    <td>{!item.specialCase}</td>
+                    <td>{!item.range}</td>
+                    <td>{!item.colour}</td>
+                    <td>{!item.seater}</td>
+                    <td>{!item.quantity}</td>
+                    <td>{!item.uom}</td>
+                    <td></td>
+                    <td>{!item.rate}</td>
+                    <td>{!item.netValue}</td>
+                </tr>
+            </apex:repeat>
+            <tr>
+                <td colspan="7" style="text-align:right;"><b>Sub Total</b></td>
+                <td></td>
+                <td><b>{!totalQuantity}</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><b>{!totalNetValue}</b></td>
+            </tr>
+        </table>
+        <div class="flex-container" style="display: flex;">
+            <table class="left-table" style="border:1px solid black;border-collapse:collapse;margin-top:1%;">
+                <tr>
+                    <th rowspan="2">HSN/SAC</th>
+                    <th rowspan="2">Taxable Value</th>
+                    <th rowspan="2">Freight</th>
+                    <th colspan="2">Central Tax</th>
+                    <th colspan="2">State Tax</th>
+                    <th colspan="2">Integrated Tax</th>
+                    <th rowspan="2">Total</th>
+                </tr>
+                <tr>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+                <apex:repeat value="{!hsnDetails}" var="hsn" id="hsnDetails">
+                    <tr>
+                        <td>{!hsn.hsnSac}</td>
+                        <td>{!hsn.taxableValue}</td>
+                        <td>{!hsn.freight}</td>
+                        <td>{!hsn.centralTaxRate}%</td>
+                        <td>{!hsn.centralTaxAmount}</td>
+                        <td>{!hsn.stateTaxRate}%</td>
+                        <td>{!hsn.stateTaxAmount}</td>
+                        <td>{!hsn.integratedTaxRate}%</td>
+                        <td>{!hsn.integratedTaxAmount}</td>
+                        <td>{!hsn.total}</td>
+                    </tr>
+                </apex:repeat>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td><b>{!totalTaxableValue}</b></td>
+                    <td><b>0.00</b></td>
+                    <td></td>
+                    <td><b>{!totalCentralTaxAmount}</b></td>
+                    <td></td>
+                    <td><b>{!totalStateTaxAmount}</b></td>
+                    <td></td>
+                    <td><b>0.00</b></td>
+                    <td><b>{!totalHSNTotal}</b></td>
+                </tr>
+            </table>
+            <table class="right-table" style="width:30%;">
+                <tr>
+                    <td>CGST@9</td>
+                    <td>9.000</td>
+                    <td>{!totalCentralTaxAmount}</td>
+                </tr>
+                <tr>
+                    <td>SGST@9</td>
+                    <td>9.000</td>
+                    <td>{!totalStateTaxAmount}</td>
+                </tr>
+                <tr>
+                    <td>ROUNDING</td>
+                    <td></td>
+                    <td>{!rounding}</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{!totalRounded}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+        <div class="new-page">
+            <table class="declaration-table">
+                <tr>
+                    <td style="text-align:left;border: none;line-height: 1.6;">
+                        <div>Remarks :-</div>
+                        <div>
+                            Based On Sales Orders 230210158. Based On A/R Invoices 230223253
+                        </div>
+                    </td>
+                    <td valign="top" style="width:15%;border: none;">
+                        <div style="float:left;text-align:left;line-height: 1.5;">
+                            <div>Account Name </div>
+                            <div>Bank Name </div>
+                            <div>A/C No. </div>
+                            <div>Branch &amp; IFSC Code</div>
+                        </div>
+                    </td>
+                    <td valign="top" style="width:30%;border: none;">
+                        <div style="float:left;text-align:left;line-height: 1.5;">
+                            <div>: {!accountName}</div>
+                            <div>: {!bankName}</div>
+                            <div>: {!accountNo}</div>
+                            <div>: {!branchName} &amp; {!ifscCode}</div>
+                        </div>
+                    </td>
+                </tr>
+                <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+                <tr>
+                    <td style="text-align:left;border: none;width:45%">
+                        <p><b>Declaration</b>: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Payment terms should be as per Mode/Terms of Payment as above. Any delay in payment beyond the due date shall attract interest @ 18% P.A.</p>
+                    </td>
+                    <td style="border: none;">
+                        <div><b>Pradeep</b></div><br/>
+                        <div style="">Prepared / Checked By</div>
+                    </td>
+                    <td style="text-align:right;border: none;">
+                        <div><b>FOR Stanley Retail Limited</b></div><br/><br/><br/>Authorized Signatory
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+    </div>
+</apex:page>

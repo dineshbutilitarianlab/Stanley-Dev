@@ -1,0 +1,216 @@
+@media (max-width:820px){
+    .THIS .Mainheading{
+        margin-bottom:2rem;
+        font-size:20px;
+    }
+    .THIS .nameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+        max-width:97%;
+        margin-left: 1%;
+    }
+    
+    .THIS .mainContainer{
+        margin-top: 1%;
+    }
+    .THIS .boxContainer{
+        min-width: 91%;
+        margin-left: 6%;
+        margin-top: -1%;
+    }
+    .THIS .kpiCard{
+        max-height: 650px;
+        padding-top:0%;
+        display: block; 
+        flex-wrap: wrap;
+    }
+    .THIS .kpiCardBox{
+        flex: 0 0 50%; 
+        max-width: 96.5%;
+        margin-left: 1%;
+        min-width: 96.5%;
+    }
+    
+    .THIS .calendarContainer{
+        margin-left: 1%;
+        margin-right: 1%;
+        margin-top: 1%;
+        width: 20rem;
+    }
+    
+    .THIS.MainComponCard{
+        margin-left: -18%;
+    }
+    .THIS .h2Titel{
+        color: aliceblue;
+        font-size: 106%;
+    }
+    .THIS .DesktopView{
+        display: block;
+    }
+    .THIS .top-button{
+        margin-left: 1%;
+    }
+    .THIS .top-button {
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top:7px;
+        margin-left: 0%;
+    }
+    .THIS .desktopViewKPICard{
+        display:none;
+    }
+    .THIS .mobileViewKPICard{
+        margin-top:-5%;
+    }
+}
+
+@media (min-width:1680px){
+    .THIS.beatPlannerMain{
+        background:#F2F2F2; 
+        margin-top: -4.5%;
+        margin-bottom: -13%;
+        margin-left: -2.3%;
+        margin-right: -1.7%;
+        padding-top: 4%;
+    }
+    
+    .THIS .calendarContainer{
+        margin-left: 1%;
+        margin-right: 1%;
+        margin-top: 1%;
+    }
+    
+    .THIS .mainContainer{
+        height:90vh;
+        margin-top: 1%;
+    }
+    .THIS .kpiCard{
+        max-height: 650px;
+        padding-top:0%;
+        display: flex; 
+        flex-wrap: wrap;
+    }
+    .THIS .kpiCardBox{
+        flex: 0 0 50%; 
+        max-width: 30%;
+        margin-left: 20px;
+    }
+    .THIS .Mainheading{
+        margin-bottom:2rem;
+        font-size:30px;
+    }
+    
+    .THIS .nameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+    }
+    
+    .THIS .statusDiv{
+        padding-bottom:6%;
+    }
+    
+    .THIS .h2Titel{
+        color: aliceblue;
+        font-size: xx-large;
+    }
+    .THIS .mobileBeatPlan{
+        display: none;
+    }
+    .THIS .top-button {
+        margin-right:-3%;
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top:7px;
+    }
+    .THIS .mobileViewKPICard{
+        display:none;
+    }
+}
+
+@media (min-width:820px) AND (max-width:1680px){
+    .THIS.beatPlannerMain{
+        background:#F2F2F2; 
+        margin-top: -1%;
+        margin-bottom: -13%;
+        margin-left: -2.3vw;
+        padding-top: 8vh;
+        margin-right: -2.5%;
+        
+    }
+    
+    .THIS .statusDiv{
+        padding-bottom:6%;
+    }
+    
+    .THIS .calendarContainer{
+        margin-left: 1%;
+        margin-right: 1%;
+        margin-top: 1%;
+    }
+    
+    .THIS .mainContainer{
+        height:115vh;
+        margin-top: 1%;
+    }
+    .THIS .kpiCard{
+        max-height: 650px;
+        padding-top:0%;
+        display: flex; 
+        flex-wrap: wrap;
+    }
+    .THIS .kpiCardBox{
+        flex: 0 0 50%; 
+        max-width: 30%;
+        margin-left: 20px;
+    }
+    .THIS .Mainheading{
+        margin-bottom:2rem;
+        font-size:30px;
+    }
+    
+    .THIS .nameBar{
+        background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);
+        border-radius: 10px;
+    }
+    
+    .THIS .h2Titel{
+        color: aliceblue;
+        font-size: xx-large;
+    }
+    .THIS .mobileBeatPlan{
+        display: none;
+    }
+    .THIS .top-button {
+        margin-right:-3%;
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top:7px;
+    }
+    .THIS .mobileViewKPICard{
+        display:none;
+    }
+}
+
+.THIS .monthlyContainer{
+    
+    
+}
+
+.THIS .green{
+    background-color:#1589EE;
+    color:white;
+    
+}

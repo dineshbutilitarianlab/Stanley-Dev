@@ -1,0 +1,34 @@
+<template>
+    <div class="chat-window">
+        <div class="chat-messages" data-id="chat-messages">
+            <template for:each={messages} for:item="message">
+                <div key={message.id} data-id={message.id} class={message.messageClass}>
+                    <div class="message-content">
+                        <div class="message-text">{message.content}</div>
+                        <div class="message-time">{message.timee}</div>
+                    </div>
+                    <div if:false={message.isCurrentUser} class="reply-button">
+                        <div class="reply-icon-container" onclick={handleReply} data-id={message.id}>
+                            <lightning-icon icon-name="utility:reply" size="x-small"></lightning-icon>
+                            <!--lightning-button-icon variant="bare" icon-name="utility:reply" size="x-small"></lightning-button-icon-->
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div if:true={showReplyView} class="reply-view">
+            <div class="original-message">{selectedMessage.content}</div>
+            <textarea class="reply-textarea" placeholder="Type your reply here..." value={replyMessage} onchange={handleReplyChange}></textarea>
+            <div class="reply-buttons">
+                <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={handleCloseReply}></lightning-button-icon>
+                <lightning-button-icon icon-name="utility:send" alternative-text="Send" onclick={handleSendMessage} disabled={disableReplySend}></lightning-button-icon>
+                <!-- <div class="send-reply-button" onclick={handleSendReply}>Send</div> -->
+            </div>
+        </div>
+        <div if:false={showReplyView} class="chat-input">
+            <lightning-input type="text" variant="label-hidden" class="input-text" label="" placeholder="Type a message..." value={newMessage} onchange={handleChange}></lightning-input>
+            <!-- <textarea class="input-text" placeholder="Type a message..." value={newMessage} onchange={handleChange}></textarea> -->
+            <lightning-button-icon icon-name="utility:send" size="medium" onclick={handleSendMessage} disabled={disableSend} class="send-button"></lightning-button-icon>
+        </div>
+    </div>    
+</template>

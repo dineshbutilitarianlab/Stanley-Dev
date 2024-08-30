@@ -1,0 +1,1027 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="ArdexProductsHandler">
+    <html >
+        <head>
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+            </script>
+            <link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet"/>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"/>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.20.0/font/bootstrap-icons.css"/>
+            <style>
+                /*-----Product Detail page css------------*/
+                
+                .product-smallTitle{font-size: 14px; text-transform: uppercase;}
+                .product-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+                .product-rating { margin-bottom: 10px; }
+                .product-price {font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+                .product-description { margin-bottom: 15px; }
+                .disclaimer { font-size: 14px; color: #666; margin-top: 15px; }
+                .subscription { font-size: 14px; margin-top: 10px; }
+                .thumbnail {
+                cursor: pointer;
+                opacity: 0.6;
+                width: 100px; /* Set width of thumbnails */
+                object-fit: cover; /* Ensure the images cover the area without distorting aspect ratio */
+                }
+                .thumbnail:hover {
+                opacity: 1;
+                }
+                .active-thumbnail {
+                opacity: 1;
+                border: 2px solid #FF5501;
+                }
+                #main-image {
+                width: 100%; /* Set main image to take full width of the column */
+                height: auto; /* Set height to auto to maintain aspect ratio */
+                }
+                .cusBTN{
+                background-color:#BC562D;
+                color:#fff;
+                font-weight:500;
+                text-transform: uppercase;
+                }
+                .cusAddBTN{
+                background-color:#2A2828;
+                color:#fff;
+                font-weight:500;
+                text-transform: uppercase;
+                }
+                .cusAddBTN:hover{
+                color:#fff;
+                }
+                /* Styles for the Price Section */
+                .product-price {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333; /* Dark color for the current price */
+                }
+                
+                .text-muted s {
+                color: #777; /* Lighter color for the original price */
+                margin-bottom: 0; /* Ensure no added bottom margin */
+                }
+                
+                .discount-tag {
+                background-color: #BC562D; /* Orange background for the discount tag */
+                color: white; /* White text color for the discount tag */
+                font-size: 14px; /* Adjust font size as needed */
+                font-weight: 500;
+                }
+                
+                /* Styles for the tax inclusion note */
+                .text-small {
+                font-size: 14px; /* Smaller font size for tax note */
+                font-weight: 500;
+                }
+                .custStar{
+                color: #BC562D;
+                }
+                /* -----------------------Styles for Quantity Selector -----------------------*/
+                .quantity-input-group {
+                width: auto; /* Let the group size with the content */
+                }
+                
+                .quantity-input-group .input-group-text {
+                padding: .375rem .75rem; /* Same padding as bootstrap controls */
+                cursor: pointer; /* Indicate these are clickable */
+                }
+                
+                .quantity-input-group .form-control {
+                text-align: center; /* Center the text inside the input */
+                }
+                
+                /* You may adjust the width if needed */
+                .quantity-input {
+                max-width: 50px; /* Restrict the width of the quantity input */
+                }
+                .quantityBTN{
+                background-color: #BC562D; /* Orange background for the discount tag */
+                color: #fff; 
+                font-weight: 700;
+                }
+                
+                /*Accordion customization styles*/
+                .accordion-button {
+                background-color: transparent; /* Clear the default background */
+                color: inherit; /* Use the color inherited from the parent for text */
+                box-shadow: none; /* No box shadow */
+                }
+                
+                /* Accordion header styles */
+                .accordion-header .accordion-button:not(.collapsed) {
+                color: #000; /* Color for when the accordion is open */
+                background-color: transparent; /* Clear the background when accordion is open */
+                box-shadow: none; /* No box shadow */
+                text-transform: uppercase;
+                font-weight: bold;
+                }
+                
+                /* Hide the border of accordion items */
+                .accordion-item {
+                border: none; /* Remove borders */
+                }
+                
+                /* Accordion body padding and background */
+                .accordion-body {
+                padding: 0.5rem 1rem; /* Adjust the padding as needed */
+                }
+                
+                /* Adjust the style for the accordion collapse border (bottom line) */
+                .accordion-button::after {
+                display: none; /* Hide the default accordion icon */
+                }
+                
+                /* Add custom icon for accordion */
+                .accordion-button:not(.collapsed)::after {
+                content: url('path-to-your-down-icon.svg'); /* Path to your custom icon */
+                font-size: 1.25rem;
+                }
+                
+                .accordion-button.collapsed::after {
+                content: url('path-to-your-right-icon.svg'); /* Path to your custom icon when collapsed */
+                font-size: 1.25rem;
+                }
+                
+                /* Accordion item not last-child to have bottom separator */
+                .accordion-item:not(:last-child) {
+                border-bottom: 1px solid rgba(0, 0, 0, .125); /* This adds a line after each item except last */
+                }
+                
+                /* Adjust the bottom border of the accordion flush */
+                .accordion-button.collapsed {
+                border-bottom: 1px solid rgba(0, 0, 0, .125); /* Match the color with the above border-bottom */
+                }
+                
+                /* Remove the rounded corners */
+                .accordion-button {
+                border-radius: 0; /* Remove rounded corners */
+                }
+                
+                /* Style adjustments for when accordion panels are open */
+                .accordion-button:not(.collapsed) {
+                color: #000; /* Adjust the color for open panels */
+                background-color: transparent; /* Keep the background transparent for open panels */
+                }
+                .accorTitelText{
+                font-weight: bold;
+                text-transform: uppercase;
+                }
+                
+                
+                .review-card {
+                background: #fff;
+                border-radius: 5px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+                margin-bottom: 10px;
+                }
+                
+                .review-header {
+                align-items: center;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5px;
+                }
+                
+                .review-rating {
+                color: #FFD700; /* Star color */
+                }
+                
+                .review-date {
+                font-size: 0.8rem;
+                color: #666;
+                }
+                
+                .review-content {
+                color: #333;
+                }
+                
+                /*----------------------Product Detail page css end-------------------------*/
+                
+                /*-----------------------sidebar page css start-------------------------------*/
+                
+                .sidebar {
+                background-color: #2A2828; /* Black background */
+                color: white;
+                min-height: 100vh; /* Full height */
+                }
+                .cusNevBTN {
+                background-color: #2A2828;
+                color: #FFF;
+                font-weight: 600;
+                padding: 11px 24px;
+                text-decoration: none;
+                display: block; /* Make it block to fill the width */
+                }
+                .cusNevBTN.active{
+                background-color: #BC562D; /* Orange background for active state */
+                color: #FFF;
+                border-left: 4px solid #FFF;
+                }
+                .cusNevBTN.active:hover{
+                background-color: #BC562D; /* Orange background for active state */
+                color: #FFF;
+                border-left: 4px solid #FFF;
+                }
+                .cusNevBTN.active:focus {
+                background-color: #BC562D; /* Orange background for active state */
+                color: #FFF;
+                border-left: 4px solid #FFF;
+                }
+                .content-section {
+                display: none; /* Hide all content sections by default */
+                }
+                .content-section.active {
+                display: block; /* Show the active content section */
+                }
+                /*----------------------sidebar page css end-----------------*/
+                
+                /*----------------------sub Family product page css start-----------------*/
+                .cusContainer{
+                padding: 1%;
+                }
+                .subFamilyBTN{
+                border-radius: 8px;
+                border: 1px solid #5B5B5B;
+                color: #000;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 30px; /* 187.5% */
+                min-width: 130px;
+                }
+                .subFamilyBTN.active:hover{
+                border-radius: 8px;
+                border: 1px solid #5B5B5B;
+                color: #000;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 30px; /* 187.5% */
+                min-width: 130px;
+                }
+                .smallProdImage{
+                width: 104px;
+                height: 104px;
+                }
+                /* Container holding the product items */
+                .product-container {
+                width: auto; /* Sets the width of the container */
+                display: flex; /* Enables flexbox layout */
+                flex-wrap: wrap; /* Allows items to wrap onto the next line */
+                justify-content: flex-start;
+                }
+                
+                .product {
+                width: calc((100% / 7) - 10px);
+                box-sizing: border-box;
+                margin-bottom: 20px;
+                margin-right: 46px;
+                box-shadow: -4px -4px 24px 0px rgba(0, 0, 0, 0.12), 4px 4px 24px 0px rgba(0, 0, 0, 0.12);
+                border-radius: 8px;
+                display: flex;
+                justify-content: center;
+                }
+                /* Responsive images */
+                .product img {
+                max-width: 100%;
+                height: auto;
+                display: block; /* Remove extra space below images */
+                }
+                /* Title below the image */
+                .product-title {
+                margin-top: 8px;
+                font-size: 1em;
+                color: #333;
+                }
+                /* Make the product div clickable */
+                .product a {
+                display: block; /* Make the anchor fill the div */
+                text-decoration: none; /* Remove underline from links */
+                color: inherit; /* Inherit color from parent */
+                }
+                /* Hover effect for clickable product */
+                .product a:hover, .product a:focus {
+                background-color: #f5f5f5; /* Light grey background on hover/focus */
+                }
+                
+                /*----------------------sub Family product page css end-----------------*/
+                
+                
+                /*----------------------all sub Family product page css start-----------------*/
+                
+                
+                .title-container {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+                }
+                
+                .bi-chevron-left {
+                font-size: 24px;
+                margin-right: 10px;
+                }
+                
+                .title-link {
+                text-decoration: none;
+                color: black;
+                display: flex;
+                align-items: center;
+                }
+                
+                h1 {
+                margin: 0;
+                cursor: pointer;
+                }
+                .filters{
+                display: flex;
+                }
+                .filters select {
+                padding: 10px;
+                margin-bottom: 20px;
+                }
+                
+                /* Product grid styles */
+                .product-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 60px;
+                justify-content: flex-start;
+                }
+                
+                
+                
+                .product-image {
+                width: 100%;
+                height: auto;
+                }
+                
+                .product-info {
+                padding: 15px;
+                }
+                
+                .productTitle {
+                font-size: 16px;
+                margin-bottom: 5px;
+                text-align: center;
+                }
+                
+                .product-rating {
+                margin-bottom: 5px;
+                }
+                
+                .product-collection {
+                font-size: 14px;
+                color: #888;
+                margin-bottom: 5px;
+                }
+                
+                .product-price {
+                font-size: 18px;
+                font-weight: bold;
+                color: #E44D26;
+                }
+                
+                /* Responsive behavior */
+                @media (max-width: 1200px) {
+                .product-card {
+                flex: 0 1 calc(33.333% - 60px);
+                }
+                }
+                
+                @media (max-width: 768px) {
+                .product-card {
+                flex: 0 1 calc(50% - 60px);
+                }
+                }
+                
+                @media (max-width: 480px) {
+                .product-card {
+                flex: 0 1 100%;
+                }
+                }
+                /*----------------------all sub Family product page css end-----------------*/
+                
+                
+                
+                .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Mobile devices */
+@media (max-width: 600px) {
+    .product-card {
+        flex: 0 1 100%; /* each card takes full width of the screen */
+        margin: 10px; /* smaller margin for space efficiency */
+    }
+}
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+    .product-card {
+        flex: 0 1 calc(50% - 40px); /* two cards per row */
+        margin: 20px;
+    }
+}
+
+/* Small laptops/desktops */
+@media (min-width: 901px) and (max-width: 1200px) {
+    .product-card {
+        flex: 0 1 calc(33.33% - 40px); /* three cards per row */
+        margin: 20px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1201px) {
+    .product-card {
+        flex: 0 1 calc(25% - -12px); /* four cards per row, with original spacing */
+        margin: 30px;
+    }
+                .product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    justify-content: flex-start;
+}
+}
+
+                
+                
+                
+                
+            </style>
+        </head>
+        <body ng-app="myApp" ng-controller="opportunityCtrl">
+            
+            
+            <!--------------------------------------------sidbar Page start--------------------------------------->
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Sidebar navigation -->
+                    <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                        <div class="position-sticky pt-3">
+                            <div class="list-group" ng-repeat="prod in listOfAllProductTypes">
+                                <a href="" class="cusNevBTN list-group-item-action" ng-class="{ 'active': activeSection === prod.Name }" ng-click="getRelatedFamilies(prod.Id)">{{ prod.Name }}</a>
+                                <!-- <a href="" class="cusNevBTN list-group-item-action" ng-class="{ 'active': activeSection === 'bedroom' }" ng-click="showSection('bedroom')">Bedroom</a> -->
+                                <!-- Add more links here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Main content -->
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3 ">
+                        <!-- Default No Product Image -->
+                        <div ng-show="showCatalogue" class="content-section active text-center">
+                            <img src="https://sales-production--ecommerce.sandbox.my.salesforce.com/servlet/servlet.ImageServer?id=0150T0000001QYR&oid=00D0T0000000U16&lastMod=1672302247000" alt="No Product Selected" class="img-fluid" style="max-height: 60vh;"/>
+                        </div>
+                        
+                        <!-- Living Section -->
+                        <div class="cusContainer" ng-show="showRelatedCategory">
+                            <h1>{{headerProductName}}</h1>
+                            <!-- Button navigation -->
+                            <div class="btn-toolbar mt-5" role="toolbar" aria-label="Toolbar with button groups" >
+                                <div class=" gap-3 mb-3 me-4" role="group" aria-label="First group" ng-repeat="rec in listOfRelatedRecords">
+                                    <button type="button" class="btn subFamilyBTN" ng-click="getRelatedSubCategories(rec.Id)">{{rec.Name}}</button>
+                                </div>
+                            </div>
+                            
+                            <!-- product navigation -->
+                            <div class="product-container mt-5" ng-show="showSubProductCategory">
+                                <!-- Repeat this block for each product -->
+                                
+                                 <div class="btn-toolbar mt-5" role="toolbar" aria-label="Toolbar with button groups" >
+                                    <div class="product-container">
+                                        <!-- Repeat this block for each product (Example for one product) -->
+                                        <div class="product-card" ng-repeat="product in listOfProductSubCategory">
+                                            <a ng-click="getProductDetail(product.Id)">
+                                                <img src="{{product.Product_Link_1__c}}" alt="Tivoli Italian Fabric Sofa" class="product-image"/>
+                                                
+                                                <div class="product-info">
+                                                    <div class="product-title">{{product.Name}}</div>
+                                                    <div class="product-rating">4.3 ★</div>
+                                                    <div class="product-collection">ITALIAN COLLECTION</div>
+                                                    <div class="mt-3">
+                                                        <div class="d-flex align-items-baseline gap-2">
+                                                            <!-- Current Price -->
+                                                            <div class="product-price">{{product.Discount_Price__c}}</div>
+                                                            <!-- Original Price -->
+                                                            <div class="text-muted"><s>{{product.Price__c}}</s></div>
+                                                            <!-- Discount Tag -->
+                                                            <div class="discount-tag rounded px-2 py-1">~ {{product.Allowed_Discount__c}} off</div>
+                                                        </div>
+                                                        <!-- Tax Inclusion Note -->
+                                                        <div class="text-small ">inclusive of all taxes</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- ...more product cards -->
+                                    </div>
+                                <!-- <div class=" gap-3 mb-3 me-4" role="group" aria-label="First group" ng-repeat="abc in listOfProductSubCategory">
+                                    <button type="button" class="btn subFamilyBTN" ng-click="getAllRelatedProducts(abc.Id,abc.Name)">{{abc.Name}}</button>
+                                </div> -->
+                            </div>
+                                
+                                
+                                
+                                <!-- ... more products -->
+                            </div>
+                            
+                        </div>
+                        <!----------------------------------all sub Family product page css start------------------------------------------>
+                        <div class="cusContainer" ng-show="showallProductList">
+                            <div class="header">
+                                <!-- Title with navigation icon -->
+                                <div class="title-container">
+                                    <a href="#" class="title-link" ng-click="back()">
+                                        <!--span class="prev-icon">&#8592;</span>-->
+                                        <span class="bi bi-chevron-left"></span>
+                                        <h1>{{subCatName}}</h1>
+                                    </a>
+                                </div>
+                                
+                                <!-- Filters -->
+                                <div class="filters">
+                                    <select name="sort" id="sort">
+                                        <option value="popularity">Most Popular</option>
+                                        <option value="price_low_high">Price Low to High</option>
+                                        <option value="price_high_low">Price High to Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Product Cards Grid -->
+                            <div class="product-container">
+                                <!-- Repeat this block for each product (Example for one product) -->
+                                <div class="product-card" ng-repeat="product in productList">
+                                    <a ng-click="getProductDetail(product.Id)">
+                                        <img src="{{product.Product_Link_1__c}}" alt="Tivoli Italian Fabric Sofa" class="product-image"/>
+                                        
+                                        <div class="product-info">
+                                            <div class="product-title">{{product.Name}}</div>
+                                            <div class="product-rating">4.3 ★</div>
+                                            <div class="product-collection">ITALIAN COLLECTION</div>
+                                            <div class="mt-3">
+                                                <div class="d-flex align-items-baseline gap-2">
+                                                    <!-- Current Price -->
+                                                    <div class="product-price">{{product.Discount_Price__c}}</div>
+                                                    <!-- Original Price -->
+                                                    <div class="text-muted"><s>{{product.Price__c}}</s></div>
+                                                    <!-- Discount Tag -->
+                                                    <div class="discount-tag rounded px-2 py-1">~ {{product.Allowed_Discount__c}} off</div>
+                                                </div>
+                                                <!-- Tax Inclusion Note -->
+                                                <div class="text-small ">inclusive of all taxes</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                
+                                <!-- ...more product cards -->
+                            </div>
+                        </div>
+                        <!----------------------------------all sub Family product page css end------------------------------------------>
+                        <!--Product Details Page Start-->
+                        <div class="cusContainer py-5" ng-show="showProductDetailSection">
+                            <!-- Title with navigation icon product detail page-->
+                                <div class="title-container">
+                                    <a href="#" class="title-link" ng-click="back()">
+                                        <!--span class="prev-icon">&#8592;</span>-->
+                                        <span class="bi bi-chevron-left"></span>
+                                        <h1>{{subCatName}}</h1>
+                                    </a>
+                                    <button class="btn cusAddBTN" ng-click="backToLead()">Back To Lead</button>
+                                </div>
+                            <div class="row">
+                                <!-- Product Images -->
+                                <div class="col-md-6">
+                                    <!-- Main Product Image -->
+                                    
+                                    <img id="main-image" src="{{productDetail.Product_Link_1__c}}" class="img-fluid mb-3" alt="Main Product"/>
+                                    
+                                    <!-- Thumbnails -->
+                                    <div class="row gx-2 gy-2">
+                                        <div class="col-auto">
+                                            <img ng-src="{{productDetail.Product_Link_1__c}}" alt="Thumbnail 1" class="thumbnail" onclick="updateMainImage(this)"/>
+                                        </div>
+                                        <div class="col-auto">
+                                            <img src="{{productDetail.Product_Link_2__c}}" class="thumbnail" onclick="updateMainImage(this)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Product Details -->
+                                <div class="col-md-6">
+                                    <div class="product-smallTitle">Emperor Collection</div>
+                                    <div class="product-title">{{productDetail.Name}}</div>
+                                    <div class="product-rating">
+                                        <!-- Assuming you have a way to generate the appropriate number of stars -->
+                                        <i class="bi bi-star-fill custStar"></i>
+                                        <i class="bi bi-star-fill custStar"></i>
+                                        <i class="bi bi-star-fill custStar"></i>
+                                        <i class="bi bi-star-fill custStar"></i>
+                                        <i class="bi bi-star-half custStar"></i>
+                                        4.5
+                                    </div>
+                                    <!-- Price Section -->
+                                    <div class="mt-3">
+                                        <div class="d-flex align-items-baseline gap-2">
+                                            <!-- Current Price -->
+                                            <div class="product-price">{{productDetail.Discount_Price__c}}</div>
+                                            <!-- Original Price -->
+                                            <div class="text-muted"><s>{{productDetail.Price__c}}</s></div>
+                                            <!-- Discount Tag -->
+                                            <div class="discount-tag rounded px-2 py-1">~ {{productDetail.Allowed_Discount__c}}% off</div>
+                                        </div>
+                                        <!-- Tax Inclusion Note -->
+                                        <div class="text-small ">inclusive of all taxes</div>
+                                    </div>
+                                    
+                                    <div class="text-small mt-3"><span class="fw-bold">Availability:</span> <span>{{productDetail.Product_Availability__c}}</span></div>
+                                    
+                                    
+                                    <!-- Quantity Selector -->
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <label for="quantity" class="me-2">Select Quantity:</label>
+                                        <div class="input-group quantity-input-group">
+                                            <span class="input-group-text quantityBTN" onclick="decrementQuantity()">-</span>
+                                            <input type="number" id="quantity" class="form-control quantity-input" ng-model="quantity" value="quantity" min="1"/>
+                                            <span class="input-group-text quantityBTN" onclick="incrementQuantity()">+</span>
+                                        </div>
+                                    </div>
+                                    <!-- Buttons -->
+                                    <div class="d-flex align-items-center gap-2 mb-3 mt-4">
+                                        <!-- Add to Cart Button -->
+                                        <button class="btn cusAddBTN" ng-click="addToCart(productDetail.Id)">Add to cart</button>
+                                        <!-- Buy Now Button -->
+                                        <!--button class="btn cusBTN">Buy now</button-->
+                                    </div>
+                                    
+                                    <!-- drop down -->
+                                    <!-- Accordion -->
+                                    <div class="accordion" id="productAccordion">
+                                        <!-- Product Description Section -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header accorTitelText" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Product description
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#productAccordion">
+                                                <div class="accordion-body">
+                                                    
+                                                    <!--p>{{productDetail.Description}}</p-->
+                                                    <p>
+                                                        Classic Elegance Solid Wood Bed
+                                                        Experience the perfect blend of timeless elegance and robust durability with our Classic Elegance Solid Wood Bed. Expertly crafted from premium-grade hardwood, this bed features a rich, natural finish that showcases the wood’s beautiful grain and unique character. Its traditional design, with a stately headboard and clean lines, seamlessly fits into any bedroom decor, from rustic farmhouse to modern minimalist.
+                                                </p>
+                                                    <!-- <div class="d-flex align-items-top mt-3">
+<div class="">
+<img src="vector.png" alt="Close Button" class="privacy-arrow"/>
+</div>
+<div class="text-content mb-3 desCardText">
+Draped in luxurious velvet fabric, this sofa seamlessly combines visual allure with sumptuous comfort, promising an inviting and relaxing seating experience. 
+</div>
+</div> -->
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Product features Section -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                                <button class="accordion-button accorTitelText collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Product Features 
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#productAccordion">
+                                                <div class="accordion-body">
+                                                    <!-- <p>{{productDetail.Product_Feature__c}}</p> -->
+                                                   Key Features:
+                                                        <ul>
+                                                            <li>Premium Solid Wood Construction: Made from 100% solid hardwood, ensuring long-lasting durability and a stable sleeping surface.</li>
+                                                            <li>Timeless Design: Classic headboard and footboard with elegant details and a natural finish that enhances the wood’s inherent beauty.</li>
+                                                            <li>Sturdy Support: Robust bed frame with solid wood slats provides excellent support for your mattress, eliminating the need for a box spring.</li>
+                                                            <li>Eco-Friendly: Sustainably sourced wood, finished with non-toxic, water-based stains for a safe and environmentally friendly choice.</li>
+                                                            <li>Easy Assembly: Designed for straightforward assembly with all necessary hardware and clear instructions included.</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- More Information Section -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingThree">
+                                                <button class="accordion-button accorTitelText collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                    More Information
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#productAccordion">
+                                                <div class="accordion-body">
+                                                    <!----<p>{{productDetail.More_Information__c}}</p>-->
+                                                    <table class="table product-details-table">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>SKU</th>
+                                                                <td data-label="SKU">SF715-CR</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Dimensions</th>
+                                                                <td data-label="Dimensions">Long Side Length: 103" ; Short Side Length: 71" x Width: 32.5 x Height: 32.5 Inches</td>
+                                                            </tr>
+                                                            <!-- Repeat for other details -->
+                                                            <tr>
+                                                                <th>Warranty</th>
+                                                                <td data-label="Warranty">12 Months</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Assembly Details</th>
+                                                                <td data-label="Assembly Details">Installation provided by Stanley</td>
+                                                            </tr>
+                                                            <!-- ... more rows for other details -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Review & Rating Section -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingFour">
+                                                <button class="accordion-button accorTitelText collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                    Review  Rating
+                                                </button>
+                                            </h2>
+                                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#productAccordion">
+                                                <div class="accordion-body">
+                                                    <!------<p>{{productDetail.Ratings_Reviews__c}}</p>--->
+                                                    <div class="review-card">
+                                                        <div class="review-header">
+                                                            <h5 class="review-name">Samar Agarwal</h5>
+                                                            <div>
+                                                                <span class="review-rating">
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-half"></i> 
+                                                                </span>
+                                                                4.0
+                                                            </div>
+                                                        </div>
+                                                        <span class="review-date">05/11/2023</span>
+                                                        <p class="review-content">Product is good. Got delivery after multiple calls and complaints.</p>
+                                                    </div>
+                                                    
+                                                    <div class="review-card">
+                                                        <div class="review-header">
+                                                            <h5 class="review-name">Sourkarya Nandi</h5>
+                                                            <div>
+                                                                <span class="review-rating">
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                    <i class="bi bi-star-fill"></i> 
+                                                                </span>
+                                                                5.0
+                                                            </div>
+                                                        </div>
+                                                        <span class="review-date">02/11/2023</span>
+                                                        <p class="review-content">Product is good. Got delivery after multiple calls and complaints.</p>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--------------------------------------------Product Details Page End---------------------------------->
+                        <!-- Add more content sections here -->
+                    </main>
+                </div>
+            </div>
+            <!--------------------------------------------------sidbar Page end------------------------------------------------>
+            
+            
+            <!-- Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js">
+            </script>
+            <script>
+            
+            /*-----------Product Detail js ------------*/
+            function updateMainImage(thumbnail) {
+                // Update the source of the main image
+                var mainImage = document.getElementById('main-image');
+                mainImage.src = thumbnail.src;
+                
+                // Highlight the active thumbnail
+                var thumbnails = document.getElementsByClassName('thumbnail');
+                for (var i = 0; i < thumbnails.length; i++) {
+                    thumbnails[i].classList.remove('active-thumbnail');
+                }
+                thumbnail.classList.add('active-thumbnail');
+            }
+            
+            function incrementQuantity() {
+                var quantityInput = document.getElementById('quantity');
+                var currentQuantity = parseInt(quantityInput.value, 10);
+                quantityInput.value = currentQuantity + 1;
+            }
+            
+            function decrementQuantity() {
+                var quantityInput = document.getElementById('quantity');
+                var currentQuantity = parseInt(quantityInput.value, 10);
+                if (currentQuantity > 1) { // Prevent the quantity from going below 1
+                    quantityInput.value = currentQuantity - 1;
+                }
+            }
+            
+            
+            // /*-----------sidebar js ------------*/
+            // function showSection(sectionId) {
+            //     // Prevent default anchor behavior
+            //     debugger;
+            //     var sections = document.querySelectorAll('.content-section');
+            //     sections.forEach(function (section) {
+            //         debugger;
+            //         section.classList.remove('active');
+            //     });
+            
+            //     // Add active class to the selected section
+            //     var selectedSection = document.getElementById(sectionId);
+            //     selectedSection.classList.add('active');
+            
+            //     // Update active state on the sidebar links
+            //     var listItems = document.querySelectorAll('.cusNevBTN');
+            //     listItems.forEach(function (listItem) {
+            //         listItem.classList.remove('active');
+            //     });
+            //     document.querySelector('.cusNevBTN[onclick="showSection(\'' + sectionId + '\')"]').classList.add('active');
+            // }
+            
+            
+            /*-----------Product Detail Angular js ------------*/
+            var app = angular.module('myApp', []);
+            app.controller('opportunityCtrl', function ($scope){
+                
+                $scope.headerProductName;
+                $scope.showRelatedCategory = false;
+                $scope.showCatalogue = true;
+                $scope.showSubProductCategory = false;
+                $scope.showallProductList = false;
+                $scope.showProductDetailSection = false;
+                $scope.quantity = 1;
+                
+                $scope.getProductFamiliesDetails = function(){
+                    debugger;
+                    ArdexProductsHandler.getProductFamiliesDetails(function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            debugger;
+                            $scope.listOfAllProductTypes = result.productTypeDetails;
+                            $scope.leadId = result.leadRecord.Id;
+                        }
+                        $scope.$apply();
+                    })
+                }
+                $scope.getProductFamiliesDetails();
+                
+                $scope.getRelatedFamilies = function(typeId){
+                    debugger;
+                    ArdexProductsHandler.getRelatedFamilies(typeId,function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            debugger;
+                            $scope.headerProductName = result.productCategoryDetails[0].Product_Type__r.Name;
+                            $scope.listOfRelatedRecords = result.productCategoryDetails;
+                            $scope.showCatalogue = false;
+                            $scope.showRelatedCategory = true;
+                            $scope.showSubProductCategory = false;
+                            $scope.showallProductList = false;
+                            $scope.showProductDetailSection = false;
+                        }
+                        $scope.$apply();
+                    })
+                }
+                
+                $scope.getRelatedSubCategories = function(ProdCategoryId){
+                    debugger;
+                    $scope.recordId = ProdCategoryId;
+                    ArdexProductsHandler.getAllRelatedProducts(ProdCategoryId,function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            debugger;
+                            if(result.productAllDetails != undefined){
+                                for(var i=0;i<result.productAllDetails.length;i++){
+                                    debugger;
+                                    if(result.productAllDetails[i].Product_Link_1__c != undefined || result.productAllDetails[i].Product_Link_1__c != null){
+                                        result.productAllDetails[i].Product_Link_1__c = result.productAllDetails[i].Product_Link_1__c ? result.productAllDetails[i].Product_Link_1__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : result.productAllDetails[i].Product_Link_1__c;
+                                    }
+                                }
+                            }
+                            $scope.listOfProductSubCategory = result.productAllDetails;
+                            $scope.showCatalogue = false;
+                            $scope.showRelatedCategory = true;
+                            $scope.showSubProductCategory = true;
+                            $scope.showallProductList = false;
+                            $scope.showProductDetailSection = false;
+                        }
+                        $scope.$apply();
+                    })
+                }
+                
+                $scope.getAllRelatedProducts = function(prodSubCatId,subCatName){
+                    debugger;
+                    $scope.subCatName = subCatName;
+                    ArdexProductsHandler.getAllRelatedProducts(prodSubCatId,function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            debugger;
+                            $scope.productList = result.productAllDetails;
+                            if($scope.productList != undefined){
+                                for(var i=0;i<$scope.productList.length;i++){
+                                    if($scope.productList[i].Product_Link_1__c != undefined || $scope.productList[i].Product_Link_1__c != ""){
+                                        $scope.productList[i].Product_Link_1__c = $scope.productList[i].Product_Link_1__c ? $scope.productList[i].Product_Link_1__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productList[i].Product_Link_1__c;
+                                    }
+                                    if($scope.productList[i].Product_Link_2__c != undefined || $scope.productList[i].Product_Link_2__c != ""){
+                                        $scope.productList[i].Product_Link_2__c = $scope.productList[i].Product_Link_2__c ? $scope.productList[i].Product_Link_2__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productList[i].Product_Link_2__c;
+                                    }
+                                }
+                            }
+                            $scope.showRelatedCategory = false;
+                            $scope.showCatalogue = false;
+                            $scope.showSubProductCategory = false;
+                            $scope.showallProductList = true;
+                            $scope.showProductDetailSection = false;
+                        }
+                        $scope.$apply();
+                    })
+                }
+                
+                $scope.getProductDetail = function(productId){
+                    debugger;
+                    ArdexProductsHandler.getProductDetail(productId,function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            debugger;
+                            $scope.productDetail = result.singleProductDetail;
+                            if($scope.productDetail.Product_Link_1__c != undefined || $scope.productDetail.Product_Link_1__c != ""){
+                                $scope.productDetail.Product_Link_1__c = $scope.productDetail.Product_Link_1__c ? $scope.productDetail.Product_Link_1__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productDetail.Product_Link_1__c;
+                            }
+                            if($scope.productDetail.Product_Link_2__c != undefined || $scope.productDetail.Product_Link_2__c != ""){
+                                $scope.productDetail.Product_Link_2__c = $scope.productDetail.Product_Link_2__c ? $scope.productDetail.Product_Link_2__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productDetail.Product_Link_2__c;
+                            }
+                            if($scope.productDetail.Product_Feature__c != undefined || $scope.productDetail.Product_Feature__c != ""){
+                                $scope.productDetail.Product_Feature__c = $scope.productDetail.Product_Feature__c ? $scope.productDetail.Product_Feature__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productDetail.Product_Feature__c;
+                            }
+                            if($scope.productDetail.More_Information__c != undefined || $scope.productDetail.More_Information__c != ""){
+                                $scope.productDetail.More_Information__c = $scope.productDetail.More_Information__c ? $scope.productDetail.More_Information__c.replace(/&amp;/g,'&').replaceAll('&amp;amp;','&').replaceAll('&amp;gt;','>').replaceAll('&lt;','<').replaceAll('lt;','<').replaceAll('&gt;','>').replaceAll('gt;','>').replaceAll('&amp;','&').replaceAll('amp;','&').replaceAll('&quot;','\'') : $scope.productDetail.More_Information__c;
+                            }
+                            $scope.showRelatedCategory = false;
+                            $scope.showCatalogue = false;
+                            $scope.showSubProductCategory = false;
+                            $scope.showallProductList = false;
+                            $scope.showProductDetailSection = true;
+                        }
+                        $scope.$apply();
+                    })
+                }
+                
+                $scope.back = function(){
+                    $scope.getRelatedSubCategories($scope.recordId);
+                }
+
+                $scope.addToCart = function(productId){
+                    debugger;
+                    ArdexProductsHandler.addToCart(productId,$scope.quantity,function(result,event){
+                        debugger;
+                        if(event.status && result){
+                            swal('success','Product has been added to your cart.','success'); 
+                        }
+                        $scope.$apply();
+                    })
+                }
+                
+                $scope.backToLead = function() {
+                    debugger;
+                    var url = 'https://sales-production--ecommerce.sandbox.lightning.force.com/lightning/r/Lead/'+$scope.leadId+'/view';
+                   // window.location.href = url;
+         			window.open(url);
+                }
+
+
+                
+            })
+            </script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        </body>
+    </html>
+    
+</apex:page>

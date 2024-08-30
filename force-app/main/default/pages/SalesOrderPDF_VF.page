@@ -1,0 +1,171 @@
+<apex:page controller="SalesOrderWrapper" applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+            size: landscape;
+            margin-left: 0.1cm;    
+            margin-right: 0.1cm; 
+            margin-top: 0.1cm;
+            }
+            
+            td {
+            border: 1px solid black;
+            padding: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            text-align: center;
+            }
+            th{
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 12px;
+            }
+            .header {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            }
+            
+            
+        </style>
+    </head>
+    <table style="width: 100%;">
+        <tr>
+            <td style="border: none;">
+                <div style="">
+                    <img style="width:100px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                </div> 
+            </td>
+            <td style="border: none;">
+                <div style="">
+                    <img style="width:90px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                </div>
+            </td>
+            <td style="border: none;">
+                <div style="float:center;text-align:center;">
+                        <div class="header">{!companyName}</div>
+                        <div style="clear: both;"></div>
+                        <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div>
+                        <div style="font-size: 12px;">CIN: {!CIN} PAN No: {!PAN} STATE: {!state} CODE: {!code}</div>
+                    </div>
+            </td>
+            <td style="border: none;">
+                <div style="">
+                    <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">SALES ORDER</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td rowspan="4" colspan="3" style="text-align:left;">
+                    <b>Bill To:</b><br/> <apex:outputText value="{!billTo}" escape="false"/>
+                </td>
+                <td rowspan="4" colspan="3" style="text-align:left;">
+                    <b>Ship To:</b><br/> <apex:outputText value="{!shipTo}" escape="false"/>
+                </td>
+            <td style="text-align:center;"><b>Sales Order No</b><br/> {!salesOrderNo}</td>
+            <td colspan="3" style="text-align:center;"><b>Order Date</b><br/> {!orderDate}</td>
+            <td colspan="3" style="text-align:center;"><b>Customer's Ref</b><br/> {!customerRef}</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>STN No</b></td>
+            <td colspan="3" style="text-align:center;"><b>STN Date</b></td>
+            <td rowspan="3" colspan="3" style="text-align:center;"><div style="text-align:center;"><img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></div></td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>Customer's Ref</b></td>
+            <td colspan="3" style="text-align:center;"><b>Customer PO Date</b><br/> 27/06/2024</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>Despatched thro</b></td>
+            <td colspan="3" style="text-align:center;">
+                <b>Terms of Delivery</b>
+            </td>
+        </tr>
+        <tr>
+            <th>SI.No</th>
+            <th>Item Code</th>
+            <th>Classification</th>
+            <th>Model</th>
+            <th>Special Case / Legs / Hides</th>
+            <th>Range</th>
+            <th>Colour</th>
+            <th>Seater</th>
+            <th>Quantity</th>
+            <th>UOM</th>
+            <th>Pack</th>
+            <th>Rate</th>
+            <th>Net Value</th>
+        </tr>
+        <apex:repeat value="{!orderItems}" var="item">
+            <tr>
+                <td>{!item.siNo}</td>
+                <td>{!item.itemCode}</td>
+                <td>{!item.classification}</td>
+                <td>{!item.model}</td>
+                <td>{!item.specialCase}</td>
+                <td>{!item.range}</td>
+                <td>{!item.colour}</td>
+                <td>{!item.seater}</td>
+                <td>{!item.quantity}</td>
+                <td>{!item.uom}</td>
+                <td></td>
+                <td class="text-right">{!item.rate}</td>
+                <td class="text-right">{!item.netValue}</td>
+            </tr>
+        </apex:repeat>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Sub Total</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{!totalQuantity}</td>
+            <td></td>
+            <td></td>
+            <td class="text-right"></td>
+            <td class="text-right">{!totalNetValue}</td>
+        </tr>
+        
+        <tr>
+                <td rowspan="4" colspan="8">
+                    Amount Chargeable (in words):<b> {!totalAmountInWords}</b>
+                </td>
+                <td colspan="3" class="text-right">CGST@9%</td>
+                <td>9.00</td>
+                <td colspan="2" class="text-right">{!cgst}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-right">SGST@9%</td>
+                <td>9.00</td>
+                <td colspan="2" class="text-right">{!sgst}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-right">ROUNDING</td>
+                <td></td>
+                <td colspan="2" class="text-right">{!rounding}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-right total-row">Total</td>
+                <td></td>
+                <td colspan="2" class="text-right">{!totalAmount}</td>
+            </tr>
+        <tr>
+            <td colspan="13">
+                <div style="float:right;"><b>FOR Stanley Retail Limited</b></div><br/><br/><br/><br/><br/>
+                <div style="float:right;">Authorised Signatory</div>
+                <div style="text-align:center;">Prepared / Checked By</div>
+            </td>
+        </tr>
+        
+    </table>
+    
+    
+</apex:page>

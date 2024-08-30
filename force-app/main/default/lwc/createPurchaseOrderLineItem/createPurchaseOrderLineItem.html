@@ -1,0 +1,89 @@
+<template>
+      <table class="slds-table slds-table_cell-buffer slds-table_bordered " style="width:100%;" >
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col" style="width:5%;" >
+                            <div class="slds-truncate">
+                                S.NO.
+                            </div>
+                        </th>
+                        <th class="" scope="col" style="width:20%;">
+                            <div class="slds-truncate" title="Name">Product Name</div>
+                        </th>
+                        <th class="" scope="col" style="width:20%;">
+                            <div class="slds-truncate" title="Name">SKU</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="First Name">Type</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="Name">Open PO Count</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="Name">Current Inventory</div>
+                        </th>
+                         <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="Name">In-Transit Inventory</div>
+                        </th>
+                         <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="Name">Virtually Blocked Inventory</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%;">
+                            <div class="slds-truncate" title="First Name">Sales Projection(Next 2 months)</div>
+                        </th>
+                        <th class="" scope="col" style="width:20%;">
+                            <div class="slds-truncate" title="Phone">Required Quantity</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={selectedRecordswithoutQuantiy}>
+                        <template for:each={selectedRecordswithoutQuantiy} for:item="selectedRec" for:index="indexVar">
+                            <tr key={selectedRec.productId}>
+                                <th scope="col">
+                                    <div>
+                                        <c-indexchild-l-w-c indexchild={indexVar}></c-indexchild-l-w-c>
+                                    </div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.productName}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.productSKU}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.productType}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.pendingPOQty}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.currentInventory}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.inTransitInventory}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.virtuallyBlockedInventory}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{selectedRec.projectedQty}</div>
+                                </th>
+                                <th scope="col">
+                                    <div  class="slds-size_1-of-2">
+                                        <lightning-input type='number' data-id={selectedRec.productId} name="input1"
+                                            value={selectedRec.qty} variant="label-hidden" onchange={handleSelectedRecQuanChange}>
+                                        </lightning-input>                                              <!-- onchange={handleSelectedRecQuanChange} -->
+                                    </div>
+                                </th>
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+         </table>
+         <div class="slds-modal__footer">
+            <lightning-button variant="success" label="Cancel" onclick={closeModal}></lightning-button>
+            <lightning-button variant="success" class="slds-m-left_x-small" disabled={enableBtn}
+                label="Submit" onclick={handleSubmit}></lightning-button> 
+         </div>
+</template>

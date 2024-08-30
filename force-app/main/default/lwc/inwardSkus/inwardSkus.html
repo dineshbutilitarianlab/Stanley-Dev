@@ -1,0 +1,145 @@
+<template>
+	<!-- <template if:true={openModal}></template> -->
+	<div class="slds-box slds-theme--default">
+		<div class=" slds-grid slds-wrap slds-text-color_inverse" style="background:#E4E5E8">
+			<div class="slds-col slds-size_6-of-12 slds-p-top_medium slds-p-left_medium">
+				<h2 class="slds-text-heading_medium">
+					<lightning-icon icon-name="standard:lead" alternative-text="Lead" title="Lead" size="medium">
+					</lightning-icon>
+					<strong style="color:#270086; font-size:20px; margin-right:15px;"> Transferred SKUs </strong>
+				</h2>
+			</div>
+			<div class=" slds-col slds-size_6-of-12 slds-p-right_medium">
+                <div class="slds-float_right">
+                    <lightning-input type="search" value={searchKey} onkeyup={handleKeyChange} class="slds-m-bottom_small slds-m-left_medium" autocomplete="off" placeholder="Search..." maxlength="70" style="color:black">
+				    </lightning-input>
+                </div>				
+			</div>
+		</div>
+		<br/>
+		<table class="slds-table slds-table_cell-buffer slds-table_bordered ">
+			<thead>
+				<tr class="slds-line-height_reset">
+					<th class="" scope="col">
+						<div class="slds-truncate">
+							S.NO.
+						</div>
+					</th>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Name">Name</div>
+					</th>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="First Name">Product Name</div>
+					</th>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Last Name">Source Warehouse</div>
+					</th>
+                    <!-- <th class="" scope="col">
+						<div class="slds-truncate" title="Last Name">Destination Warehouse</div>
+					</th> -->
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Phone">Quantity</div>
+					</th>
+					<template if:true={showSync}>
+						<th class="" scope="col">
+							<div class="slds-truncate" title="Phone">Sync in Unicommerce ?</div>
+						</th>
+					</template>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Email">Recieved Quantity</div>
+					</th>
+					<th class="" scope="col">
+						<div class="slds-truncate" title="Remarks">Remarks</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- template if:true={pageRecordsToDisplay} -->
+					<template for:each={pageRecordsToDisplay} for:item="con" for:index="indexVar">
+					 
+					<tr key={con.Id}>
+						<th scope="col">
+							<div>
+								<c-indexchild-l-w-c indexchild={indexVar}></c-indexchild-l-w-c>
+							</div>
+						</th>
+						<th scope="col">
+							<div>{con.Name}</div>
+						</th>
+						<th scope="col">
+							<div>{con.prodName}</div>							
+						</th>
+						<th scope="col">
+							<template if:true={con.Warehouse_Transfer_Log__r}>
+								<div>{con.Warehouse_Transfer_Log__r.Source_Warehouse__r.Name}</div>
+							</template>
+							
+						</th>
+                        <!-- <th scope="col">
+							<div>{con.Warehouse_Transfer_Log__r.Destination_Source__r.Name}</div>
+						</th> -->
+						<th scope="col">
+							<!--template if:true={con.Quantity__c}-->
+								<div>
+									{con.Pending_Quantity__c}
+								</div>
+							<!--/template-->
+							
+						</th>
+						 <template if:true={showSync}>
+							<th scope="col" >
+								<lightning-combobox
+								name="sync"
+								label=""
+								value={value}
+								placeholder="Select"
+								options={options}
+								onchange={handleRecQuanChange} data-id={con.Id}  style="margin-top:-13px;" ></lightning-combobox>
+                            
+							</th>
+						 </template>
+						<th scope="col">
+							<!--template if:true={con.Recieved_Quantity__c} value={con.Recieved_Quantity__c} -->
+								<div>
+								<lightning-input type="number"  data-id={con.Id} name="input1"  
+									 variant="label-hidden"
+									onchange={handleRecQuanChange}></lightning-input>
+							</div>
+							<!--/template-->
+							
+						</th>
+                         <th scope="col">
+							 <!--template if:true={con.Remarks__c}-->
+								 <div>
+								<lightning-input data-id={con.Id} name="input2"
+									value={con.Remarks__c} variant="label-hidden"
+									onchange={handleRecQuanChange}></lightning-input>		
+							</div>
+
+							 <!--/template-->
+							
+						</th>
+					</tr>
+				</template>
+				<!-- /template -->
+				
+			</tbody>
+		</table>
+		<div class="slds-align_absolute-center">
+			<div class=" slds-m-top_large slds-m-bottom_large">
+				<p class='slds-m-right_small'>Showing {pagenumberforPagination} of {totalPagesize} rows</p>
+				<lightning-button label="&#9668;" class='slds-m-right_small' disabled={disablePrev} onclick={handlePrev}
+					style="font-family: sans-serif;"></lightning-button>
+				<lightning-button label="&#9654;" class='slds-m-right_small' disabled={disableNext} onclick={handleNext}
+					style="font-family: sans-serif;"></lightning-button>
+			</div>
+			<!-- <c-custom-pagination list={transferredLogData} onpagechanged={paginationCallback}></c-custom-pagination> slds-align_absolute-center-->
+		</div>
+		<div class="slds-modal__footer">
+			<lightning-button class="slds-button" variant="neutral" label="Cancel" onclick={handleDismiss}></lightning-button>
+			<lightning-button class="slds-button slds-m-left_x-small" variant="brand" label="Save" onclick={handleValidation} disabled={disableBtn}></lightning-button>
+		</div>
+	</div>
+	
+	
+</template>

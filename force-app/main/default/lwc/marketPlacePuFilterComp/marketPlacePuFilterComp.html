@@ -1,0 +1,74 @@
+<template>   
+    <div style="padding-left:10px;">
+         <p class="rcorners1" style="color:white; text-align:center; padding-left:5px;"><b>Projections & Purchase Request</b></p>
+       </div>
+
+    <div class="slds-grid slds-gutters mainComponent slds-grid_vertical">
+        <!-- active-section-name="X" -->
+        
+        <lightning-accordion allow-multiple-sections-open >
+            <template if:true={showFilters}>
+                <lightning-accordion-section name="Y" label="Filter"  >
+                    <div class="slds-col">
+                        <article class="slds-card">
+                            <div class="slds-card__body slds-card__body_inner" style="padding-left:2%;padding-right:2%;">
+                                <div class="slds-float_right">
+                                    <lightning-button label="Clear All Filters" onclick={resetAllFilters} variant="success"></lightning-button>
+                                </div>
+                                <template if:true={showDate}>
+                                    <div class="slds-m-top_small slds-grid slds-gutters" >
+                                        <div class="slds-col">
+                                            <lightning-input id="start-date" type="date" name="start-date" label="Order Received Date" value={startDateText} onchange={dateChangeHandler}></lightning-input>
+                                        </div>
+                                        <div class="slds-col">
+                                            <lightning-input id="end-date" type="date" name="end-date" label="Order Completion Date" value={endDateText} onchange={dateChangeHandler}></lightning-input>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div class="slds-m-top_small slds-grid slds-gutters">
+                                    <div class="slds-col">
+                                        <lightning-combobox name="progress" label="Filter by:" value={currentFilter} placeholder="Select Filter" options={filterOptions}
+                                        onchange={handleFilterChange}></lightning-combobox> 
+                                    </div>
+                                    <!-- <div class="slds-col">
+                                        <lightning-input 
+                                            type="search" 
+                                            onchange={handleKeyChange} 
+                                            class="slds-m-bottom_small"           
+                                            label="Search" 
+                                            value={searchKey}
+                                            placeholder="Search SKU, Name, Family, Color...">
+                                        </lightning-input>
+                                    </div> -->
+                                    <div class="slds-col"> <!--customMarketPlaceLookup -->
+                                        <div>
+                                            <div class="slds-p-raound_xx-small" >
+                                                <lightning-combobox name="Product Category" label="Filter by Market Place:" value={value} options={newoptions} onchange={handleChange}></lightning-combobox>
+                                            </div>
+                                            <div class="slds-p-raound_xx-small">
+                                            <template for:each={allValues} for:item="val">
+                                                <lightning-pill key={val} name={val} label={val} onremove={handleRemove}></lightning-pill>
+                                            </template>
+                                            </div>   
+                                            <!-- <c-custom-market-place-lookup record-id={recordId} search-placeholder="Search Materials" icon-name="standard:specuct2"
+                                                            onlookupselected={handleSelection} onlookupremove={handleRemoval}> 
+                                            </c-custom-market-place-lookup>   -->
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </article>
+                    </div><br/>
+                </lightning-accordion-section>
+            </template>
+
+            <lightning-accordion-section name="X" label="Products">
+                <div class="slds-col">
+                    <c-show-stockpo-sales onshowfilters={handleFilterVisibility}></c-show-stockpo-sales>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>        
+        
+    </div>
+
+</template>

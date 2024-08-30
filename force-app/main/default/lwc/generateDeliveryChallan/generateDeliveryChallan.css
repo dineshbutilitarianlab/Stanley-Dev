@@ -1,0 +1,21 @@
+.dummy{
+	color : blue;
+}
+.iframe {
+            border: none;
+        }
+
+iframe table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+iframe th, iframe td {
+            border: 1px solid #000; /* Adjust border properties as needed */
+            padding: 8px;
+            text-align: left;
+        }
+
+iframe th {
+            background-color: #f2f2f2; /* Optional: Add background color for header */
+        }

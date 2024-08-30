@@ -1,0 +1,347 @@
+<apex:page controller="PurchaseOrderWrapper" applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+                size: landscape;
+                margin-left: 0.1cm;
+                margin-right: 0.1cm;
+                margin-top: 0.1cm;
+                margin-bottom: 0.1cm;
+            }
+            td {
+                border: 1px solid black;
+                padding: 5px;
+                font-family: sans-serif;
+                font-size: 12px;
+                text-align: center;
+            }
+            th {
+                border: 1px solid black;
+                padding: 5px;
+                text-align: center;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+            .header {
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+                font-family: sans-serif;
+            }
+            div.subfooter {
+                display: inline-block;
+            }
+            .pagenumber:before {
+                content: counter(page);
+            }
+            .pagecount:before {
+                content: counter(pages);
+            }
+            .footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 10px;
+            }
+            .new-page {
+                page-break-before: always;
+                margin-left: 0.1cm;
+                margin-right: 0.1cm;
+                margin-top: 1cm;
+                margin-bottom: 0.1cm;
+            }
+            .left-table {
+                width: 68%;
+                float: left;
+                border-collapse: collapse;
+            }
+            .right-table {
+                width: 28%;
+                float: right;
+                border-collapse: collapse;
+            }
+            .clear {
+                clear: both;
+            }
+        </style>
+    </head>
+    <div class="footer" style="margin-left: auto; margin-right: auto;">
+        <div style="page-break-after: auto;font-size:10px">
+            <table style="width:100%;font-size:15px">
+                <tr>
+                    <td style="width:100%;border:1px black solid;border-bottom:hidden;border-left:hidden;border-right:hidden;text-align:center; ">
+                        This is a system generated document.
+                        <div class="subfooter right" style="float:right">Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="header">
+        <table style="width: 100%;">
+            <tr>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:120px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:80px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="float:center;text-align:center;">
+                        <div class="header">Stanley Retail Limited</div>
+                        <div style="clear: both;"></div>
+                        <div style="font-size: 12px;color:#800c4a;">Old Sy.No. 38/2,2041/38/1A and 2035/38/1, Electronic City Phase-2, Bangalore-560100</div>
+                        <div style="font-size: 12px;">CIN : GSTIN/UIN&nbsp; :<span style="color:#800c4a;">&nbsp; 29AAMCS0959F1ZY</span><br/>  PAN No: <span style="color:#800c4a;">AAMCS095F</span> STATE: KARNATAKA CODE: 29</div>
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="line-height: 2;">
+                        <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">Purchase ORDER</div>
+                        <div>Approved</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td rowspan="5" colspan="3" style="text-align:left;line-height: 1.6;">
+                <b>Supplier </b>:<br/> <apex:outputText value="{!supplier}" escape="false"/>
+            </td>
+            <td rowspan="5" colspan="3" style="text-align:left;">
+                <b>Ship To:</b><br/> <apex:outputText value="{!shipTo}" escape="false"/>
+            </td>
+            <th style="text-align:center;"><b>Purchase Order No</b></th>
+            <th ><b>Order Date</b></th>
+            <th ><b>Purchase Type</b></th>
+        </tr>
+        <tr>
+            <td>{!purchaseOrderNo}</td>
+            <td>{!orderDate}</td>
+            <td>{!purchaseType}</td>
+        </tr>
+        <tr>
+            <th style="text-align:center;"><b>Purchase Terms</b></th>
+            <th ><b>Supplier Ref. No</b></th>
+            <th ><b>Delivery Date</b></th>
+        </tr>
+        <tr>
+            <td>{!purchaseTerms}</td>
+            <td>{!supplierRefNo}</td>
+            <td>{!deliveryDate}</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>Despatched Terms:</b></td>
+            <td colspan="3" style="text-align:center;height:70px;">
+                
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;margin-top:1%">
+        <tr>
+            <th>SI.No</th>
+            <th>Item Code</th>
+            <th>Model Name</th>
+            <th>Type</th>
+            <th>Range</th>
+            <th>Colour</th>
+            <th>Size</th>
+            <th>Others</th>
+            <th>Material</th>
+            <th>Configuration</th>
+            <th>Quantity</th>
+            <th>UOM</th>
+            <th>Pack</th>
+            <th>Rate</th>
+            <th>Net Value</th>
+        </tr>
+        <apex:repeat value="{!orderItems}" var="item">
+            <tr>
+                <td>{!item.siNo}</td>
+                <td>{!item.itemCode}</td>
+                <td>{!item.modelName}</td>
+                <td>{!item.type}</td>
+                <td>{!item.range}</td>
+                <td>{!item.colour}</td>
+                <td>{!item.size}</td>
+                <td>{!item.others}</td>
+                <td>{!item.material}</td>
+                <td>{!item.configuration}</td>
+                <td>{!item.quantity}</td>
+                <td>{!item.uom}</td>
+                <td></td>
+                <td class="text-right">{!item.rate}</td>
+                <td class="text-right">{!item.netValue}</td>
+            </tr>
+        </apex:repeat>
+        <tr>
+            <td colspan="10" style="text-align:right;"><b>Sub Total</b></td>
+            <td><b>{!subTotalQuantity}</b></td>
+            <td colspan="3"></td>
+            <td class="text-right"><b>{!subTotalValue}</b></td>
+        </tr>
+    </table>
+    <div class="new-page">
+        <div class="flex-container" style="display: flex;">
+            <table class="left-table" style="border:1px solid black;border-collapse:collapse;margin-top:1%">
+                <tr>
+                    <th rowspan="2">HSN/SAC</th>
+                    <th rowspan="2">Taxable Value</th>
+                    <th colspan="2">Central Tax</th>
+                    <th colspan="2">State Tax</th>
+                    <th colspan="2">Integrated Tax</th>
+                    <th rowspan="2">Total</th>
+                </tr>
+                <tr>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+                <apex:repeat value="{!orderItems}" var="item">
+                    <tr>
+                        <td>{!item.itemCode}</td>
+                        <td>{!item.netValue}</td>
+                        <td>9.00%</td>
+                        <td>{!item.netValue * 0.09}</td>
+                        <td>9.00%</td>
+                        <td>{!item.netValue * 0.09}</td>
+                        <td>0%</td>
+                        <td>0.00</td>
+                        <td>{!item.netValue * 1.18}</td>
+                    </tr>
+                </apex:repeat>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td><b>{!subTotalValue}</b></td>
+                    <td></td>
+                    <td><b>{!cgst}</b></td>
+                    <td></td>
+                    <td><b>{!sgst}</b></td>
+                    <td></td>
+                    <td><b>0.00</b></td>
+                    <td><b>{!cgst + sgst + subTotalValue}</b></td>
+                </tr>
+            </table>
+            <table class="right-table" style="width:30%;">
+                <tr>
+                    <td>CGST@9</td>
+                    <td>9.000</td>
+                    <td>{!cgst}</td>
+                </tr>
+                <tr>
+                    <td>SGST@9</td>
+                    <td>9.000</td>
+                    <td>{!sgst}</td>
+                </tr>
+                <tr>
+                    <td>ROUNDING</td>
+                    <td></td>
+                    <td>{!rounding}</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{!totalAmount}</td>
+                </tr>
+            </table>
+            <div class="clear"></div>
+            <table style="width:100%;border:1px solid black;border-collapse:collapse;margin-top:1%">
+                <tr>
+                    <td colspan="8" style="text-align:left;border: none;">
+                        Amount Chargeable(in words) :<b> {!totalAmountInWords}</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="text-align:left;border: none;width:10%;">
+                        <b>Remarks :-</b><br/> 
+                    </td>
+                    <td valign="top" style="text-align:left;border: none;"><apex:outputText value="{!remarks}" escape="false"/></td>
+                </tr>
+            </table>
+            <table style="width:100%;border:1px solid black;border-collapse:collapse;margin-top:1%">
+                <tr>
+                    <th colspan="8" style="text-align:left;border: none;text-decoration: underline;">Customer Details :</th>
+                </tr>
+                <tr>
+                    <td style="text-align:left;border: none;">Customer Name</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.name}</td>
+                    <td style="text-align:left;border: none;">Age</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">City</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.city}</td>
+                    <td style="text-align:left;border: none;">State</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.state}</td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;border: none;">Contact Number</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.contactNumber}</td>
+                    <td style="text-align:left;border: none;">Occupation</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.occupation}</td>
+                    <td style="text-align:left;border: none;">Zip Code</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.zipCode}</td>
+                    <td style="text-align:left;border: none;">Residency</td>
+                    <td style="text-align:left;border: none;">: {!customerDetails.residency}</td>
+                </tr>
+                <tr>
+                    <th colspan="8" style="text-align:left;border: none;text-decoration: underline;">Franchise Details :</th>
+                </tr>
+                <tr>
+                    <td style="text-align:left;border: none;">Customer Name</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">Age</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">City</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">State</td>
+                    <td style="text-align:left;border: none;">: </td>
+                </tr>
+                <tr>
+                    <td style="text-align:left;border: none;">Contact Number</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">Occupation</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">Zip Code</td>
+                    <td style="text-align:left;border: none;">: </td>
+                    <td style="text-align:left;border: none;">Residency</td>
+                    <td style="text-align:left;border: none;">: </td>
+                </tr>
+            </table>
+            <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+            <div style="text-align:center;">
+                <div style="text-align:right;font-family: sans-serif;font-size: 12px;">
+                    FOR Stanley Retail Limited
+                </div>
+                <table style="width:100%;margin-top:5%;padding:3%;">
+                    <tr style="margin-top:4%;">
+                        <td style="border: none;width:20%;">
+                            <div>
+                                SRL-Manikanta
+                            </div>
+                            <div style="text-align:center;">
+                                <!--div style="border:1px solid black;border-collapse:collapse;margin-top:1%;text-align:center;"></div-->
+                                Created By
+                            </div>
+                        </td>
+                        <td style="border: none;width:20%;">
+                            <div>
+                                SRL-Ravi.Manjunath
+                            </div>
+                            <div>
+                                <!--div style="border:1px solid black;border-collapse:collapse;margin-top:1%;text-align:center;"></div-->
+                                Authorised Signatory
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</apex:page>

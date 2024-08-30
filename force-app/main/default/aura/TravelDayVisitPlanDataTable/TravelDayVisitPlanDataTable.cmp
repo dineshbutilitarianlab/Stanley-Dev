@@ -1,0 +1,110 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="Scheduler_Insight_MonthYear_handler">
+	
+    <aura:attribute name="selectedMonth" type="String" default="January" />
+    <aura:attribute name="selectedYear" type="String" />
+    <aura:attribute name="currentMonth" type="String" />
+    <aura:attribute name="currentYear" type="String" />
+    <aura:attribute name="months" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="dataList" type="List"/>
+    <aura:handler event="c:travelTableDataEvent" action="{!c.travelTableDataEvent}"/>
+    <div class="" >
+        <!---Day Visit Plan Tab-->
+        <div class="BeatDesktop">
+        <div class="slds-col slds-size_12-of-12">
+                <div class="" style="background-color:white; width:100%; margin-top:-1s%;"  >
+                    
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout slds-table_striped">
+                            
+                            <thead>
+                                <tr class="" style="background-color:#9E7BFF;">
+                                    <th scope="col" style="background-color:#6CA1E9;">
+                                        <strong>
+                                            <div class="slds-truncate slds-text-align_center slds-has-flexi-truncate"
+                                                 title="S. No." style="color:#FFFFFF;">Ss. No.</div>
+                                        </strong>
+                                    </th>
+                                    <th scope="col" style="background-color:#6CA1E9;">
+                                        <strong>
+                                            <div class="slds-truncate slds-text-align_left slds-has-flexi-truncate"
+                                                 title="Name" style="color:#FFFFFF;">Date</div>
+                                        </strong>
+                                    </th>
+                                    <th scope="col" style="background-color:#6CA1E9;">
+                                        <strong>
+                                            <div class="slds-truncate slds-text-align_left slds-has-flexi-truncate"
+                                                 title="StageName" style="color:#FFFFFF;">Start Time</div>
+                                        </strong>
+                                    </th>
+                                    <th scope="col" style="background-color:#6CA1E9;">
+                                        <strong>
+                                            <div class="slds-truncate slds-text-align_left slds-has-flexi-truncate"
+                                                 title="Close date" style="color:#FFFFFF;">End Time</div>
+                                        </strong>
+                                    </th>
+                                    <th scope="col" style="background-color:#6CA1E9;">
+                                        <strong>
+                                            <div class="slds-truncate slds-text-align_left slds-has-flexi-truncate"
+                                                 title="Amount" style="color:#FFFFFF;">Distance Travelled in KM</div>
+                                        </strong>
+                                    </th>                                  
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                <aura:iteration items="{!v.dataList}"  var="dayVisit" indexVar="index">
+                                    <tr>
+                                        
+                                        <td scope="row" data-label="Name">
+                                            <div class="slds-text-align_center"  >
+                                                <div  aura:id="selectAllId" class="slds-truncate" title="">{!index+1}</div>     
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="Status">
+                                            <div class="slds-text-align_left slds-has-flexi-truncate"
+                                                 title="{!dayVisit.Start_Date__c}">
+                                                <lightning:formattedDateTime value="{!dayVisit.Start_Date__c}" year="numeric" month="numeric" day="numeric"/>
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="Status">
+                                            <div class="slds-text-align_left slds-has-flexi-truncate"
+                                                 title="{!dayVisit.Start_Date__c}">
+                                                <lightning:formattedDateTime value="{!dayVisit.Start_Date__c}" hour="2-digit" minute="2-digit"/>
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="Status">
+                                            <div class="slds-text-align_left slds-has-flexi-truncate"
+                                                 title="{!dayVisit.End_Date__c}">
+                                                <lightning:formattedDateTime value="{!dayVisit.End_Date__c}" hour="2-digit" minute="2-digit"/>
+                                            </div>
+                                        </td>
+                                        <td scope="row" data-label="Name">
+                                            <div class="slds-text-align_left slds-has-flexi-truncate">
+                                                
+                                                <b style="color:#6592FD;">{!dayVisit.Total_Distance__c}</b>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+        </div>
+        </div>
+                    <!--Card show CSS for Mobile-->
+                <div class="BeatMobile">
+                    <aura:iteration items="{!v.dataList}"  var="visit" indexVar="index">
+                        <div class="slds-card ">
+                            <div class="cardInfo">
+                                <div class="slds-text-align_left slds-has-flexi-truncate" ><b style="color:#6592FD;">{!visit.CreatedDateFormatted}</b></div>
+                                <div><b style="font-weight:600;">Start Date:</b>&nbsp;<lightning:formattedDateTime value="{!visit.Start_Date__c}" year="numeric" month="numeric" day="numeric"/></div>
+                                <div><b style="font-weight:600;">Start Time:</b>&nbsp;<lightning:formattedDateTime value="{!visit.Start_Date__c}" hour="2-digit" minute="2-digit"/></div>
+                                <div><b style="font-weight:600;">End Time:</b>&nbsp;<lightning:formattedDateTime value="{!visit.End_Date__c}" hour="2-digit" minute="2-digit"/></div>
+                                <div class="slds-text-align_left slds-has-flexi-truncate"><b>Distance Travelled in KM:</b>&nbsp;{!visit.Total_Distance__c}</div>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+    </div>
+</aura:component>

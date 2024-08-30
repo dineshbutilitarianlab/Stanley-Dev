@@ -1,0 +1,484 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global"  controller="BeatPlannerHelper">
+    
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:handler event="force:refreshView" action="{!c.doinit}" />
+    <aura:attribute name="ShowToCreateMonthlyBeatPlan" type="Boolean" default="false"/>
+    <aura:attribute name="ShowMonthlyBeatPlan" type="Boolean" default="false"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="SelectVisitAccountId" type="string"/>
+    <aura:attribute name="title" type="string"/>
+    
+    
+    <aura:handler name="sampleCmpEvent" event="c:SampleComponentEvent" action="{!c.parentComponentEvent}"/>
+    <!--aura:handler name="openParentCmp" event="c:SampleComponentEvent" action="{!c.HandleparentComponent}"/-->
+    
+    <aura:attribute name="Weeklybp" type="Monthly_Beat_Plan__c[]" />
+    <aura:attribute name="kpiTargetsName" type="KPI_Target__c[]" />
+    <aura:attribute name="weeklyWrapper" type="object[]"/>
+    <aura:attribute name="isShowDaskDesComp" type="Boolean" default="false"/>
+    
+    <aura:attribute name="selectedMonth" type="String" />
+    <aura:attribute name="selectedYear" type="String" />
+    <aura:attribute name="userName" type="String" />
+    <aura:attribute name="mbpName" type="String" />
+    <aura:attribute name="mbpStatus" type="String" />
+    <aura:attribute name="month" type="String" />
+    <aura:attribute name="siteURL" type="String"/>
+    <aura:attribute name="formattedDate" type="String"/>
+    
+    
+    <aura:attribute name="ShowdetailsMonthlyBeatPlan" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="string"/>
+    <aura:attribute name="showApprovedCal" type="Boolean" default="false"/>
+    <aura:attribute name="showUnapprovedCal" type="Boolean" default="false"/>
+    <aura:attribute name="showApprovalButton" type="Boolean" default="false"/>
+    <aura:attribute name="isApprovalRequired" type="Boolean" default="false"/>
+    
+    <!--  aura callender attribute /-->
+    <aura:attribute name="wrapper" type="object" />
+    <aura:attribute name="Monthly_Beat_Plan__c" type="object" />
+    <aura:attribute name="Visits" type="object[]" />
+    <aura:attribute name="year" type="integer"/>
+    <ltng:require styles="{!$Resource.Calendar     + '/FullCalendarJS/fullcalendar.min.css'}"
+                  scripts="{!join(',',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/moment.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/theme.js',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery-ui.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/fullcalendar.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery.ui.touch-punch.min.js'
+                           )}"
+                  afterScriptsLoaded="{!c.afterScriptsLoaded}" />
+    <ltng:require styles="/resource/fullcalendar/fullcalendar/fullcalendar.css"/>
+    <!--  vf page  /-->
+    
+    <aura:attribute name="activeSections" type="List" default="['A','C']" />
+    
+    
+    <aura:html tag="style">
+        .header {
+        background: linear-gradient(to right, #6CA1E9, #DFB5FF);
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .header h1 {
+        margin: 0;
+        padding: 0;
+        }
+        .SendApproval {
+        margin-left:-5rem;
+        background-color:#6BBD6E;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        }
+        .details {
+        background-color:#f2f2f2;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .details img {
+        max-width: 100px;
+        margin-right: 20px;
+        }
+        .details p {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        display: flex;
+        }
+        
+        .leftSidebutton{
+        display:flex;
+        flex-wrap: wrap;
+        }
+        
+        .leftSidebutton span{
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin:10px 10px 0px 1px;
+        }        
+        .left {
+        width: 30%;
+        height:73vh; /* Set a fixed height */
+        max-height: 78vh; /* Set the maximum height to 70% of the parent container's height */
+        background-color: #f2f2f2;
+        padding: 20px;
+        overflow: auto;
+        margin:-2% 0px 0px 0px;
+        }
+        .left::-webkit-scrollbar {
+        width: 0; /* Hide the scrollbar */
+        }
+        .right {
+        width: 70%;
+        height:73vh; /* Set a fixed height */
+        max-height: 78vh; 
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        }
+        .box {
+        margin-left:-14px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        }
+        .box h3{
+        font-weight: bold;
+        }
+        
+        .boxButtons{
+        
+        }
+        .box-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 10px;
+        }
+        .box-buttons button {
+        margin-left: 1px;
+        }
+        .button-light-green {
+        background-color: #6BBD6E; /* Light green */
+        color: #ffffff; /* Darker text color for light green button */
+        border-radius: 6px;
+        }
+        .button-light-blue {
+        background-color: #1589EE; /* Light blue */
+        color: #ffffff; /* Darker text color for light blue button */
+        border-radius: 6px;
+        }
+        .button-light-red {
+        background-color: #F2678D; /* Light red */
+        color: #ffffff; /* Darker text color for light red button */
+        border-radius: 6px;
+        }
+        .calendar-container {
+        width: 100%;
+        height: 100%; /* Make the calendar container fill the entire right div */
+        overflow: hidden; /* Hide any overflow content */
+        }
+        .calendar-iframe {
+        width: 100%;
+        height: 100%; /* Make the iframe fill the entire calendar container */
+        border: none; /* Remove border */
+        }
+        
+        .mainContainer{
+        background-color: #ffffff;
+        display: flex;
+        align-items: start;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .boxContainer{
+        width: 25%;
+        height:100%;
+        margin:2rem;
+        }
+        .callyContainer{
+        backgrpund-color:#F2F2F2;
+        width: 70%;
+        }
+        
+        .box {
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        }
+        .box h3{
+        font-weight: bold;
+        }
+        
+        .boxButtons{
+        
+        }
+        .box-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 10px;
+        }
+        .box-buttons button {
+        margin-left: 1px;
+        }
+        .button-light-green {
+        background-color: #6BBD6E; /* Light green */
+        color: #ffffff; /* Darker text color for light green button */
+        border-radius: 6px;
+        }
+        .button-light-blue {
+        background-color: #1589EE; /* Light blue */
+        color: #ffffff; /* Darker text color for light blue button */
+        border-radius: 6px;
+        }
+        .button-light-red {
+        background-color: #F2678D; /* Light red */
+        color: #ffffff; /* Darker text color for light red button */
+        border-radius: 6px;
+        }
+        
+        .weekKpiButtonspan{
+        font-size: 11px;
+        font-size: 16px;
+        color: black;
+        padding:5px;
+        white-space: nowrap; /* Prevent text from wrapping */
+        overflow: hidden; /* Hide overflowed content */
+        text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+        max-width: 8rem;
+        background-color:#f2f2f2;
+        
+        }
+        
+        .external-events .fc-event {
+        margin: 10px 0;
+        cursor: pointer !important;
+        padding: 5px;
+        background-color: #5a6ccc !important;
+        border: #5a6ccc !important;
+        }        
+        
+    </aura:html>
+    
+    
+    
+    <div class="MainComponCard">
+        
+        <!-- Html part /-->
+        <div class="slds-col slds-size_12-of-12">
+            <c:MonthlyContainer></c:MonthlyContainer>
+        </div>
+        
+        <aura:if isTrue="{!v.ShowToCreateMonthlyBeatPlan}">
+            <div style="margin-top:1%;">
+                <c:showToCreateMonthlyBeatPlan selectedMonthNumber="{!v.selectedMonth}" selectedMonth="{!v.selectedMonth}" selectedYear="{!v.selectedYear}"/>
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.ShowMonthlyBeatPlan}">
+            <div class="slds-col slds-size_12-of-12" style="margin-top:10px;">
+                <article class="slds-card nameBar">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title">
+                                    <span class="h2Titel">{!v.month}-{!v.mbpName}- {!v.userName}</span>
+                                </h2>
+                            </div>
+                            <aura:if isTrue="{!v.isApprovalRequired}">
+                                <div class="slds-no-flex">
+                                    <aura:if isTrue="{!v.mbpStatus=='Approved'}">
+                                        <span class="top-button" >{!v.mbpStatus}</span>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!and(v.mbpStatus=='Draft', v.showApprovalButton)}">
+                                                <a class="top-button SendApproval" Id="{!v.recordId}"  onclick="{!c.sendForApp}" iconName='standard:approval'><span style="">Send For Approval</span>
+                                                </a>
+                                                <aura:set attribute="else">
+                                                    <span class="top-button">{!v.mbpStatus}</span>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+                        </header>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <aura:iteration items="{!v.kpiTargetsName}" var="item">
+                            <span class="slds-badge" style="margin-bottom:1%;">{!item.KPI_Target_Name__c}-{!item.Target_Count__c}</span>
+                        </aura:iteration>           
+                    </div>
+                </article>
+                
+                <div class="DesktopView" style="margin-top:10px;">
+                    <aura:if isTrue="{!v.showApprovedCal}">
+                        <div class="mainContainer" style="">               
+                            <div class="boxContainer" aura:id="external-events">
+                                <div class="event-container" style="max-height: 650px;padding-top:2%;">
+                                    <aura:iteration items="{!v.weeklyWrapper}" var="item">
+                                        <div class="box draggable-event" id="listCalender" draggable="true">
+                                            <ul>
+                                                <li><span style="font-weight:700;"> {!item.weekName} </span> <span style="font-weight:bold;color:grey;margin-left:4px;">({!item.weekstartAndEndText}) </span></li>
+                                                <div>
+                                                    <aura:iteration items="{!item.kpiList}" var="ite">
+                                                        <li style="margin:10px;">
+                                                            <span class="{!ite.dynamicClass}">
+                                                                {!ite.count} - {!ite.kPIName}
+                                                            </span>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </div>
+                            
+                            <!-- Calendar -->
+                            
+                            <div class="callyContainer">
+                                <div  id="calendar"></div> 
+                            </div>
+                        </div>
+                        <!--c:fullcalanderComp month="{!v.selectedMonth}" year="{!v.selectedYear}" aura:id="childComp"/-->
+                    </aura:if> 
+                    
+                    <!--Show KPI Target Card-->
+                    <div class="desktopViewKPICard">
+                        <aura:if isTrue="{!v.showUnapprovedCal}" >
+                            <div  aura:id="external-events"> 
+                                <div class="event-container kpiCard" >
+                                    <aura:iteration items="{!v.weeklyWrapper}" var="item">
+                                        <div class="box draggable-event kpiCardBox" id="listCalender" draggable="true" >
+                                            
+                                            <span style="font-weight:700;"> {!item.weekName} </span> 
+                                            <span style="font-weight:bold;color:grey;margin-left:4px;">({!item.weekstartAndEndText}) </span>
+                                            <div style="display: flex; flex-wrap: wrap;">
+                                                <aura:iteration items="{!item.kpiList}" var="ite">
+                                                    <div style="margin-bottom: 10px; margin-left: 10px;">
+                                                        <span class="{!ite.dynamicClass}">
+                                                            {!ite.count} - {!ite.kPIName}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    
+                                                </aura:iteration>
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </div>
+                            <iframe src="{!v.siteURL}" width="100%" height="700px;"/>
+                            
+                            <!--c:MonthlyBeanPlanCalnder month="{!v.selectedMonth}" year="{!v.selectedYear}" aura:id="chilcally"/-->
+                        </aura:if>
+                    </div>
+                    
+                    
+                    <div class="mobileViewKPICard">
+                        <aura:if isTrue="{!v.showUnapprovedCal}" >
+                            <lightning:accordion allowMultipleSectionsOpen="true" onsectiontoggle="{!c.handleSectionToggle }" activeSectionName="{! v.activeSections }">
+                                <lightning:accordionSection class="AccordionKPI" name="A" label="KPI Target">
+                                    <div  aura:id="external-events"> 
+                                        <div class="event-container kpiCard" >
+                                            <aura:iteration items="{!v.weeklyWrapper}" var="item">
+                                                <div class="box draggable-event kpiCardBox" id="listCalender" draggable="true" >
+                                                    
+                                                    <span style="font-weight:700;"> {!item.weekName} </span> 
+                                                    <span style="font-weight:bold;color:grey;margin-left:4px;">({!item.weekstartAndEndText}) </span>
+                                                    <div style="display: flex; flex-wrap: wrap;">
+                                                        <aura:iteration items="{!item.kpiList}" var="ite">
+                                                            <div style="margin-bottom: 10px; margin-left: 10px;">
+                                                                <span class="{!ite.dynamicClass}">
+                                                                    {!ite.count} - {!ite.kPIName}
+                                                                </span>
+                                                            </div>
+                                                            
+                                                            
+                                                        </aura:iteration>
+                                                    </div>
+                                                </div>
+                                            </aura:iteration>
+                                        </div>
+                                    </div>
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                            <iframe src="{!v.siteURL}" width="100%" height="700px;"/>
+                            
+                            <!--c:MonthlyBeanPlanCalnder month="{!v.selectedMonth}" year="{!v.selectedYear}" aura:id="chilcally"/-->
+                        </aura:if>
+                    </div>
+                    
+                </div>
+                
+                <!--mobile View-->
+                <!--div class="mobileBeatPlan">
+                <lightning:tabset selectedTabId="one">
+                    <lightning:tab label="Beat Plan" id="one">
+                        <div class="boxContainer" aura:id="external-events">
+                            <div class="event-container" style="max-height: 650px;padding-top:2%;">
+                                <aura:iteration items="{!v.weeklyWrapper}" var="item">
+                                    <div class="box draggable-event" id="listCalender" draggable="true">
+                                        <ul>
+                                            <li><span style="font-weight:700;"> {!item.weekName} </span> <span style="font-weight:bold;color:grey;margin-left:4px;">({!item.weekstartAndEndText}) </span></li>
+                                            <div>
+                                                <aura:iteration items="{!item.kpiList}" var="ite">
+                                                    <li style="margin:10px;">
+                                                        <span class="{!ite.dynamicClass}">
+                                                            {!ite.count} - {!ite.kPIName}
+                                                        </span>
+                                                    </li>
+                                                </aura:iteration>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </div>
+                    </lightning:tab>
+                </lightning:tabset>
+            </div-->
+            </div>
+            
+        </aura:if>
+        
+        
+        
+        
+        
+        
+        
+        <aura:if isTrue="{!v.isShowDaskDesComp}">
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header slds-float_right">
+                        <div class="slds-float_left">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                                <lightning:icon iconName='action:description' alternativeText='description' size='small' title='description'></lightning:icon> Task Details</h2>
+                        </div>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <c:showTaskDescription SelectVisitAccountId="{!v.SelectVisitAccountId}" title="{!v.title}"></c:showTaskDescription>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <div class="slds-align_absolute-center">
+                            <lightning:button class="green"
+                                              variant="success"
+                                              label="Cancel"
+                                              title="Cancel"
+                                              onclick="{! c.closeModel }"/>
+                            
+                        </div>   
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

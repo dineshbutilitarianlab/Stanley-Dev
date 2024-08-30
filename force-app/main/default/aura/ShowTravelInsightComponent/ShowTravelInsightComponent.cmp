@@ -1,0 +1,32 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="Scheduler_Insight_MonthYear_handler">
+    <aura:attribute name="ShowToCreateMonthlyBeatPlan" type="Boolean" default="false"/>
+    <aura:handler name="sampleCmpEvent" event="c:SampleComponentEvent" action="{!c.parentComponentEvent}"/>
+    <aura:attribute name="selectedMonthNumber" type="Integer" />
+    <aura:attribute name="selectedMonth" type="String" />
+    <aura:attribute name="selectedYear" type="String" />
+    <aura:registerEvent name="travelTableDataEvent" type="c:travelTableDataEvent" />
+    
+  <aura:attribute name="MonthlyBeatPlanDataList" type="Object"/>
+    <aura:attribute name="approvalDetails" type="object" />
+    <aura:attribute name="userName" type="String" />
+    <aura:attribute name="dataList" type="List"/>
+    
+    <div style="" class="MainComponCard">
+        <div class="slds-col slds-size_12-of-12">
+            <c:TravelInsightsDayBarComponent/>
+        </div>
+        <aura:if isTrue="{!not(v.ShowToCreateMonthlyBeatPlan)}">
+            <div style="">
+                <c:TravelInsightsComponent MonthlyBeatPlanDataList="{!v.MonthlyBeatPlanDataList}" userName="{!v.userName}"/>
+            </div>
+            <div class="slds-col slds-size_12-of-12" style="margin-top:10px;">
+                <c:TravelDayVisitPlanDataTable selectedMonth="{!v.selectedMonth}" selectedYear="{!v.selectedYear}"/>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.ShowToCreateMonthlyBeatPlan}">
+            <div style="margin-top:1%; margin-left:1.5%; margin-right:1%">
+                <c:TravelInsightNoRecordPage />
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

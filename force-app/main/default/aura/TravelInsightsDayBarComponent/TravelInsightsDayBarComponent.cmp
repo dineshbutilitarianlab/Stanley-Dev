@@ -1,0 +1,60 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="MonthList" type="List" default=""/>
+    <aura:attribute name="CurrentMonthName" type="String" default=""/>
+    <aura:attribute name="FirstMonth" type="String" default=""/>
+    <aura:attribute name="LastMonth" type="String" default=""/>
+    <aura:attribute name="MonthListToShow" type="List" />
+    <aura:attribute name="MonthListToShowMobile" type="List" />
+    <aura:attribute name="disableNext" type="Boolean"></aura:attribute>
+    <aura:attribute name="disablePrev" type="Boolean" default="true"></aura:attribute>
+    <aura:registerEvent name="sampleCmpEvent" type="c:SampleComponentEvent" />
+    
+    <div class="maincard">
+        <div class="slds-grid slds-wrap slds-col slds-size_8-of-12 slds-align_absolute-center" style="padding-top:10px;padding-bottom:10px;">
+            
+        <div class="slds-grid dateBar" >
+        
+        <!-- Previes Button -->
+        <!--lightning:buttonIcon class="previousButton" iconName="utility:left"  variant="border-filled" size="large" aura:id="prevBtn" alternativeText="left"
+                              title="Previous" onclick="{!c.handlePrevClicked}"/-->
+        <lightning:button class="mobileAlignPrev" iconName="utility:back" aura:id="prevBtn"  variant='inverse'
+                          title="Previous" onclick="{!c.handlePrevClicked}"/>
+        
+        <!-- Date Bar -->
+        <div class="slds-align_absolute-center desktopDayBar">
+            <aura:iteration items="{!v.MonthListToShow}" var="dateObj">
+                <aura:if isTrue="{!dateObj.colormatch}">
+                    <lightning:button class="monthBtnBox" variant="brand" label="{!dateObj.month}"  title="Brand action" value="{!dateObj.month}" onclick="{! c.handleClick }" />
+                    <aura:set attribute="else">
+                        <lightning:button class="monthBtnBox" variant="Neutral" label="{!dateObj.month}"  title="Brand action" value="{!dateObj.month}" onclick="{! c.handleClick }" />
+                    </aura:set>
+                </aura:if>
+            </aura:iteration>
+        </div>
+        
+        <div class="slds-align_absolute-center mobileDayBar">
+            <aura:iteration items="{!v.MonthListToShow}" var="dateObj">
+                <div class="twoMonthDisplayDiv">
+                <aura:if isTrue="{!dateObj.colormatch}">
+                    <lightning:button variant="brand" label="{!dateObj.month}"  title="Brand action" value="{!dateObj.month}" onclick="{! c.handleClick }" />
+                    <aura:set attribute="else">
+                        <lightning:button variant="Neutral" label="{!dateObj.month}"  title="Brand action" value="{!dateObj.month}" onclick="{! c.handleClick }" />
+                    </aura:set>
+                </aura:if>
+                </div>
+            </aura:iteration>
+        </div>
+        
+        <!-- Next Button -->
+        <!--lightning:buttonIcon  iconName="utility:right"  variant="border-filled" size="large" aura:id="nextBtn" alternativeText="right"
+                              title="Next" onclick="{!c.handleNextClicked}" disabled="{!v.disableNext}"/-->
+        <lightning:button class="mobileAlignNext"  iconName="utility:forward" variant='inverse' aura:id="nextBtn"
+                          title="Next" onclick="{!c.handleNextClicked}" disabled="{!v.disableNext}"/>
+    </div>
+        </div>
+
+        </div>
+    
+    
+</aura:component>

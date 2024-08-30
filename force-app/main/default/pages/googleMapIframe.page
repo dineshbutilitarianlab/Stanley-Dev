@@ -1,0 +1,55 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false"
+           applyBodyTag="false" docType="html-5.0" >
+    <html>
+        <head>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAki1KNhw8H36mkjnT_BBsJyX-dsV3hmnA"></script>            
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+            <script type="text/javascript">
+            debugger; 
+            window.addEventListener( "message", function(event) {
+                debugger;
+                console.log('Origin '+ event.origin);
+                console.log( 'data '+ event.data);
+                var streetaddress = null; //event.data.accAddress;
+                var currentlocation = null; //event.data.currentAddress;
+
+                if(streetaddress == undefined || streetaddress == null) {
+                    streetaddress = event.data.accAddress;
+                }
+                if(currentlocation == undefined || currentlocation == null) {
+                    currentlocation = event.data.currentAddress;
+                }
+
+                var directionsService = new google.maps.DirectionsService();
+                var directionsDisplay = new google.maps.DirectionsRenderer();
+                directionsDisplay.setMap(map);
+                var request = {
+                    origin: currentlocation,
+                    destination: streetaddress,
+                    travelMode: google.maps.DirectionsTravelMode.DRIVING
+                };
+                directionsService.route(request, function(response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                    }
+                });                
+            });
+            var map;
+            $(document).ready(function() {
+                debugger;
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: { lat: 12.891530, lng: 77.594078 },
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+            });
+            </script>
+        </head>
+        <body>
+            <div style="width: 100%;height: 100%" id="mapDiv">
+                <div id="map" style="width: 100%; height: 650px; float: left;margin:Opx;color:black;">
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

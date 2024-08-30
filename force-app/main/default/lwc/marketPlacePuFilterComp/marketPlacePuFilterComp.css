@@ -1,0 +1,13 @@
+:host {
+    --slds-c-accordion-heading-text-color: skyblue;
+	
+}
+
+.rcorners1 {
+  border-radius: 10px;
+  background: skyblue;
+  padding: 20px; 
+  width: 100%;
+  height: 70px;
+  font-size: 20px;
+}

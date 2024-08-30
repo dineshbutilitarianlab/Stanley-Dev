@@ -1,0 +1,11 @@
+.slds-modal__container{
+    width: 60% !important;
+    max-width: 60% !important;
+    max-height: 70% !important;
+}
+
+.custom-thead {
+    border: 2px solid #6CA1E9; /* Add the desired border style */
+    background-color: skyblue; /* Optional: Add background color for the header */
+    color: white; /* Set the font color to a contrasting color (e.g., white) */
+}

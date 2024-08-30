@@ -1,0 +1,86 @@
+@media (max-width:820px){
+    .THIS .mobileCard{
+        min-width: 59%;
+        margin-right: -8%;
+        margin-bottom: 2%;
+    } 
+    
+     .THIS .boxcontaner{
+       margin-left: 11%;
+    }
+    
+    .THIS .slds-card{
+        min-height:8.3rem;
+    }
+    
+    .THIS .slds-wrap{
+        width:20rem;
+    }
+    
+    .THIS .cardDescription{
+        text-align: center; 
+        color: white; 
+        font-size: 150%; 
+        font-weight: 500;
+    }
+    .THIS .cardTitle{
+        text-align: center; 
+        font-weight: 650; 
+        font-size:100%;
+    }
+    .THIS.h2Style{
+        color: #0158A5;
+        font-family: revert; 
+        font-size: 120%; 
+        font-weight: 550; 
+        margin-bottom:2%;
+    }
+}
+
+@media (min-width:820px) AND (max-width : 1680px){
+    .THIS .mobileCard{
+      
+        display:flex;
+    }
+    .THIS .cardDescription{
+        text-align: center; 
+        color: white; 
+        font-size: 180%; 
+        font-weight: 550;
+    }
+    .THIS .cardTitle{
+        text-align: center; 
+        font-weight: 650; 
+    }
+    .THIS.h2Style{
+        color: #0158A5;
+        font-family: revert; 
+        font-size: 150%; 
+        font-weight: 550; 
+        margin-bottom:0.4%
+    }
+}
+
+@media (min-width : 1680px){
+     .THIS .mobileCard{
+      
+        display:flex;
+    }
+    .THIS .cardDescription{
+        text-align: center; 
+        color: white; 
+        font-size: 180%; 
+        font-weight: 550;
+    }
+    .THIS .cardTitle{
+        text-align: center; 
+        font-weight: 650; 
+    }
+    .THIS.h2Style{
+        color: #0158A5;
+        font-family: revert; 
+        font-size: 150%; 
+        font-weight: 550; 
+        margin-bottom:0.4%
+    }
+}

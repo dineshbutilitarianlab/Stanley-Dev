@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="ClientSummary_Handler">
+    
+    <aura:attribute name="cardData" type="List" />
+    <!-- You can add more attributes if required -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <h2 class="h2Style">Client Summary</h2>
+        <div class="slds-grid slds-wrap boxcontaner slds-gutters slds-size_12-of-12">
+            <aura:iteration items="{!v.cardData}" var="card">
+        
+            <div class="slds-col mobileCard" >
+                <!-- Card markup -->
+                <div class="slds-card " style="width: -webkit-fill-available;">
+                    <header class="slds-card__header" >
+                        <h2 class="slds-text-heading_small cardTitle" style="">{!card.Title}</h2>
+                    </header>
+                    <div class="slds-card__body">
+                        <!-- Add other content for the card -->
+                        <div  style="{!'background-color: ' + card.cl + '; padding: ' + card.Padding + '; width: '+card.wi+'; padding:left: '+card.hi+'; margin-left: '+card.ml+'; border-radius: '+card.br+';margin-right: '+card.mr+';'}">
+                            <div style="" class="cardDescription">{!card.Description}</div>
+                        </div>
+                    </div>
+                    <footer class="slds-card__header" >
+                        <div onclick="{!c.getrecord}">
+                            <h2 data-id="{!card.listviewId}" class="slds-text-heading_small" style="text-align: center; color: #0088FE; text-decoration: underline ">{!card.View}</h2>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </aura:iteration>
+        </div>
+    
+</aura:component>

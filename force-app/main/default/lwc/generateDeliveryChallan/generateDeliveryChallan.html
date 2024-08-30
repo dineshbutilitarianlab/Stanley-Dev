@@ -1,0 +1,15 @@
+<template>
+    <lightning-quick-action-panel header="Delivery Challan">
+        
+        <div>
+           <iframe src={urlUsed} width="100%" height="700" style="border:none;">
+           </iframe>
+         </div>
+
+<br/>
+        <div class="modal-footer slds-align_absolute-center">
+                <lightning-button variant="brand" label="Save" onclick={savePDF}></lightning-button> &nbsp;&nbsp;
+                <lightning-button variant="brand" label="Cancel" onclick={closeAction}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

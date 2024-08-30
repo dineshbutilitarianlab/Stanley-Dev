@@ -1,0 +1,187 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" controller="BeatPlannerHelper">
+    
+    <!--aura:handler  name="init" value="{!this}" action="{!c.doinit}"/-->
+    <aura:attribute name="ShowToCreateMonthlyBeatPlan" type="Boolean" default="false"/>
+    <!--aura:handler name="sampleCmpEvent" event="c:SampleComponentEvent" action="{!c.parentComponentEvent}"/-->
+    <aura:attribute name="Weeklybp" type="Monthly_Beat_Plan__c[]" />
+    <aura:attribute name="selectedMonth" type="String" />
+    <aura:attribute name="selectedYear" type="String" />
+    <aura:attribute name="userName" type="String" />
+    <aura:attribute name="month" type="String" />
+    <aura:attribute name="mbpName" type="String" />
+    <aura:attribute name="mbpStatus" type="String" />
+    <aura:attribute name="ShowdetailsMonthlyBeatPlan" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="string"/>
+    <aura:attribute name="showApprovedCal" type="Boolean" default="false"/>
+    <aura:attribute name="showUnapprovedCal" type="Boolean" default="false"/>
+    
+    
+    
+    <aura:html tag="style">
+        .header {
+        background: linear-gradient(to right, #6CA1E9, #DFB5FF);
+        color: #fff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .header h1 {
+        margin: 0;
+        padding: 0;
+        }
+        .top-button {
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        }
+        .details {
+        background-color:#f2f2f2;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .details img {
+        max-width: 100px;
+        margin-right: 20px;
+        }
+        .details p {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        display: flex;
+        }
+        .leftSidebutton span{
+        background-color: #fff;
+        color: #007bff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin:12px;
+        }        
+        .left {
+        width: 30%;
+        height:73vh; /* Set a fixed height */
+        max-height: 78vh; /* Set the maximum height to 70% of the parent container's height */
+        background-color: #f2f2f2;
+        padding: 20px;
+        overflow: auto;
+        margin:-2% 0px 0px 0px;
+        }
+        .left::-webkit-scrollbar {
+        width: 0; /* Hide the scrollbar */
+        }
+        .right {
+        width: 70%;
+        height:73vh; /* Set a fixed height */
+        max-height: 78vh; 
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        }
+        .box {
+        margin-left:-14px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        }
+        .box h3{
+        font-weight: bold;
+        }
+        
+        .boxButtons{
+        
+        }
+        .box-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 10px;
+        }
+        .box-buttons button {
+        margin-left: 1px;
+        }
+        .button-light-green {
+        background-color: #6BBD6E; /* Light green */
+        color: #ffffff; /* Darker text color for light green button */
+        border-radius: 6px;
+        }
+        .button-light-blue {
+        background-color: #1589EE; /* Light blue */
+        color: #ffffff; /* Darker text color for light blue button */
+        border-radius: 6px;
+        }
+        .button-light-red {
+        background-color: #F2678D; /* Light red */
+        color: #ffffff; /* Darker text color for light red button */
+        border-radius: 6px;
+        }
+        .calendar-container {
+        width: 100%;
+        height: 100%; /* Make the calendar container fill the entire right div */
+        overflow: hidden; /* Hide any overflow content */
+        }
+        .calendar-iframe {
+        width: 100%;
+        height: 100%; /* Make the iframe fill the entire calendar container */
+        border: none; /* Remove border */
+        }
+    </aura:html>
+    <div style="background-color:#ffffff;height:98vh;">
+        <h2 style="color: #0158A5; font-family:revert;font-size:150%;font-weight:550;margin-left:8%;">Beat Planner</h2>
+        <div class="slds-align_absolute-center">
+            <!--c:MonthlyContainer></c:MonthlyContainer-->
+        </div>
+        <aura:if isTrue="{!v.ShowToCreateMonthlyBeatPlan}">
+            <div style="margin-top:1%;">
+                <c:showToCreateMonthlyBeatPlan selectedMonthNumber="{!v.selectedMonthNumber}"/>
+            </div>
+            
+        </aura:if><br/>
+        <aura:if isTrue="{!v.Weeklybp.length>0}">
+            <div style="height: 100vh;max-width: 2000px; margin: 0 auto;">
+                <aura:iteration items="{!v.Weeklybp}" var="a"></aura:iteration>
+                <div class="header">
+                    <div>
+                        <h1 style="margin-bottom:2rem;margin-left:1.9%;font-size:30px;" class="Mainheading">{!v.month}-{!v.mbpName}- Ajeet Kumar</h1>
+                        <div class="leftSidebutton">
+                            <span>Site Visti 12</span>
+                            <span>CP vsist 8</span>
+                            <span>New Patner 9</span>
+                            <span>Other KPI 16</span>
+                        </div>
+                    </div>
+                    <div>
+                        <aura:if isTrue="{!v.mbpStatus=='Approved'}">
+                            <span class="top-button">{!v.mbpStatus}</span>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.mbpStatus=='Draft'}">
+                                  <a class="top-button" Id="{!v.recordId}"  onclick="{!c.sendForApp}" iconName='standard:approval'>{!v.mbpStatus}
+                                    </a>
+                                    <aura:set attribute="else">
+                                    	<span class="top-button">{!v.mbpStatus}</span>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if> 
+                    </div>
+                </div>
+                <div>
+                    <aura:if isTrue="{!v.showApprovedCal}">
+                        <c:fullcalanderComp month="{!v.selectedMonth}" year="{!v.selectedYear}" aura:id="childComp"/>
+                    </aura:if> 
+                    <aura:if isTrue="{!v.showUnapprovedCal}">
+                        <c:MonthlyBeanPlanCalnder month="{!v.selectedMonth}" year="{!v.selectedYear}" aura:id="chilcally"/>
+                    </aura:if>>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

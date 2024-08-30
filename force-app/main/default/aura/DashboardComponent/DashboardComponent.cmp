@@ -1,0 +1,80 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="showtabOne" type="boolean" default="true"/>  
+    <aura:attribute name="showtabTwo" type="boolean" default="false"/>  
+    <aura:attribute name="showtabthree" type="boolean" default="false"/>  
+    <aura:attribute name="showtabfour" type="boolean" default="false"/>
+    <aura:attribute name="showtabfive" type="boolean" default="false"/>
+
+    <div Style="" class="background">
+        <lightning:layout class="container " multipleRows="true" >
+            
+            <div class="slds-grid slds-wrap slds-size_12-of-12">
+                
+                <div class="cont slds-m-top_large">
+                    <div class="mobileTabsContainer">
+                        <div class="mobileTab">
+                            <lightning:button aura:id="box1" variant="bare"  label="Dashboard"  iconName="utility:home" onclick="{!c.ShowFirsttab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabOne == true ? 'selTab' : '')}" />
+                        </div>
+                        <div class="mobileTab">
+                            <lightning:button aura:id="box2" variant="bare"  label="Today's Task"  iconName="utility:list" onclick="{!c.ShowSecondtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabTwo == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="mobileTab">
+                            <lightning:button aura:id="box3" variant="bare"  label="Beat Planner"  iconName="utility:event" onclick="{!c.Showthirdtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabthree == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="mobileTab">
+                            <lightning:button aura:id="box4" variant="bare"  label="Scheduler Insights"  iconName="utility:edit_form" onclick="{!c.Showfourtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabfour == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="mobileTab">
+                            <lightning:button aura:id="box5" variant="bare"  label="Travel Insights"  iconName="utility:checkin" onclick="{!c.Showfivetab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabfive == true ? 'selTab' : '')}"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-col slds-size_2-of-12">
+                    <div class="sidenav">
+                        <div class="slds-align_absolute-left slds-m-top_small slds-text-heading_large slds-m-left_small"  style="margin-bottom:0%;"  >
+                            <!--img src="{!$Resource.LeadhubLogo}"  / -->
+                        </div><br/> 
+                        <div class="   slds-p-bottom_x-small   slds-p-left_x-small " style="margin-top:2%"  >
+                            <lightning:button aura:id="box1" variant="bare"  label="Dashboard"  iconName="utility:home" onclick="{!c.ShowFirsttab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabOne == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="   slds-p-bottom_x-small   slds-p-left_x-small "   >
+                            <lightning:button aura:id="box2" variant="bare"  label="Today's Task"  iconName="utility:list" onclick="{!c.ShowSecondtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabTwo == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="   slds-p-bottom_x-small   slds-p-left_x-small "   >
+                            <lightning:button aura:id="box3" variant="bare"  label="Beat Planner"  iconName="utility:event" onclick="{!c.Showthirdtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabthree == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="   slds-p-bottom_x-small   slds-p-left_x-small "   >
+                            <lightning:button aura:id="box4" variant="bare"  label="Scheduler Insights"  iconName="utility:edit_form" onclick="{!c.Showfourtab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabfour == true ? 'selTab' : '')}"/>
+                        </div>
+                        <div class="   slds-p-bottom_x-small   slds-p-left_x-small "   >
+                            <lightning:button aura:id="box5" variant="bare"  label="Travel Insights"  iconName="utility:checkin" onclick="{!c.Showfivetab}" class="{!'custom-button1 slds-p-left_medium ' + (v.showtabfive == true ? 'selTab' : '')}"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-col slds-size_10-of-12">
+                    <aura:if isTrue="{!v.showtabOne}">
+                        <c:ShowAssignedAreaComponent/>
+                    </aura:if> 
+                    <aura:if isTrue="{!v.showtabTwo}">
+                        <c:todayTask/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.showtabthree}">
+                        <c:NewBeatPlanner/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.showtabfour}">
+                        <c:ShowSchedulerInsightsComponent/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.showtabfive}">
+                        <c:ShowTravelInsightComponent/>
+                    </aura:if>
+                </div>
+
+            </div>
+            
+        </lightning:layout>
+    </div>
+    
+</aura:component>

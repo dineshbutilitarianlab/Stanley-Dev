@@ -1,0 +1,146 @@
+<apex:page applyHtmlTag="false" standardStylesheets="false"  docType="html-5.0" showHeader="false" renderAs="pdf" standardController="Quote" sidebar="false" extensions="ProductController">
+    <html>
+        <head>
+            <style>
+                @page {
+                size: landscape;
+                margin-left: 0.2cm;
+                margin-right: 0.2cm;
+                margin-top: 0.1cm;
+                margin-bottom: 0.1cm;
+                }
+                td {
+                border: 1px solid black;
+                padding: 5px;
+                font-family: sans-serif;
+                font-size: 12px;
+                text-align: center;
+                }
+                
+                th {
+                border: 1px solid black;
+                padding: 5px;
+                text-align: center;
+                font-family: sans-serif;
+                font-size: 12px;
+                }
+                
+                .header {
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+                font-family: sans-serif;
+                }
+            </style>
+            
+        </head>
+        
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr>
+                <td style="border-bottom:none" >
+                    <div style="width:100%;">
+                        <div style="float:left;">
+                            <img style="width:100px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" />
+                        </div>
+                        <div style="margin-right:15%;text-align: center;">
+                            <div class="header" style="text-decoration: underline;padding:5px;">QUOTATION</div>
+                            <div style="text-align: center;font-size:15px;">STANLEY RETAIL LTD.</div>
+                            <div style="text-align: center;font-size:12px">
+                                No : 16/3,16/4,16/5, Veerasandra Village,Hosur Road, Bangalore - 560100
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+        <table style="width:100%;boxsborder:1px solid black;border-collapse:collapse;">
+            <tr>
+                <td style="width:65%;border-top:none;border-right: none;">
+                    <div style="">
+                        <div style="float:left;text-align:left;">
+                            <div style="text-decoration: underline;">CUSTOMER DETAILS</div>
+                            <div style="font-size:12px;">Client NB Reddy</div>
+                            <div style="font-size:12px;">Bengaluru</div>
+                        </div>
+                    </div>
+                </td>
+                <td style="border: none;" >
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>Quotation Date : </div>
+                        <div>Sales Rep : </div>
+                        <div>Branch : </div>
+                        <div>Contact no : </div>
+                    </div>
+                </td>
+                <td style="border-left: none;border-top:none;" >
+                    <div style="float:left;line-height: 1.5;">
+                        <div>Friday, December 9, 2022</div>
+                        <div style="text-decoration: underline;color:blue;">Sagar/Manavi</div>
+                        <div>Stanley LevelNext Anchor Store</div>
+                        <div style="text-decoration: underline;color:blue;">9972128544</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        
+        
+        
+        
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr >
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">S.No.</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Brand</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Product Name</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Image</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Dimension</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Quantity</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Price Per Unit</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Total Amount</th>
+                <th  style="border:1px solid black;font-size:12px;text-align:center;padding-top:10px;padding-bottom:10px;">Delivery Time</th>
+            </tr>
+            <apex:variable var="cnt" value="{!0}" />
+            <apex:repeat value="{!quoteLineItems}" var="qt">
+                <apex:variable var="cnt" value="{!cnt+1}"/>
+                <tr>           
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;width:5%;text-align:center;"><apex:OutputText value="{!cnt}"/></td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:15%">{!qt.product2.Brand__c}</td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:10%">{!qt.product2.Name}</td>
+                    <td style="border:1px solid black;word-wrap: break-word;word-wrap: break-all;text-align:center;width:20%"><apex:image url="/sfc/servlet.shepherd/version/download/{!qt.Product2.Image__c}" width="100" height="100"/></td>
+                    <td style="border:1px solid black;word-wrap: break-word;word-wrap: break-all;text-align:center;width:20%"><apex:image url="/sfc/servlet.shepherd/version/download/{!qt.Product2.Dimension__c}" width="100" height="100"/></td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:10%">2</td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:20%">1609</td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:5%">1999</td>
+                    <td style="border:1px solid black;word-wrap: break-word;padding:5px;word-wrap: break-all;text-align:center;width:5%">2-3 days</td>
+                </tr>
+            </apex:repeat> 
+        </table>
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr >
+                <td style="text-align: left;background-color: #DCDCDC;">
+                    <div style="padding-top: 10px;padding-bottom: 10px;">
+                        <span style="text-decoration: underline;font-weight:600;">Payment Terms :</span> <span> 100% Advance payment.</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">
+                    <div style="width: 100%;">
+                        <div class="content">
+                            <div style="text-decoration: underline;font-weight:600;">Terms And Conditions:</div>
+                            <ul style="font-size:70%;">
+                                <li>{!termsConditions.Warranty__c}</li>
+                                <li>{!termsConditions.Transit_Insurance_New__c}</li>
+                                <li>{!termsConditions.Tax_and_Duties_new__c}</li>
+                                <li>{!termsConditions.Installation_New__c}</li>
+                                <li>{!termsConditions.Unloading_New__c}</li>
+                                <li>{!termsConditions.Supply_New__c}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </html>
+</apex:page>

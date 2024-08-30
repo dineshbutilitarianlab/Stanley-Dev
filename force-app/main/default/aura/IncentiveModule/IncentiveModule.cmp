@@ -1,0 +1,534 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="IncentiveModule_cntrl">
+    <aura:attribute name="activeSections" type="String" />
+    <aura:attribute name="activeSectionsMessage" type="String" default="" />
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}" />
+    <aura:attribute name="quarterlistRec" type="list" />
+    <aura:attribute name="quarterlistRec1" type="list" />
+    <aura:attribute name="fiscalyearNameRec" type="string" />
+    <aura:attribute name="yearlygoalRecord" type="Yearly_Goal__c" />
+    <aura:attribute name="incentivePercentage" type="Integer" default="50" />
+    <aura:attribute name="goalbifercationReclist" type="list" />
+    <aura:attribute name="recordlist" type="list" />
+    <aura:attribute name="monthlyIncentiveModuleData" type="list" />
+    <aura:attribute name="actualProgress" type="string" />
+    <aura:attribute name="isShowModuleDiv" type="boolean" default="false" />
+    <aura:attribute name="totalincentiveRecived" type="string" />
+    <aura:attribute name="isShowincentivevDiv" type="boolean" default="false" />
+    <aura:attribute name="achivedTarget" type="string" />
+    <aura:attribute name="ShowacheivedDiv" type="boolean" default="false" />
+    <aura:attribute name="selectRecordId" type="string" />
+    <aura:attribute name="totalTarget" type="string" />
+    <aura:attribute name="totalTargetAchieved" type="string" />
+    <aura:attribute name="totalAchievedIncentive" type="string" />
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.selectedLookupChanged}" />
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}" />
+
+    <aura:handler name="sampleCmpEvent" event="c:SampleComponentEvent1" action="{!c.parentComponentEvent}" />
+    <!-- Record Card -->
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-account" title="account">
+                        <span class="slds-assistive-text">account</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <span>
+                                    <a href="javascript:void(0);" class="slds-card__header-link slds-truncate"
+                                        title="Accounts">
+                                        <span style="font-size:20px;">{!v.yearlygoalRecord.User__r.FirstName}&nbsp;
+                                            {!v.yearlygoalRecord.User__r.LastName}</span>
+                                    </a>
+                                </span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <span>
+                                </span>
+                            </div>
+                        </div>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <c:CustomLookup objectName="Fiscal_Year__c" fieldName="Name" label="Fiscal Year"
+                        value="{!v.Fiscal_Year__c.Id}" iconName="standard:account" placeholder="Enter Value"
+                        selectRecordId="{!yearlygoalRecord.Fiscal_Year__c}" />
+                </div>
+
+            </header>
+        </div>
+        <div class=" ">
+            <div>
+                <table class="slds-table  " role="grid">
+                    <thead>
+                        <tr>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Name">Role</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Company">Yearly Target</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Title">Achived Target</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Email">% Achieved</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Email">Total Achieved Incentive</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">
+                                <div class="slds-truncate" title="Amy Choi">
+                                    <a href="javascript:void(0);" tabindex="-1">{!v.yearlygoalRecord.Role__c} </a>
+                                </div>
+                            </th>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="Company One">&#8377; {!v.totalTarget} </div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="Director of Operations">&#8377;
+                                    {!v.totalTargetAchieved}</div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="adam@company.com">
+                                    {!v.yearlygoalRecord.Achieved_Percentage__c}%</div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-truncate" title="adam@company.com">&#8377; {!v.totalAchievedIncentive}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </article>
+
+    <br />
+
+
+
+    <div class="slds-grid slds-gutters" style="width:93%;border-radius:10px;">
+        <div class="slds-col slds-size_9-of-12">
+            <span>
+
+                <!-- Tabs Details Start-->
+                <div style="background-color:white;height:100%;">
+                    <!--p>{! v.activeSectionsMessage }</p-->
+                    <lightning:tabset selectedTabId="one">
+                        <lightning:tab label="Target" id="one">
+                            <div class="slds-p-left_small">
+                                <b>Yearly Target {!v.fiscalyearNameRec}</b><br />
+                                <b style="font-size:15px; color: #1e90ff;">&#8377;{!v.totalTarget}</b><br /><br />
+                                <b>Target Bifurcation</b>
+                            </div>
+
+                            <lightning:accordion onsectiontoggle="{! c.handleSectionToggle }"
+                                activeSectionName="{! v.activeSections }">
+                                <aura:iteration items="{!v.quarterlistRec}" var="quarter">
+                                    <lightning:accordionSection name="{!quarter.Id}" aura:id="accor"
+                                        label="{!quarter.label}">
+
+                                        <table class="slds-table slds-table_bordered slds-table_col-bordered"
+                                            style="width:80%;border-color:white;border-style: solid;">
+                                            <thead>
+                                                <tr style="background-color:#6495ed;">
+                                                    <th style="background-color:#6495ed;color:white;">Product Vertical
+                                                    </th>
+                                                    <th style="background-color: #6495ed;color:white;">Target Order
+                                                        Value(&#8377;)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="background-color:#DCDCDC;">
+                                                <aura:iteration items="{!v.goalbifercationReclist}" var="goal">
+                                                    <tr>
+                                                        <td>{!goal.Target_Type__c}</td>
+                                                        <td>{!goal.Target_Value__c}</td>
+                                                    </tr>
+
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+                                    </lightning:accordionSection>
+                                </aura:iteration>
+                            </lightning:accordion>
+
+                            <!--ul>
+                    <aura:iteration items="{!v.quarterlistRec1}" var="quarter">
+                        <li>
+                            <button variant="base" data-id="{!quarter.Id}" onclick="{!c.getquarterRecordId}">
+                                <option text="{!quarter.Name}"></option>
+                            </button>
+                        </li>
+                        <br/>
+                    </aura:iteration>
+                    <table class="slds-table slds-table_bordered slds-table_col-bordered" style="width:80%;border-color:white;border-style: solid;">
+                        <thead>
+                            <tr style="background-color:#6495ed;">
+                                <th style="background-color:#6495ed;color:white;">Product Vertical</th>
+                                <th style="background-color: #6495ed;color:white;">Target Order Value(&#8377;)</th>
+                            </tr>
+                        </thead>
+                        <tbody  style="background-color:#DCDCDC;">
+                            <aura:iteration items="{!v.goalbifercationReclist}" var="goal">
+                                <tr>
+                                    <td  >{!goal.Target_Type__c}</td>
+                                    <td  >{!goal.Target_Value__c}</td>
+                                </tr>
+                                
+                            </aura:iteration>
+                        </tbody>
+                    </table>  
+                </ul-->
+                        </lightning:tab>
+                        <!-- Tabs Details Start-->
+                        <lightning:tab label="Achievement" id="two">
+                            <div class="slds-p-left_small">
+                                <b>Till Date {!v.fiscalyearNameRec}</b><br />
+                                <b style="font-size:15px; color: #1e90ff;">&#8377;
+                                    {!v.totalTargetAchieved}</b><br /><br />
+                                <b>Achievemennt Bifurcation</b>
+                            </div>
+                            <lightning:accordion onsectiontoggle="{! c.handleSectionToggle1 }"
+                                activeSectionName="{! v.activeSections }" class="custom-accordion">
+
+                                <aura:iteration items="{!v.quarterlistRec}" var="quarter">
+                                    <lightning:accordionSection name="{!quarter.Id}" aura:id="accor"
+                                        label="{!quarter.label}">
+
+                                        <table class="slds-table slds-table_bordered slds-table_col-bordered"
+                                            style="width:80%;border-color:white;border-style: solid;">
+                                            <thead>
+                                                <tr style="background-color:#6495ed;">
+                                                    <th style="background-color:#6495ed;color:white;">Product Vertical
+                                                    </th>
+                                                    <th style="background-color: #6495ed;color:white;">Closed Order
+                                                        Value(&#8377;)</th>
+                                                    <th style="background-color: #6495ed;color:white;">%Complete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="background-color:#DCDCDC;">
+                                                <aura:iteration items="{!v.goalbifercationReclist}" var="goal">
+                                                    <tr>
+                                                        <td>{!goal.Target_Type__c}</td>
+                                                        <td>{!goal.Achieved_Value__c}</td>
+                                                        <td>{!goal.Achieved_Percentage__c}</td>
+                                                    </tr>
+
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+
+                                    </lightning:accordionSection>
+                                </aura:iteration>
+                            </lightning:accordion>
+
+                            <!--ul>
+                    <aura:iteration items="{!v.quarterlistRec}" var="quarter">
+                        <li>
+                            <button variant="base" data-id="{!quarter.Id}" onclick="{!c.getquarterRecordId1}">
+                                <option text="{!quarter.Name}"></option>
+                            </button>
+                        </li>
+                        <br/>
+                    </aura:iteration>
+                    <table class="slds-table slds-table_bordered slds-table_col-bordered" style="width:80%;border-color:white;border-style: solid;">
+                        <thead>
+                            <tr style="background-color:#6495ed;">
+                                <th style="background-color:#6495ed;color:white;">Product Vertical</th>
+                                <th style="background-color: #6495ed;color:white;">Closed Order Value(&#8377;)</th>
+                                <th style="background-color: #6495ed;color:white;">%Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody  style="background-color:#DCDCDC;">
+                            <aura:iteration items="{!v.goalbifercationReclist}" var="goal">
+                                <tr>
+                                    <td  >{!goal.Target_Type__c}</td>
+                                    <td  >{!goal.Achieved_Value__c}</td>
+                                    <td  >{!goal.Achieved_Percentage__c}</td>
+                                </tr>
+                                
+                            </aura:iteration>
+                        </tbody>
+                    </table>  
+                </ul-->
+                        </lightning:tab>
+
+
+                        <!-- Tabs Details Start-->
+                        <lightning:tab label="Incentive" id="three">
+                            <div class="slds-p-left_small">
+                                <b>Total Incentive received till date</b><br />
+                                <b
+                                    style="font-size:15px; color: #1e90ff;">&#8377;{!v.totalAchievedIncentive}</b><br /><br />
+                                <b>Incentive Bifurcation</b>
+                            </div>
+                            <lightning:accordion onsectiontoggle="{! c.handleSectionToggle11 }"
+                                activeSectionName="{! v.activeSections }">
+
+                                <aura:iteration items="{!v.quarterlistRec}" var="quarter">
+                                    <lightning:accordionSection name="{!quarter.Id}" aura:id="accor"
+                                        label="{!quarter.label}">
+
+                                        <table class="slds-table slds-table_bordered slds-table_col-bordered"
+                                            style="width:80%;border-color:white;border-style: solid;">
+                                            <thead>
+                                                <tr style="background-color:#6495ed;">
+                                                    <th style="background-color:#6495ed;color:white;">Product Vertical
+                                                    </th>
+                                                    <th style="background-color: #6495ed;color:white;">Incentive
+                                                        Slab(&#8377;)</th>
+                                                    <th style="background-color: #6495ed;color:white;">% Incentive
+                                                        Percentage </th>
+                                                    <th style="background-color: #6495ed;color:white;">Incentive
+                                                        Amount(&#8377;)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="background-color:#DCDCDC;">
+                                                <aura:iteration items="{!v.monthlyIncentiveModuleData}" var="MIC">
+                                                    <tr>
+                                                        <td>{!MIC.Target_Type__c}</td>
+                                                        <td>{!MIC.Incentive_Slab__r.Name}</td>
+                                                        <td>{!MIC.Monthly_Incentive__r.Incecntive_Percentage__c}</td>
+                                                        <td>{!MIC.Incentive_Value_For_Slab__c}</td>
+                                                    </tr>
+
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>
+
+                                    </lightning:accordionSection>
+                                </aura:iteration>
+                            </lightning:accordion>
+
+                            <!--ul>
+                    <aura:iteration items="{!v.quarterlistRec}" var="quarter">
+                        <li>
+                            <button variant="base" data-id="{!quarter.Id}" onclick="{!c.getquarterRecordId2}">
+                                <option text="{!quarter.Name}"></option>
+                            </button>
+                        </li>
+                        <br/>
+                    </aura:iteration>
+                    <table class="slds-table slds-table_bordered slds-table_col-bordered" style="width:80%;border-color:white;border-style: solid;">
+                        <thead>
+                            <tr style="background-color:#6495ed;">
+                                <th style="background-color:#6495ed;color:white;">Product Vertical</th>
+                                <th style="background-color: #6495ed;color:white;">Incentive Slab(&#8377;)</th>
+                                <th style="background-color: #6495ed;color:white;">% Incentive Percentage </th>
+                                <th style="background-color: #6495ed;color:white;">Incentive Amount(&#8377;)</th>
+                            </tr>
+                        </thead>
+                        <tbody  style="background-color:#DCDCDC;">
+                            <aura:iteration items="{!v.monthlyIncentiveModuleData}" var="MIC">
+                                <tr>
+                                    <td  >{!MIC.Target_Type__c}</td>
+                                    <td  >{!MIC.Incentive_Slab__r.Name}</td>
+                                    <td  >{!MIC.Incentive_Slab__r}</td>
+                                    <td  >{!MIC.Incentive_Value_For_Slab__c}</td>
+                                </tr>
+                                
+                            </aura:iteration>
+                        </tbody>
+                    </table>  
+                </ul-->
+
+
+
+                        </lightning:tab>
+
+
+
+                        <lightning:tab label="Clawback" id="four">
+                            <div class="slds-p-left_small">
+
+                                <b>Clawback Bifurcation</b>
+                            </div>
+                            <lightning:accordion allowMultipleSectionsOpen="false"
+                                onsectiontoggle="{! c.handleSectionToggle }" activeSectionName="{! v.activeSections }">
+                                <lightning:accordionSection name="A" label="Quarter 1(Apr 2024,May 2024,June 2024)">
+
+                                    <table class="slds-table slds-table_bordered" style="width:80%;">
+                                        <thead>
+                                            <tr style="background-color:#6495ed;">
+                                                <th style="background-color:#6495ed;color:white;">Clawback Period</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback
+                                                    Amouont(&#8377;)</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="background-color:#DCDCDC;">
+                                            <aura:iteration items=" " var="record">
+                                                <tr>
+                                                    <td>Apr</td>
+                                                    <td>&#8377;50K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>May</td>
+                                                    <td>&#8377;60K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jun</td>
+                                                    <td>&#8377;70K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+
+                                            </aura:iteration>
+                                        </tbody>
+                                    </table>
+                                </lightning:accordionSection>
+                                <lightning:accordionSection name="B" label="Quarter 1(Jul 2024,Aug 2024,Sep 2024)">
+                                    <table class="slds-table slds-table_bordered" style="width:80%;">
+                                        <thead>
+                                            <tr style="background-color:#6495ed;">
+                                                <th style="background-color:#6495ed;color:white;">Clawback Period</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback
+                                                    Amouont(&#8377;)</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="background-color:#DCDCDC;">
+                                            <aura:iteration items=" " var="record">
+                                                <tr>
+                                                    <td>Jul</td>
+                                                    <td>&#8377;50K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Aug</td>
+                                                    <td>&#8377;60K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sep</td>
+                                                    <td>&#8377;70K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+
+                                            </aura:iteration>
+                                        </tbody>
+                                    </table>
+                                </lightning:accordionSection>
+                                <lightning:accordionSection name="C" label="Quarter 1(Oct 2024,Nov 2024,Dec 2024)">
+                                    <table class="slds-table slds-table_bordered" style="width:80%;">
+                                        <thead>
+                                            <tr style="background-color:#6495ed;">
+                                                <th style="background-color:#6495ed;color:white;">Clawback Period</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback
+                                                    Amouont(&#8377;)</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="background-color:#DCDCDC;">
+                                            <aura:iteration items=" " var="record">
+                                                <tr>
+                                                    <td>Oct</td>
+                                                    <td>&#8377;50K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nov</td>
+                                                    <td>&#8377;60K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Dec</td>
+                                                    <td>&#8377;70K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+
+                                            </aura:iteration>
+                                        </tbody>
+                                    </table>
+                                </lightning:accordionSection>
+                                <lightning:accordionSection name="D" label="Quarter 1(Jan 2025,Feb 2025,Mar 2025)">
+                                    <table class="slds-table slds-table_bordered" style="width:80%;">
+                                        <thead>
+                                            <tr style="background-color:#6495ed;">
+                                                <th style="background-color:#6495ed;color:white;">Clawback Period</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback
+                                                    Amouont(&#8377;)</th>
+                                                <th style="background-color: #6495ed;color:white;">Clawback Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="background-color:#DCDCDC;">
+                                            <aura:iteration items=" " var="record">
+                                                <tr>
+                                                    <td>Jan</td>
+                                                    <td>&#8377;50K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Feb</td>
+                                                    <td>&#8377;60K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mar</td>
+                                                    <td>&#8377;70K</td>
+                                                    <td>Didn't receive money from client</td>
+                                                </tr>
+
+                                            </aura:iteration>
+                                        </tbody>
+                                    </table>
+                                </lightning:accordionSection>
+                            </lightning:accordion>
+                        </lightning:tab>
+                    </lightning:tabset>
+                </div>
+            </span>
+        </div>
+        <div class="slds-col slds-size_3-of-12">
+            <span>
+                <div class="slds-grid slds-grid_vertical-reverse slds-gutters">
+                    <div class="slds-col">
+                        <span>
+                            <div style="background-color:white;border-radius: 10px;max-width: 1000px;width:136%;">
+                                <aura:if isTrue="{!v.isShowModuleDiv}">
+                                    <c:IncentiveModuleDiv actualProgress="{!v.actualProgress}" />
+                                </aura:if>
+                            </div>
+                        </span>
+                    </div>
+                    <br />
+                    <div class="slds-col">
+                        <span>
+                            <div style="background-color:white;border-radius: 10px;max-width: 1000px;width:136%;">
+                                <aura:if isTrue="{!v.ShowacheivedDiv}">
+                                    <c:IncentiveModule_TotalIncentive actualProgress="{!v.achivedTarget}" />
+                                </aura:if>
+                            </div>
+                        </span>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="slds-col   ">
+                        <span>
+                            <div style="background-color:white;border-radius: 10px;max-width: 1000px;width:136%;">
+                                <aura:if isTrue="{!v.isShowincentivevDiv}">
+                                    <c:IncentiveModule_IncentiveAchieved actualProgress="{!v.totalincentiveRecived}" />
+                                </aura:if>
+
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+
+
+</aura:component>

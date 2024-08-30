@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="dataList" type="List"/>
+    <aura:attribute name="Month" type="String" />
+    <aura:attribute name="Year" type="String" />
+</aura:event>

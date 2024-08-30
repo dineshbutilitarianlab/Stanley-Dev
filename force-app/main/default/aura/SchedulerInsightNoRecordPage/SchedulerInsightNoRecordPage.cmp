@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <div class="slds-grid slds-m-horizontal_medium " style="height: 80px;margin-top:1.5%">
+        <div class="slds-grid slds-gutters slds-size_12-of-12 slds-p-horizontal_small NameBar">
+            <div class="slds-col slds-size_11-of-12 " style="padding-top: 0.8%;">
+                <h2 style=" display: inline; font-size:150%;width:100%;color:white;"><b>No Beat Plan Available</b></h2> <br/>
+            </div>
+        </div>
+        <br/>
+    </div> 
+</aura:component>

@@ -1,0 +1,480 @@
+<apex:page applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+            size: landscape;
+            margin-left: 0.1cm;
+            margin-right: 0.1cm;
+            margin-top: 0.2cm;
+            margin-bottom: 0.1cm;
+            }
+            td {
+            border: 1px solid black;
+            padding: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            text-align: center;
+            }
+            th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 12px;
+            }
+            .content {
+                margin-top: 60px; /* Adjust based on header height */
+                margin-bottom: 60px; /* Adjust based on footer height */
+                padding: 20px;
+            }
+            .header {
+            font-size: 22px;
+            text-align: center;
+            font-family: sans-serif;
+            top:0;
+            }
+            div.subfooter {
+            display: inline-block;
+            }
+            .pagenumber:before {
+            content: counter(page);
+            }
+            .pagecount:before {
+            content: counter(pages);
+            }
+            .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            
+            text-align: center;
+            font-size: 10px;
+            }
+            .new-page {
+            page-break-before: always;
+            margin-left: 0.1cm;
+            margin-right: 0.1cm;
+            margin-top: 1cm;
+            margin-bottom: 0.1cm;
+            }
+            .left-table {
+            width: 68%;
+            float: left;
+            border-collapse: collapse;
+            }
+            .right-table {
+            width: 28%;
+            float: right;
+            border-collapse: collapse;
+            }
+            .clear {
+            clear: both;
+            }
+        </style>
+    </head>
+    <div class="footer" style="margin-left: auto; margin-right: auto;">
+        <div style="page-break-after: auto;font-size:10px">
+            <table style="width:100%;font-size:15px">
+                <tr>
+                    <td style="width:100%;border:1px black solid;border-bottom:hidden;border-left:hidden;border-right:hidden;text-align:center; ">
+                        This is a system generated document.
+                        <div class="subfooter right" style="float:right">Page <span class="pagenumber"/> of <span class="pagecount"/></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="header">
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr>
+                <td style="width:25%;">
+                    <div style="text-align:left;">Customer Name : Century Apartment</div>
+                    <div style="text-align:left;">Phone : 76546723456</div>
+                    <div style="text-align:left;">Email : Test@gmail.com</div>
+                    <div style="text-align:left;">Billing Name : </div>
+                    <div style="text-align:left;">TIN : </div>
+                    <div style="text-align:left;">PAN : </div>
+                </td>
+                <td style="width:10%;">
+                    <div style="">
+                        <img style="width:80px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td colspan="3" >
+                    <div style="text-align:left;">Date : 5/8/2024</div>
+                    <div style="text-align:left;">Reference no : </div>
+                    <div style="text-align:left;">Billing Address : Banglore</div>
+                    <div style="text-align:left;">Shipping Address : Banglore</div>
+                </td>
+            </tr>            
+        </table>
+    </div>
+    <!--Boday contain Start-->
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td colspan="5" Style="background-color:#C0C0C0;">
+                <div style="font-weight: bold;">QUOTATION SUMMARY</div>
+            </td>
+        </tr>
+        <tr Style="background-color:#C0C0C0;">
+            <th style="width:5%;">SL NO.</th>
+            <th>Description</th>
+            <th style="width:10%;">Amount(INR)</th>
+            <th>Image for Reference</th>
+            <th style="width:25%;">Remarks</th>
+        </tr>
+        <tr>
+            <td colspan="5" Style="background-color:#C0C0C0;">
+                <div style="font-weight: bold;">WARDROBE</div>
+            </td>
+        </tr>
+        
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td style="font-weight: bold;">MBR</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td style="text-align:left;">Woodwork (Wardrobe1)</td>
+            <td style="text-align:right;">17,07,641</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Narrow profile with Brown tinted glass </div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr>
+            <td>a</td>
+            <td style="text-align:left;">Accessories to complement woodwork</td>
+            <td style="text-align:right;">54,941</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Organiser,Striplights,Drivers &amp; hanger rod</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td style="text-align:left;">BR-01</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td style="text-align:left;">Woodwork (Wardrobe2)</td>
+            <td style="text-align:right;">11,30,804</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Frassino Brown and rovero meile. </div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr>
+            <td>a</td>
+            <td style="text-align:left;">Accessories to complement woodwork</td>
+            <td style="text-align:right;">45,394</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Organiser,Striplights,Drivers &amp; hanger rod</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td style="text-align:left;">BR-02</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td style="text-align:left;">Woodwork (Wardrobe1)-20'x9'</td>
+            <td style="text-align:right;">9,24,297</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Frassino brown</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr>
+            <td>a</td>
+            <td style="text-align:left;">Accessories to complement woodwork</td>
+            <td style="text-align:right;">15,287</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Organiser,Striplights,Drivers &amp; hanger rod</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td style="text-align:left;">BR-02</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td style="text-align:left;">Woodwork (Wardrobe1)-20'x9'</td>
+            <td style="text-align:right;">11,39,280</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Narrow profile with Clear glass</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr>
+            <td>a</td>
+            <td style="text-align:left;">Accessories to complement woodwork</td>
+            <td style="text-align:right;">45,394</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Organiser,Striplights,Drivers &amp; hanger rod</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td style="text-align:left;">BR-03</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        
+        <tr >
+            <td>5</td>
+            <td style="text-align:left;">Woodwork (Wardrobe1)-20'x9'</td>
+            <td style="text-align:right;">9,24,297</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Narrow profile with Clear glass</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr style="page-break-after: always">
+            <td>a</td>
+            <td style="text-align:left;">Accessories to complement woodwork</td>
+            <td style="text-align:right;">15,287</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Organiser,Striplights,Drivers &amp; hanger rod</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td colspan="5">
+                <div style="font-weight: bold;">DRESSER</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td style="text-align:left;">Wood Work (Dresser- 4no)-3'x8'</td>
+            <td style="text-align:right;">12,57,780</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Melamine</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Melamine</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td colspan="5">
+                <div style="font-weight: bold;">Vanities</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td style="text-align:left;">Wood Work (Vanities - 4no)-4'WX1'3"HX1'6"D</td>
+            <td style="text-align:right;">12,25,968</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;"><span style="font-weight: bold;">Door Finish :</span> Perfect Sense</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Cabinet Finish :</span> Melamine</div>
+                <div style="text-align:left;"><span style="font-weight: bold;">Handle Detail :</span> External Handle</div>
+            </td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td colspan="5">
+                <div style="font-weight: bold;">Planter Box</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>1</td>
+            <td style="text-align:left;">Panter Box set of two- 4 no</td>
+            <td style="text-align:right;">2,03,200</td>
+            <td></td>
+            <td>
+                <div style="text-align:left;">Smooth Stucco finish in a unique </div>
+                <div style="text-align:left;">shape with inside/outside matte polish</div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="background-color:#C0C0C0;">
+            <td></td>
+            <td>Grand Total</td>
+            <td>86,89,569</td>
+            <td></td>
+            <td>*Including GST</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">Terms and conditions:</div>
+                <div style="text-align:left;line-height: 1.3;">
+                    We understand that you would have had a lot of discussions with our designers hence we request you to read and check all the details to ensure that they match with the discussions you have had with us before you give your approval.
+                    This is the final drawing. All previous discussions and drawings stands cancelled and should not be referred to. Changes are not possible once the drawing is approved
+                </div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">1. Payment timeline:</div>
+                <div style="text-align:left;line-height: 1.3;">70% for start of production</div>
+                <div style="text-align:left;line-height: 1.3;">30% for delivery of materials</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">2. Payment details:</div>
+                <div style="text-align:left;line-height: 1.3;">All payment should be drawn in favour of STANLEY RETAIL LIMITED. Payments made are not refundable. Incase of delay in the payments, an interest at the rate of 18% pa will be charged on the outstanding 
+                    amount. Payment mode: Cheque, demand draft, cash, credit card or online transfer.</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">3. Delivery:</div>
+                <div style="text-align:left;line-height: 1.3;">Materials shall be ready for delivery within 60 working days for STANLEY LIFESTYLES LIMITED from the date of order confirmation. Work shall be completed within 15 working days from start of work on 
+                    site. Work on site will commence after completion of all the works as mentioned in the final drawing and after final coat of wall paint. Availability of installation team is on appointment basis. Any deviation in 
+                    civil work with regard to the final drawing provided should be notified to us prior to commencement of production</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">4. Contract details:</div>
+                <div style="text-align:left;line-height: 1.3;">We do not undertake civil works like masonry, plumbing and electrical works. This quote includes designing, installation and delivery within Bangalore. For delivery outside Bangalore, transportation charges, 
+                    insurance of materials, travel, boarding and lodging of the installation team will be at actuals and should be borne by the client. In the event the site is not ready as per the delivery schedules indicated above, free 
+                    storage can be arranged in our warehouse for a period of 15 working days. After which we request you to take delivery and make storage arrangements at your end. Please take adequate measures for the safety of 
+                    delivered materials. Any damages caused during storage or work in progress on site due to water seepage, fire, by other external agencies and theft are not covered under the company warranty and the same shall 
+                    be chargeable to client. Provision / access to electrical points and water at the area of installation to be provided by client. Client to ensure that adequate health and safety measures are provided on site for the 
+                    installation team. There may be colour &amp; grain variation in countertop and in cabinet &amp; shutters. Due to continuous improvement products are subject to change and may vary from items shown. Actual product 
+                    may vary from 3D rendered images shown. No representative of Global Living Emporio has the authority to alter the obligations or limitations of any written terms &amp; conditions. In addition to the cost of 
+                    materials and installation charges, service tax shall be payable as applicable. Any tax, duty, cess or other government instituted levies that may become applicable to any / all the transactions underlying this 
+                    contract shall be payable in addition to the fees charged by us above. This offer is valid for 30 days. Prices quoted may change after final measurements and marking on site.</div>
+            </td>
+        </tr>
+        
+        <tr style="page-break-after: always">
+            <td colspan="5">
+                <div style="text-align:left;font-weight: bold;">5. Approvals</div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:2px solid black;border-collapse:collapse;">
+        <tr style="height:90px;">
+            <td style="width:30%;border:2px solid black;vertical-align: bottom;">
+                <div>DESIGN HEAD</div>
+            </td>
+            <td style="width:20%;border:2px solid black;vertical-align: bottom;">
+                <div >DESIGNER</div>
+            </td>
+            <td style="width:35%;"></td>
+            <td style="width:15%;vertical-align: bottom;">
+                <div>CUSTOMER</div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:2px solid black;border-collapse:collapse;margin-top:3%;">
+        <tr>
+            <td colspan="4">
+                <div style="text-align:left;font-weight: bold;">EXCLUSIONS :</div>
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td colspan="3">
+                <div style="text-align:left;">Civil work - including masonry, electrical and plumbing work</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>2</td>
+            <td colspan="3">
+                <div style="text-align:left;">Copper piping</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>3</td>
+            <td colspan="3">
+                <div style="text-align:left;">False ceiling/ POP work / Duct covering</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>4</td>
+            <td colspan="3">
+                <div style="text-align:left;">Supply and installation of Water purifier</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>5</td>
+            <td colspan="3">
+                <div style="text-align:left;">Supply and installation of Water heater</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>6</td>
+            <td colspan="3">
+                <div style="text-align:left;">Architectural lighting</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>7</td>
+            <td colspan="3">
+                <div style="text-align:left;">Angle cocks, plumbing pipes and connectors</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>8</td>
+            <td colspan="3">
+                <div style="text-align:left;">Painting</div>
+            </td>
+        </tr>
+        
+        <tr>
+            <td>9</td>
+            <td colspan="3">
+                <div style="text-align:left;">Core cutting for chimney duct.</div>
+            </td>
+        </tr>
+    </table>
+    <!--Boday contain End-->
+</apex:page>

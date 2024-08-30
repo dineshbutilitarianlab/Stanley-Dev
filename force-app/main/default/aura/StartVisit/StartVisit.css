@@ -1,0 +1,278 @@
+@media (min-width:820px) AND (max-width:1680px) {
+    .THIS .page-section {
+        border: solid 1px #ccc;
+        padding: 1rem;
+    }
+
+    .THIS .buttonCard {
+        padding-top:1%;
+    }
+
+    .THIS .page-header,
+    .THIS .page-footer {
+        height: 50px;
+        background: #6CA1E9;
+    }
+
+    .THIS .visitMainButtons {
+        float: right;
+        margin-right: 1%;
+        font-size: 12.5px;
+        background-color:#6BBD6E;
+        color:white;
+        margin-bottom: 1%;
+    }
+
+    .THIS .visitMainButtons:disabled {
+        background-color: gray;
+    }
+
+    .THIS .headerStartVisitPage {
+        margin-top: 6%;
+    }
+
+    .THIS .map {
+        position:relative;
+        top:-25%;
+    }
+
+    .THIS .mobileHeader {
+        display :none;
+    }
+
+    .THIS .MobileCard {
+        display :none;
+    }
+
+    .THIS .mapCardMobile {
+        display :none;
+    }
+
+    .THIS .buttonGroupCardMobile {
+        display :none;
+    }
+
+    .THIS .DesktopMapCard {
+        height:700px;
+        width:100%;
+    }
+
+    .THIS .checkinButton {
+        margin-left: 15%;
+    }
+
+    .THIS .checkBox {
+        width:10rem !important;
+    }
+}
+
+@media (min-width:1680px) {
+    .THIS .page-section {
+        border: solid 1px #ccc;
+        padding: 1rem;
+    }
+
+    .THIS .buttonCard {
+        padding-top:1%;
+    }
+
+    .THIS .page-header,
+    .THIS .page-footer {
+        height: 50px;
+        background: #6CA1E9;
+    }
+
+    .THIS .visitMainButtons {
+        float: right;
+        margin-right: 1%;
+        font-size: 12.5px;
+        background-color:#6BBD6E;
+        color:white;
+        margin-bottom: 1%;
+    }
+
+    .THIS .visitMainButtons:disabled {
+        background-color: gray;
+    }
+
+    .THIS .headerStartVisitPage {
+        margin-top: 1%;
+    }
+
+    .THIS .map {
+        position:relative;
+        top:-25%;
+    }
+
+    .THIS .mobileHeader {
+        display :none;
+    }
+
+    .THIS .MobileCard {
+        display :none;
+    }
+
+    .THIS .mapCardMobile {
+        display :none;
+    }
+
+    .THIS .buttonGroupCardMobile {
+        display :none;
+    }
+
+    .THIS .checkinButton {
+        margin-left: 15%;
+    }
+
+    .THIS .checkBox {
+        width:10rem !important;
+    }
+}
+
+@media (max-width:820px) {
+    .THIS .visitMainButtons {
+        font-size: 12.5px;
+        background-color:#6BBD6E;
+        color:white;
+        min-width: 140px;
+    }
+    .THIS .custmFinalVisitUpdateBtn{
+        font-size: 12px;
+    }
+
+    .THIS .visitMainButtons:disabled {
+        background-color: gray;
+    }
+
+    .THIS .visitMainButtonsSecond {
+        font-size: 12.5px;
+        background-color:#6BBD6E;
+        color:white;
+        min-width: 140px;
+    }
+
+    .THIS .visitCheckInButtons {
+        font-size: 12px; 
+        background-color: #6BBD6E;
+        color: white;
+        min-width: 100px;
+        flex: 1;
+        margin: 2px;
+    }
+
+    .THIS .visitCheckInButtons:disabled {
+        background-color: gray;
+    }
+
+    .THIS .DesktopHeader {
+        display: none;
+    }
+
+    .THIS .logMomMobile {
+        width: 84.5% !important;
+        max-width: 84.5% !important;
+        height: 105%;
+    }
+
+    .THIS .logMomDesktop {
+        display: none;
+    }
+
+    .THIS .mobileHeader {
+        margin-right: 17%;
+        padding: 2px 2px 3px 7px;
+        min-width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .THIS .DesktopCard {
+        display: none;
+    }
+
+    .THIS .cardInfo {
+        margin-left: 5%;
+        margin-bottom: 1.5%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+    }
+
+    .THIS .MobileCard {
+        min-width: 100%;
+        margin-top: 3%;
+    }
+
+    .THIS .DesktopMapCard {
+        display: none;
+    }
+
+    .THIS .mapCardMobile {
+        min-width: 101%;
+        margin-top: 2%;
+    }
+
+    .THIS .buttonGroupCardDesktop {
+        display: none;
+    }
+
+    .THIS .buttonGroupCardMobile {
+        margin-top: 2%;
+        min-width: 102%;
+        margin-left: -1%;
+    }
+
+    .THIS .firstbutton {
+        margin-top: 1%;
+        margin-left: 1%;
+        margin-right: 1%;
+        margin-bottom: 1%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .THIS .secondbutton {
+        margin-top: 3%;
+        margin-left: 1%;
+        margin-right: 1%;
+        margin-bottom: 1%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .THIS .dataTableDesktop {
+        display: none;
+    }
+
+    .THIS .bottomdiv {
+        display: none;
+    }
+
+    .THIS .cardmargin {
+        background-color: aliceblue;
+        max-width: 96%;
+        margin-left: 2%;
+    }
+
+    .THIS .dataTableMobile {
+        overflow-y: scroll;
+        max-height: 41vw;
+        display: block;
+    }
+
+    .THIS .oppCreationBox {
+        margin-top: 65%;
+        min-width: 90%;
+        margin-left: 5%;
+    }
+
+    .THIS .checkinButton {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+}

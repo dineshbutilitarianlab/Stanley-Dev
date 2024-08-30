@@ -1,0 +1,177 @@
+.mainDiv {
+    background: rgb(219, 218, 218);
+    padding: 1rem;
+}
+
+.container {}
+
+.filter-input {
+    width: calc(100% - 10px);
+    padding: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.clear-button .slds-button {
+    --sds-c-button-brand-color-background: #3bcf56;
+    --sds-c-button-brand-color-border: #3bcf56;
+    --sds-c-button-brand-color-background-hover: #3bcf56;
+    --sds-c-button-brand-color-border-hover: #3bcf56;
+}
+
+.clear-button {
+    background-color: #388d2d;
+    background: #388d2d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.clear-button:hover {
+    background-color: #388d2d;
+}
+
+.slds-float_left {
+    float: left;
+}
+
+.slds-float_right {
+    float: right;
+}
+
+.slds-table th,
+.slds-table td {
+    padding: 0.5rem;
+}
+
+.slds-table th {
+    text-align: left;
+    background: rgb(115, 194, 243);
+}
+
+.slds-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slds-align-top {
+    align-self: flex-start;
+}
+
+.slds-text-color_error {
+    color: #e74c3c;
+}
+
+.status-new {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: lightblue;
+    color: white;
+}
+
+.status-in-process {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: yellow;
+    color: black;
+}
+
+.status-ready-for-dispatch {
+    border-radius: 30%;
+    padding: 5px;
+    background-color: lightgreen;
+    color: black;
+}
+
+.status-dispatched {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: orange;
+    color: white;
+}
+
+.status-delivered {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: green;
+    color: white;
+}
+
+.status-invoiced {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: rgb(247, 131, 247);
+    color: white;
+}
+
+.status-paid {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: darkgreen;
+    color: white;
+}
+
+.status-closed {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: darkblue;
+    color: white;
+}
+
+.status-returned {
+    border-radius: 15px;
+    padding: 5px 10px;
+    background-color: red;
+    color: white;
+}
+
+.search-input-extended {
+    width: 100%;
+}
+
+.search-input-extended-large {
+    width: 100%;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+}
+
+.pagination-button {
+    background: none;
+    border: none;
+    color: #0070d2;
+    font-size: 1rem;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination-button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-button.active {
+    background: #0070d2;
+    color: white;
+    border-radius: 3px;
+    padding: 0.2rem 0.5rem;
+}
+
+.pagination-button span {
+    font-size: 1.2rem;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Adjust the gap value as needed */
+}
+
+.button-container .clear-button {
+    margin: 0 0.5rem; /* Add margin between buttons */
+}

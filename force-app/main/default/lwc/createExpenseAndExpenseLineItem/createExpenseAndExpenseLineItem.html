@@ -1,0 +1,65 @@
+<template>
+
+    <div>
+        <header class="slds-modal__header">
+            <p>Create Expense And Expense Line Items</p>
+        </header>
+
+        <template if:true={expenseItems.length}>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead class="theadhead">
+                    <tr class="slds-line-height_reset">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Name" style="text-align:left;margin-left:20px;">Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Actual Budget">Actual Budget</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Total Budget">Total Budget</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={expenseItems} for:item="item">
+                        <tr key={item.Id}>
+                            <td class="slds-truncate">
+                                <div style="margin-left:20px;font-weight: 600;font-size: 15px;font-family: system-ui;">
+                                    {item.Expense_Line_Item_Type__c}</div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+
+                                    <lightning-input type="text" variant="standard" name="Actual_Budget__c"
+                                        value={item.Actual_Budget__c} data-id={item.Id} onchange={handleChange}>
+                                    </lightning-input>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+                                    <div>{item.Total_Budget__c}</div>
+                                    <!-- <lightning-input 
+                                        type="text" 
+                                        variant="standard" 
+                                        name="Total_Budget__c" 
+                                        value={item.Total_Budget__c} 
+                                        data-id={item.Id} 
+                                        onchange={handleChange}>
+                                    </lightning-input> -->
+
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <div style="margin-left:45%; margin-top:2%;margin-bottom:2%;">
+            <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+            <button class="slds-button slds-button_brand" onclick={handleSubmit}>Save</button>
+        </div>
+        <template if:false={expenseItems.length}>
+            <p>No expense items found.</p>
+        </template>
+    </div>
+</template>

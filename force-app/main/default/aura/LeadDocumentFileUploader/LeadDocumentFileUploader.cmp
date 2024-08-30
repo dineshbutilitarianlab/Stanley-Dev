@@ -1,0 +1,56 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="LeadDocumentFileHelper" >
+    <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->  
+    <aura:attribute name="parentId" type="String" />
+    <aura:attribute name="selectedDocumentId" type="String" />
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="isPDF" type="Boolean" default="true"/>
+    <aura:attribute name="operationType" type="String" />
+    <aura:attribute name="optionList" type="String[]" />
+    
+    <aura:attribute name="docType" type="String" default=""/>
+    <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->  
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <!-- Lightning Input with file type and on file change call the 'handleFilesChange' controller --> 
+    <aura:attribute name="otherFileName" type="String" default=""/>
+    <aura:attribute name="showFileUpload" type="Boolean" default="true"/>
+    
+    <aura:if isTrue="{!v.showFileUpload}">
+        <div class="slds-form-element slds-p-around_small" style="font-family: Noto Sans,Helvetica,sans-serif;font-size: medium;background: lightcyan;">
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container" style="height: auto;">
+                    
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModel}">
+                            X
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="header99" class="slds-text-heading--medium">𝐔𝐩𝐥𝐨𝐚𝐝 𝐅𝐢𝐥𝐞𝐬</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium" style="font-family: Noto Sans,Helvetica,sans-serif;font-size: 1.2rem;font-weight: bolder;">
+                        <aura:if isTrue="{!v.docType =='Others'}">
+                            <lightning:input  label="Enter File Name"  value="{!v.otherFileName}"  />
+                        </aura:if>                           
+                        <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" label="Upload Attachment" multiple="false"/>
+                        <div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+                        <aura:if isTrue="{!v.showLoadingSpinner}">
+                            <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                                <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+                            </div>
+                        </aura:if>
+                        <br/>
+                        <center>
+                            <button class="slds-button slds-button_brand" onclick="{!c.doSave}">Submit</button>
+                        </center>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div> 
+            
+        </div>
+        
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,629 @@
+<apex:page sidebar="false" showHeader="false" controller="StartVisitController">
+    <apex:includeLightning />
+    <html ng-app="startVisit">
+        <script src="/sforce/one/30.0/api.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
+        <head>
+            <apex:slds /> 
+            <c:scriptComponent />
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <script>
+            debugger;
+            var accDetails = '{!accDetails}';
+            var userName='{!userName}';
+            var vstId = '{!visitId}';
+            var accId = '{!accId}'
+            var userId = '{!userId}';
+            var nextLocationList = '';
+            var visitRecord = JSON.parse('{!visitRecord}');
+
+            console.log("VisitRecord------",visitRecord);
+            </script>
+            <script src="{!$Resource.StartVisit}">
+                </script>
+            
+            <style>
+                .slds-scope .slds-media__figure{
+                	cursor:pointer;
+                }
+                body{
+                	font-size:1.6rem !important;
+                }
+                #visitMap {
+                height: 300px;
+                }
+                .pbtn{
+                background:#f7941d !important;
+                }
+                .pheader{
+                background: #073e5f ! important;
+                }
+                @media screen and (max-width: 800px) 
+                {
+                	.slds-scope .slds-size_6-of-12, .slds-scope .slds-size--6-of-12{
+                		width:100%;
+                	}
+                	.right-box-margin{
+                		margin-top:2%;
+                	}
+                }
+                body{
+                	overflow-x:hidden;
+                }
+                .options-main{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                column-count: 2;
+                align-content: space-between;
+                padding: 5px;
+                }
+                .options-actions{
+                    display: block;
+                width: fit-content;
+                }
+                
+                @media only screen and (max-width:400px){
+                	.buttons400{
+                		width:48%;
+                		margin: 2px !important;
+                	}
+                }
+                button:disabled {
+                    background:gray !important;
+                }
+
+                .slds-form-element__static {
+                    font-size: 1.2rem !important;
+                }
+            </style>
+        </head>
+        <body class="slds-scope" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-controller="startvisitController">
+           
+            <div class="slds-page-header slds-p-top_xx-small slds-p-bottom_x-small pheader">
+                <div class="slds-page-header__row ">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-account" title="Back To Userpage">
+                                    <svg class="slds-icon slds-icon_medium pheader" aria-hidden="true" ng-click="BackTouserDetails();">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#back')}"></use>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="slds-media__body slds-align_absolute-center">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span style="color:white">Visit Detail</span>
+                                            <span class="slds-page-header__title slds-truncate" style="color:white" title="Recently Viewed">{{userName}}</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                
+            </div>
+            
+            <div class="slds-grid slds-wrap slds-gutters slds-p-top_small slds-card_boundary">
+                <div class="slds-col slds-size_6-of-12 ">
+                    <article class="slds-card">
+                        <div class="slds-card__header slds-grid pheader" >
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title slds-p-top_xxx-small slds-p-bottom_small">
+                                        <span class="slds-text-heading_medium" style="color:white">Customer Name</span>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner slds-grid slds-wrap">
+                            <div class="slds-col slds-size_2-of-3">
+                                <div class="slds-form-element slds-form-element_readonly">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Customer Name :</b> {{accDetails.Name}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control" ng-show="accDetails.Account_Type__c">
+                                        <div class="slds-form-element__static"><b>Customer Type :</b> {{accDetails.Account_Type__c}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Industry :</b> {{accDetails.Industry}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Website :</b> {{accDetails.Website}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Contact :</b> {{accDetails.Phone}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">
+                                            <b>Email :</b> {{accDetails.Email__c?accDetails.Email__c:accDetails.Email}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control" ng-show="accDetails.Outstanding_Balance__c">
+                                        <div class="slds-form-element__static">
+                                            <b>Outstanding Balance :</b> <span ng-if="accDetails.Outstanding_Balance__c != null">{{accDetails.Outstanding_Balance__c}} /-</span><span ng-if="accDetails.Outstanding_Balance__c == null">0 /-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </article>
+                </div>
+                <div class="slds-col slds-size_6-of-12  right-box-margin">
+                    <article class="slds-card">
+                        <div class="slds-card__header slds-grid pheader">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title slds-p-top_xxx-small slds-p-bottom_small">
+                                        <span class="slds-text-heading_medium" style="color:white">Visit Details</span>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner slds-grid slds-wrap">
+                            <div class="slds-col slds-size_2-of-3">
+                                <div class="slds-form-element slds-form-element_readonly">
+                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b> Status :</b> {{visitDetails.Status__c}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Visit Number :</b> {{visitDetails.Name}}</div>
+                                    </div>
+                                    <!-- <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Company Industry :</b> {{accDetails.Industry}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Email :</b> {{accDetails.Website}}</div>
+                                    </div>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static"><b>Contact :</b> {{accDetails.Phone}}</div>
+                                    </div> -->
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </article>
+                </div>
+            </div>
+            <div class="slds-grid slds-size_8-of-8 slds-p-top_medium slds-m-top_medium slds-align_absolute-center options-main">
+                <button class="slds-button slds-p-around_medium slds-button_brand pbtn options-actions buttons400" ng-disabled="disableCheckin" ng-click="checkIn();">Check In</button>
+                <button class="slds-button slds-p-around_medium slds-button_brand pbtn options-actions buttons400" ng-disabled="disableCheckout" ng-click="checkOut();">Check Out</button>
+                <!-- <button class="slds-button slds-button_brand pbtn options-actions buttons400" ng-click="newPayment();">Create Payment</button>
+                <button class="slds-button slds-button_brand pbtn options-actions buttons400" ng-click="createReturnOrder()">Create Return</button>
+                <button class="slds-button slds-button_brand pbtn options-actions buttons400" ng-click="createCase()">Create Case</button>
+                <button class="slds-button slds-button_brand pbtn options-actions buttons400" ng-click="createSample()">Create Sample</button> -->
+            </div>
+            <div id="CreateSampleLWCDivId">
+                <!-- Lightning Web Component will be included here. -->
+            </div>
+            <div class="slds-grid slds-p-top_small">
+                <article class="slds-card slds-size_12-of-12 slds-card_boundary">
+                    <div class="slds-card__header slds-grid pheader">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title slds-p-top_xxx-small slds-p-bottom_small">
+                                    <a href="#" class="slds-card__header-link slds-truncate" title="Accounts">
+                                        <span class="slds-text-heading_medium" style="color:white">Location Tracking</span>
+                                    </a>
+                                </h2>
+                            </div>
+                        </header>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                         <div id="info_div"></div>
+                        <div id="visitMap" ></div>
+                        <script src="{!$Resource.StartVisit}">
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAki1KNhw8H36mkjnT_BBsJyX-dsV3hmnA&libraries=&v=weekly">
+                        </script>
+                    </div>
+                </article>
+            </div>
+            <!-- <div>
+                <section role="dialog" ng-show="paymentHandeling" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header pheader">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color:white;">Payment Handling</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <div class="slds-form" role="list">
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Dealer Name</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="single-form-element-id-02" placeholder="Dealer Name" class="slds-input" ng-model="accDetails.Name"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Amount</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="Number" id="single-form-element-id-03" placeholder="Order Start Date" class="slds-input" ng-model="paymentData.Amount__c"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Payment Date</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="date" id="single-form-element-id-03" placeholder="Order Start Date" class="slds-input" ng-model="paymentData.Payment_Date__c"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-03">Check Date</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="date" id="single-form-element-id-03" placeholder="Order Start Date" class="slds-input" ng-model="paymentData.Cheque_Date__c"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_outline-brand" ng-click="cancelPayment();">Cancel</button>
+                            <button class="slds-button slds-button_brand pbtn" ng-click="createPayment();">Save</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" ng-show="paymentHandeling"></div>
+            </div> -->
+            <!-- <div>
+                <section role="dialog" ng-show="onboardHandeling" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header pheader">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color:white;">Onboard Dealer</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <div class="slds-form" role="list">
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Dealer Name</label>
+                                            <input type="text" id="single-form-element-id-02" placeholder="Dealer Name" class="slds-input form-control" ng-model="onboardDealer.Name" ng-required="true"/>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Primary Phone</label>
+                                            <input type="phone" id="single-form-element-id-02" placeholder="Dealer Name" class="slds-input form-control" ng-model="onboardDealer.Phone"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_stacked slds-is-editing">
+                                            <label class="slds-form-element__label" for="checkbox-unique-id-34">Do you want to add visit?</label>
+                                            <div class="slds-form-element__control">
+                                                <span class="slds-checkbox slds-checkbox_standalone">
+                                                    <input type="checkbox" id="checkbox-unique-id-34" name="label" value="option" ng-modal="visitduringOnboard" ng-click="vstHandle();"/>
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Primary Website</label>
+                                            <input type="email" id="single-form-element-id-02" placeholder="account@gmail.com" class="slds-input form-control" ng-model="onboardDealer.Email__c"/>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Account Type</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="onboardDealer.Account_Type__c">
+                                                <option>Gold</option>
+                                                <option>Silver</option>
+                                                <option>Platinum</option> 
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem" ng-show="visitduringOnboard">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Visit plan date</label>
+                                                <input type="date" id="single-form-element-id-0299" placeholder="Dealer Name" class="slds-input form-control" ng-model="planDate" ng-required="true" ng-change="test(this)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                        <fieldset class="slds-form-element slds-form-element_compound slds-form-element_address">
+                                       <label for="exampleFormControlSelect12" >Billing Address</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_1-of-1">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="form-element-id-04">Billing Street</label>
+                                                        <div class="slds-form-element__control">
+                                                            <textarea id="form-element-id-04" required="" placeholder="Placeholder text…" class="slds-textarea" ng-model="onboardDealer.BillingStreet">525 S. Lexington Ave</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_4-of-6">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="form-element-id-05">Billing City</label>
+                                                        <div class="slds-form-element__control">
+                                                            <input type="text" id="form-element-id-05" required="" class="slds-input" value="Burlington"  ng-model="onboardDealer.BillingCity"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_2-of-6">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="form-element-id-06">Billing State/Province</label>
+                                                        <div class="slds-form-element__control">
+                                                            <input type="text" id="form-element-id-06" required="" class="slds-input" value="NC"  ng-model="onboardDealer.BillingState"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <div class="slds-size_4-of-6">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="form-element-id-07">Billing Zip/Postal Code</label>
+                                                        <div class="slds-form-element__control">
+                                                            <input type="text" id="form-element-id-07" required="" class="slds-input" value="27215"  ng-model="onboardDealer.BillingPostalCode"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-size_2-of-6">
+                                                    <div class="slds-form-element">
+                                                        <label class="slds-form-element__label" for="form-element-id-08">Billing Country</label>
+                                                        <div class="slds-form-element__control">
+                                                            <input type="text" id="form-element-id-08" required="" class="slds-input" value="USA"  ng-model="onboardDealer.BillingCountry"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_brand pbtn" ng-click="onboardingDealer();">Confirm Onboarding</button>
+                            <button class="slds-button slds-button_outline-brand" ng-click="cancelDealerOnboarding();">Cancel</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" ng-show="onboardHandeling"></div>
+            </div> -->
+            
+            <!-- <div>
+                <section role="dialog" ng-show="caseHandeling" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header pheader">
+                            
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color:white;">Create Case</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <div class="slds-form" role="list">
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="stacked-form-element-id-01">Dealer Name</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="single-form-element-id-02" placeholder="Dealer Name" class="slds-input" ng-model="accDetails.Name"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Party Type</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Type">
+                                                <option>Mechanical</option>
+                                                <option>Electrical</option>
+                                                 <option>Electronic</option>
+                                                 <option>Structural</option>
+                                                 <option>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Case Reason</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Reason">
+                                                <option>Installation</option>
+                                                <option>Equipment Complexity</option>
+                                                 <option>Performance</option>
+                                                 <option>Breakdown</option>
+                                                 <option>Equipment Design</option>
+                                                <option>Feedback</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Product Code</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Product__c">
+                                                <option ng-repeat="prod in Products" value="{{prod.Id}}">{{prod.Name}}</option>
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Case Subject</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="single-form-element-id-02" placeholder="Dealer Name" class="slds-input" ng-model="caseData.Subject"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Case Status</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Status">
+                                                <option>New</option>
+                                                <option>Working</option>
+                                                 <option>Escalated</option>
+                                                 <option>Closed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Case Priority</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Priority">
+                                                <option>High</option>
+                                                <option>Medium</option>
+                                                 <option>Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label for="exampleFormControlSelect12" >Case Origin</label>
+                                            <select class="form-control" id="exampleFormControlSelect12" ng-model="caseData.Origin">
+                                                <option>Phone</option>
+                                                <option>Email</option>
+                                                 <option>Web</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_outline-brand" ng-click="cancelCase();">Cancel</button>
+                            <button class="slds-button slds-button_brand pbtn" ng-click="newCase();">Save</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" ng-show="caseHandeling"></div>
+            </div>
+            
+            <div>
+                <section role="dialog" ng-show="returnHandeling" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header pheader">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color:white;">Return Request</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <div class="slds-form" role="list">
+                                <div class="slds-form__row">
+                                    <div class="slds-form__item" role="listitem">
+                                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                                            <label class="slds-form-element__label" for="single-form-element-id-02">Order Number</label>
+                                            <div class="slds-form-element__control">
+                                                <input type="text" id="single-form-element-id-02" placeholder="Order Number" class="slds-input" ng-model="orderNumber"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_brand pbtn" ng-click="nextbtn();">Next</button>
+                            <button class="slds-button slds-button_outline-brand" ng-click="cancelReturnOrder();">Cancel</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" ng-show="returnHandeling"></div>
+            </div>
+            
+            <div>
+                <section role="dialog" ng-show="returnOrderHandling" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header pheader">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate" style="color:white;">Return Request</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" role="grid">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Product Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Company">Unit Price</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Title">List Price</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Email">Quantity</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Email">Select Product</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="x in returnOrderList">
+                                    <tr class="slds-hint-parent">
+                                        
+                                        <td role="gridcell">
+                                            <div class="slds-truncate" title="Company One">{{x.Product2.Name}}</div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate" title="Director of Operations">{{x.UnitPrice}}</div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate" title="adam@company.com">{{x.ListPrice}}</div>
+                                        </td>
+                                        <td role="gridcell">
+                                           <div class="slds-form-element__control">
+                                                <input type="number" placeholder="Return Quantity Number" class="slds-input" ng-model="x.Return_Quantity__c"/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span id="column-group-header" class="slds-assistive-text">Choose a row</span>
+                                            <div class="slds-th__action slds-th__action_form">
+                                                <div class="slds-checkbox">
+                                                    <input type="checkbox" name="options" id="{{x.Product2.Name}}"  tabindex="-1" aria-labelledby="check-select-all-label column-group-header" ng-model="addValues" ng-click="addProductTobeReturn($index)"/>
+                                                    <label class="slds-checkbox__label" for="{{x.Product2.Name}}" id="check-select-all-label">
+                                                        <span class="slds-checkbox_faux"></span>
+                                                        <span class="slds-form-element__label slds-assistive-text">Select All</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_outline-brand" ng-click="cancelReturnOrderHandling();">Cancel</button>
+                            <button class="slds-button slds-button_brand pbtn" ng-click="returnOrder();">Confirm</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open" ng-show="returnOrderHandling"></div>
+            </div> -->
+            
+            
+            
+            
+        </body>
+    </html>
+    
+</apex:page>

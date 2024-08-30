@@ -1,0 +1,171 @@
+<template>
+    <div class="slds-grid slds-gutters mainComponent slds-grid_vertical slds-m-horizontal_xxx-small">
+        <template if:true={ShowProductScreen}>
+            <div>
+                <div class="slds-col slds-size_2-of-12 slds-float_right">
+                    <lightning-input 
+                        type="search" 
+                        onchange={handleKeyChange} 
+                        class="slds-m-bottom_small"           
+                        label="Search" 
+                        value={searchKey}
+                        placeholder="Search SKU, Name, Family, Color...">
+                    </lightning-input>
+                </div>
+            </div>
+
+            <template if:false={showMsg}>
+                <template lwc:if={searchable}>
+                       <div class="myTable">
+                            <!-- <lightning-datatable
+                                data-id="table"
+                                key-field="id"
+                                data={searchable}
+                                columns={columns}
+                                selected-rows = {allSelectedRows}
+                                onrowselection={handleRowSelection}
+                            >
+                            </lightning-datatable> -->
+
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate">
+                                                <lightning-input onchange={handleAllSelected} type="checkbox" data-key="allCheckbox"></lightning-input>
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Name">Name</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="SKU">SKU</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Family">Family</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Colour">Colour</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Capacity">Capacity</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Quantity">Quantity</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Total Sales">Total Sales</div>
+                                        </th>
+                                         <!-- <th class="" scope="col">
+                                            <div class="slds-truncate" title="Capacity">Channel</div>
+                                        </th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={searchable} for:item="prodRec" for:index="index">
+                                        <tr key={prodRec.Id}>
+                                            <th scope="col">
+                                                <div>
+                                                    <lightning-input type="checkbox" data-index={index} data-name={prodRec.Name} data-sku={prodRec.StockKeepingUnit} data-id={prodRec.Product2Id}
+                                                        data-type={prodRec.Type__c} checked={prodRec.check} data-key="firstColumnCheckbox" onchange={handleCheckboxSelect}>
+                                                    </lightning-input>
+                                                </div>
+                                            </th>
+                                            <th scope="col"> <!-- Product2 Added in Downside After CHanges In Apex Code -->
+                                                <div>{prodRec.Name}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.StockKeepingUnit}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.Family}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.Colour__c}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.Capacity__c}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.totalQuantity}</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div>{prodRec.totalSalesPrice}</div>
+                                            </th>
+                                            <!-- <th scope="col">
+                                                <div>{prodRec.Opportunity.Market_Place_Master__r.Name}</div>
+                                            </th> -->
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                       </div>
+                </template>
+                <br/>
+                <div>
+                    <div class="slds-float_right" style="color:skyblue;">
+                        <lightning-button   label="Previous" icon-name="utility:chevronleft" onclick={previousHandler}> </lightning-button>&nbsp;&nbsp;
+                        Page {page} of {totalPage}&nbsp;&nbsp;&nbsp;
+                        <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right" onclick={nextHandler}> </lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <template lwc:if={showMsg}>
+                <div class="slds-align_absolute-center" style="font-size:24px; color:rgb(255, 154, 71)">
+                     <i><b>No Matching Products Found...</b></i>
+                </div>
+            </template>
+
+        </template>
+
+       <!-- Month Screen -->
+        <template if:true={monthScreen}>
+            <lightning-layout multiple-rows>
+                <template for:each={MonthYear} for:item="item">
+                    <lightning-layout-item size="3" padding="around-small" key={item.key}>
+                        <lightning-input name="radiogroup" label={item.key} type="radio"
+                            value={item.value} onchange={handleRadioSelected}></lightning-input>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </template>        
+        
+        <div class="slds-modal__footer">
+            <template if:true={monthsButtons}>
+                <div class="slds-float_right">
+                    <lightning-button variant="success" label="Cancel" onclick={handleCancel}></lightning-button>
+                    <lightning-button variant="success" class="slds-m-left_x-small" label="Next" disabled={monNextbutton}
+                        onclick={monthNext}></lightning-button>
+                </div>
+            </template>            
+
+            <template if:true={showButtons}>
+                <template if:false={showMsg}>
+                    <div class="slds-text-color_inverse" style="background:#E4E5E8">
+                        <div style="float:right;">
+                            <lightning-button variant="success" label="View Projections" title="Primary action" onclick={handleViewProjections} disabled={getMainButton}></lightning-button> &nbsp;
+                            <lightning-button variant="success" label="Sales Projection" title="Primary action" onclick={handleSalesProjection} disabled={getMainButton}></lightning-button> &nbsp;
+                            <lightning-button variant="success" label="Create PO" title="Primary action" onclick={createPO} disabled={getMainButton}></lightning-button>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+ 
+    <!-- Main Screen -->
+
+    <template if:true={showPOsalesButtons}>
+        <c-create-sales-projection selected-record-ids ={selectedCheckboxIds} selected-month={selectedValue} onclose={closeProjectionModal}> </c-create-sales-projection>   
+    </template>
+
+    <template if:true={showPO}>
+        <c-create-purchase-order-line-item selected-records ={selectedCheckboxIds} onclose={closePOScreen}> </c-create-purchase-order-line-item>
+    </template>
+
+    <template if:true={showPopUp}>
+        <c-view-projections-modal-pop-up selected-records ={selectedCheckboxIds} onclose={closeModalPopUp}> </c-view-projections-modal-pop-up>   
+    </template>
+
+</template>

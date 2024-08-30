@@ -1,0 +1,152 @@
+<apex:page controller="StockTransferWrapper" applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+                margin-left: 0.2cm;
+                margin-right: 0.2cm;
+                margin-top: 0.1cm;
+                margin-bottom: 0.1cm;
+            }
+
+            td {
+                border: 1px solid black;
+                padding: 5px;
+                font-family: sans-serif;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            th {
+                border: 1px solid black;
+                padding: 5px;
+                text-align: center;
+                font-family: sans-serif;
+                font-size: 12px;
+            }
+
+            .header {
+                font-size: 22px;
+                font-weight: bold;
+                text-align: center;
+                font-family: sans-serif;
+            }
+        </style>
+    </head>
+    
+    <table style="width:100%;boxsborder:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td>
+                <div style="width:100%;display: contents;">
+                    <div style="padding:2%;float:right;">
+                        <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">DUPLICATE</div>
+                    </div>
+                    <div style="float:left;width:10%">
+                        <img style="width:100px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" />
+                    </div>
+                    <div style="float:center;text-align:center;display: flow-root;width:80%;">
+                        <div class="header">{!companyName}</div>
+                        <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div><br/>
+                        <div style="font-size: 10px;">PAN No: {!PAN} GSTIN/UIN: {!GSTIN}</div><br/>
+                        <div style="font-size: 18px;text-align:center;text-transform: uppercase;">Stock Transfer</div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td style="text-align:left;" colspan="5">
+                Ship From: <br/><br/>
+                <div style="margin-left:30px;line-height: 1.6;">
+                    <b>{!shipFrom.name}</b><br/>
+                    {!shipFrom.address1}<br/>
+                    {!shipFrom.address2}<br/>
+                    {!shipFrom.city}<br/>
+                    <b>State:</b> {!shipFrom.state} Code: {!shipFrom.stateCode}<br/>
+                    <b>GSTIN:</b> {!shipFrom.gstin}
+                </div>
+            </td>
+            <td style="border: none;" colspan="3">
+                <div style="float:left;text-align:left;line-height: 2;">
+                    <div>DC No: </div>
+                    <div>DC Date: </div>
+                    <div>Vehicle No: </div>
+                    <div>Due Date: </div>
+                    <div>E-Way Bill No: </div>
+                    <div>From WareHouse: </div>
+                    <div>To WareHouse: </div>
+                </div>
+            </td>
+            <td style="border-left: none;" colspan="2">
+                <div style="float:left;text-align:left;line-height: 2;">
+                    <div>{!dcNo}</div>
+                    <div>{!dcDate}</div>
+                    <div>{!vehicleNo}</div>
+                    <div>{!dueDate}</div>
+                    <div>{!eWayBillNo}</div>
+                    <div>{!fromWarehouse}</div>
+                    <div>{!toWarehouse}</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:left;" colspan="5">
+                Ship To: <br/><br/>
+                <div style="margin-left:30px;line-height: 1.6;">
+                    <b>{!shipTo.name}</b><br/>
+                    {!shipTo.address1}<br/>
+                    {!shipTo.address2}<br/>
+                    {!shipTo.city}<br/>
+                    <b>State:</b> {!shipTo.state} Code: {!shipTo.stateCode}<br/>
+                    <b>GSTIN:</b> {!shipTo.gstin}
+                </div>
+            </td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <th>SI.No</th>
+            <th style="width:20%;">Description</th>
+            <th>Brand</th>
+            <th>Colour</th>
+            <th>HSN</th>
+            <th>Seater</th>
+            <th>UOM</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Value</th>
+        </tr>
+        <apex:repeat value="{!items}" var="item">
+            <tr>
+                <td>{!item.siNo}</td>
+                <td>{!item.description}</td>
+                <td>{!item.brand}</td>
+                <td>{!item.colour}</td>
+                <td>{!item.hsn}</td>
+                <td>{!item.seater}</td>
+                <td>{!item.uom}</td>
+                <td>{!item.qty}</td>
+                <td class="text-right">{!item.rate}</td>
+                <td class="text-right">{!item.value}</td>
+            </tr>
+        </apex:repeat>
+        <tr>
+            <td colspan="7" class="text-right total-row">Total</td>
+            <td>{!totalQuantity}</td>
+            <td></td>
+            <td class="text-right">{!totalValue}</td>
+        </tr>
+        <tr style="height:310px;">
+            <td colspan="10"></td>
+        </tr>
+        <tr>
+            <td colspan="10">
+                <div style="float:right;">Received the items in good condition</div><br/><br/><br/><br/>
+                <div style="width:100%;">
+                    <div style="float:left;margin-left:30px;width:10%;">Prepared By</div>
+                    <div style="float:center;width:80%;">Authorised By</div>
+                    <div style="float:right; margin-right:10px;">Signature</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</apex:page>

@@ -1,0 +1,820 @@
+<apex:page controller="InvoiceWrapper" applyHtmlTag="false" standardStylesheets="false" renderAs="pdf" docType="html-5.0" showHeader="false" sidebar="false">
+    <head>
+        <style>
+            @page {
+            size: landscape;
+            margin-left: 0.1cm;    
+            margin-right: 0.1cm; 
+            margin-top: 0.1cm;
+            margin-bottom: 0.2cm;
+            }
+            
+            td {
+            border: 1px solid black;
+            padding: 5px;
+            font-family: sans-serif;
+            font-size: 12px;
+            text-align: center;
+            }
+            th{
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 12px;
+            }
+            .header {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            }
+            .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            }
+            .new-page {
+            page-break-before: always;
+            margin-left: 0.1cm;
+            margin-right: 0.1cm;
+            margin-top: 0.1cm;
+            margin-bottom: 0.1cm;
+            }
+            .left-table {
+            width: 68.5%;
+            float: left;
+            margin-left:0.9%;
+            border-collapse: collapse;
+            }
+            .right-table {
+            width: 28%;
+            float: right;
+            margin-top:0.5%;
+            border-collapse: collapse;
+            }
+            .clear {
+            clear: both;
+            }
+        </style>
+    </head>
+    <!------------------Footer---------------------->
+    <div class="footer" style="margin-left: auto; margin-right: auto;">
+        <div style="page-break-after: auto;font-size:10px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:80%;border:hidden;text-align:left; ">
+                        <p><b>Corporate Office</b>: #16/2 and 16/3 part, Hosur Road, Veerasandra village, Attibelle Hobli, Anekal Taluk, Bangalore KA 560100 IN</p>
+                    </td>
+                    <td style="width:20%;border:hidden;text-align:center; ">
+                        <p><b>CIN</b>: {!CIN}</p>
+                    </td>
+                </tr>
+            </table>
+            <span style="text-align:center;font-family: sans-serif;font-size: 12px;">
+                This is Computer Generated Invoice
+            </span>
+        </div>
+    </div>
+    <!------------------Invoice Original---------------------->
+    <table style="width: 100%;">
+        <tr>
+            <td style="border: none;">
+                <div style="">
+                    <img style="width:100px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                </div> 
+            </td>
+            <td style="border: none;">
+                <div style="">
+                    <img style="width:90px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                </div>
+            </td>
+            <td style="border: none;">
+                <div style="float:center;text-align:center;">
+                    <div class="header">{!companyName}</div>
+                    <div style="clear: both;"></div>
+                    <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div>
+                    <div style="font-size: 12px;">GSTIN/UIN: {!CIN} <br/> STATE: {!state} CODE: {!code}</div>
+                </div>
+            </td>
+            <td style="border: none;">
+                <div style="">
+                    <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">TAX INVOICE</div><br/>
+                    <div>(Original)</div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+        <tr>
+            <td rowspan="4" colspan="3" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                <div style=""><b>Bill To:</b> 2007215</div><br/> 
+                <div>
+                    <div><b>Gopalan Enterprises</b></div>
+                    <div><apex:outputText value="{!billTo}" escape="false"/></div>
+                </div>
+                <div><b>Contact No.:</b></div>
+                <div><b>GSTIN/UIN :</b></div>
+                <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+            </td>
+            <td rowspan="4" colspan="2" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                <div><b>Ship To:</b> (If other than consignee)</div><br/> 
+                <div style="">
+                    <div><b>Gopalan Enterprises</b></div>
+                    <div> <apex:outputText value="{!shipTo}" escape="false"/></div>
+                </div>
+                <div><b>GSTIN/UIN :</b></div>
+                <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+            </td>
+            <td style="text-align:center;"><b>Document No</b><br/> {!documentNo}</td>
+            <td colspan="3" style="text-align:center;"><b>Document Date</b><br/> {!documentDate}</td>
+            <td colspan="3" style="text-align:center;"><b>Customer's Ref</b><br/> {!customerRef}</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>Mode/Terms of payment</b><br/>{!modelTermPay}</td>
+            <td colspan="3" style="text-align:center;"><b>Destination</b><br/>{!destination}</td>
+            <td rowspan="4" colspan="3" style="text-align:center;"><div style="text-align:center;"><img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></div></td>
+        </tr>
+        <tr>
+            <td style="text-align:center;"><b>Branch</b><br/>{!branch}</td>
+            <td colspan="3" style="text-align:center;"><b>Customer PO Date</b><br/> {!documentDate}</td>
+        </tr>
+        <tr>
+            <td style="text-align:center;">
+                <div >
+                    <b>E-Way Bill No.</b>
+                </div><br/><br/>
+                <div>
+                    <b>Despatched thro</b>
+                </div><br/><br/>
+            </td>
+            <td colspan="3" style="text-align:center;">
+                <div >
+                    <b>E-Way Bill Date</b>
+                </div><br/><br/>
+                <div>
+                    <b>Motor Vehicle No.</b>
+                </div><br/><br/>
+            </td>
+        </tr>
+        <tr>
+            <td  colspan="5" style="text-align:left;">
+                <div><b>IRN N0:</b> 132ce47d638f079bf83208a48a16c8301844e557108cf617553db25508710894</div>
+            </td>
+            <td style="text-align:center;"><b>Sale Order No</b><br/>240232489</td>
+            <td colspan="3" style="text-align:center;"><b>Sales Employee</b><br/> Divakar Shirva (SRL-020)</td>
+        </tr>
+        
+        <tr>
+            <th>Sl.No</th>
+            <th>Classification</th>
+            <th >Model</th>
+            <th >Special Case / Legs</th>
+            <th>Range</th>
+            <th>Colour</th>
+            <th>Seater</th>
+            <th>Quantity</th>
+            <th>UOM</th>
+            <th>Pack</th>
+            <th>Rate</th>
+            <th>Net Value</th>
+        </tr>
+        <apex:repeat value="{!orderItems}" var="item">
+            <tr>
+                <td>{!item.slNo}</td>
+                <td></td>
+                <td style="text-align:left;">{!item.model}</td>
+                <td>{!item.specialCase}</td>
+                <td>{!item.range}</td>
+                <td>{!item.colour}</td>
+                <td>{!item.seater}</td>
+                <td>{!item.quantity}</td>
+                <td>{!item.uom}</td>
+                <td></td>
+                <td>{!item.rate}</td>
+                <td>{!item.netValue}</td>
+            </tr>
+        </apex:repeat>
+        <tr>
+            <td colspan="6"></td>
+            <td><b>Sub Total</b></td>
+            <td><b>{!totalQuantity}</b></td>
+            <td></td>
+            <td></td>
+            <td class="text-right"></td>
+            <td class="text-right">{!subTotal}</td>
+        </tr>
+        
+    </table>
+    <div class="flex-container" style="display: flex;">
+        <table class="left-table" style="border:1px solid black;border-collapse:collapse;margin-top:1%;">
+            <tr>
+                <th rowspan="2">HSN/SAC</th>
+                <th rowspan="2">Taxable Value</th>
+                <th rowspan="2">Freight</th>
+                <th colspan="2">Central Tax</th>
+                <th colspan="2">State Tax</th>
+                <th colspan="2">Integrated Tax</th>
+                <th rowspan="2">Total</th>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>94016100</td>
+                <td>{!subTotal}</td>
+                <td>0.00</td>
+                <td>9.00%</td>
+                <td>{!cgst}</td>
+                <td>9.00%</td>
+                <td>{!sgst}</td>
+                <td>0%</td>
+                <td>0.00</td>
+                <td>{!cgst + sgst}</td>
+            </tr>
+            <tr>
+                <td><b>Total</b></td>
+                <td><b>{!subTotal}</b></td>
+                <td><b>0.00</b></td>
+                <td></td>
+                <td><b>{!cgst}</b></td>
+                <td></td>
+                <td><b>{!sgst}</b></td>
+                <td></td>
+                <td><b>0.00</b></td>
+                <td><b>{!cgst + sgst}</b></td>
+            </tr>
+        </table>
+        <table class="right-table" style="width:30%;">
+            <tr>
+                <td>CGST@9</td>
+                <td>9.000</td>
+                <td>{!cgst}</td>
+            </tr>
+            <tr>
+                <td>SGST@9</td>
+                <td>9.000</td>
+                <td>{!sgst}</td>
+            </tr>
+            <tr>
+                <td>ROUNDING</td>
+                <td></td>
+                <td>{!rounding}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td>{!totalRounded}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="clear"></div>
+    <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+    <!------------------Invoice Original Blank Page---------------------->
+    <div class="new-page">
+        <div style="height:500px;">
+            
+        </div>
+        <table class="declaration-table">
+            <tr>
+                <td style="text-align:left;border: none;">
+                    <div>Remarks :-</div>
+                    <div>
+                        Based On Sales Orders 240200750.
+                    </div>
+                </td>
+                <td valign="top" style="width:15%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>Account Name </div>
+                        <div>Bank Name </div>
+                        <div>A/C No. </div>
+                        <div>Branch &amp; IFSC Code</div>
+                    </div>
+                </td>
+                <td valign="top" style="width:30%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>: {!accountName}</div>
+                        <div>: {!bankName}</div>
+                        <div>: {!accountNo}</div>
+                        <div>: {!branchName} &amp; {!ifscCode}</div>
+                    </div>
+                </td>
+            </tr>
+            <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+            <tr>
+                <td style="text-align:left;border: none;width:45%">
+                    <p><b>Declaration</b>: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Payment terms should be as per Mode/Terms of Payment as above. Any delay in payment beyond the due date shall attract interest @ 18% P.A.</p>
+                </td>
+                <td style="border: none;">
+                    <div><b>Pradeep</b></div><br/>
+                    <div style="">Prepared / Checked By</div>
+                </td>
+                <td style="text-align:right;border: none;">
+                    <div><b>FOR Stanley Retail Limited</b></div><br/><br/><br/>Authorized Signatory
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="clear"></div>
+    <!------------------Invoice Duplicate---------------------->
+    <div class="new-page">
+        <table style="width: 100%;">
+            <tr>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:100px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                    </div> 
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:90px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="float:center;text-align:center;">
+                        <div class="header">{!companyName}</div>
+                        <div style="clear: both;"></div>
+                        <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div>
+                        <div style="font-size: 12px;">GSTIN/UIN: {!CIN} <br/> STATE: {!state} CODE: {!code}</div>
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">TAX INVOICE</div><br/>
+                        <div>(Duplicate)</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr>
+                <td rowspan="4" colspan="3" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div style=""><b>Bill To:</b> 2007215</div><br/> 
+                    <div>
+                        <div><b>Gopalan Enterprises</b></div>
+                        <div><apex:outputText value="{!billTo}" escape="false"/></div>
+                    </div>
+                    <div><b>Contact No.:</b></div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td rowspan="4" colspan="2" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div><b>Ship To:</b> (If other than consignee)</div><br/> 
+                    <div style="">
+                        <div><b>Gopalan Enterprises</b></div>
+                        <div> <apex:outputText value="{!shipTo}" escape="false"/></div>
+                    </div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td style="text-align:center;"><b>Document No</b><br/> {!documentNo}</td>
+                <td colspan="3" style="text-align:center;"><b>Document Date</b><br/> {!documentDate}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer's Ref</b><br/> {!customerRef}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Mode/Terms of payment</b><br/>{!modelTermPay}</td>
+                <td colspan="3" style="text-align:center;"><b>Destination</b><br/>{!destination}</td>
+                <td rowspan="4" colspan="3" style="text-align:center;"><div style="text-align:center;"><img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></div></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Branch</b><br/>{!branch}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer PO Date</b><br/> {!documentDate}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <div >
+                        <b>E-Way Bill No.</b>
+                    </div><br/><br/>
+                    <div>
+                        <b>Despatched thro</b>
+                    </div><br/><br/>
+                </td>
+                <td colspan="3" style="text-align:center;">
+                    <div >
+                        <b>E-Way Bill Date</b>
+                    </div><br/><br/>
+                    <div>
+                        <b>Motor Vehicle No.</b>
+                    </div><br/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td  colspan="5" style="text-align:left;">
+                    <div><b>IRN N0:</b> 132ce47d638f079bf83208a48a16c8301844e557108cf617553db25508710894</div>
+                </td>
+                <td style="text-align:center;"><b>Sale Order No</b><br/>240232489</td>
+                <td colspan="3" style="text-align:center;"><b>Sales Employee</b><br/> Divakar Shirva (SRL-020)</td>
+            </tr>
+            
+            <tr>
+                <th>Sl.No</th>
+                <th>Classification</th>
+                <th >Model</th>
+                <th >Special Case / Legs</th>
+                <th>Range</th>
+                <th>Colour</th>
+                <th>Seater</th>
+                <th>Quantity</th>
+                <th>UOM</th>
+                <th>Pack</th>
+                <th>Rate</th>
+                <th>Net Value</th>
+            </tr>
+            <apex:repeat value="{!orderItems}" var="item">
+                <tr>
+                    <td>{!item.slNo}</td>
+                    <td></td>
+                    <td style="text-align:left;">{!item.model}</td>
+                    <td>{!item.specialCase}</td>
+                    <td>{!item.range}</td>
+                    <td>{!item.colour}</td>
+                    <td>{!item.seater}</td>
+                    <td>{!item.quantity}</td>
+                    <td>{!item.uom}</td>
+                    <td></td>
+                    <td>{!item.rate}</td>
+                    <td>{!item.netValue}</td>
+                </tr>
+            </apex:repeat>
+            <tr>
+                <td colspan="6"></td>
+                <td><b>Sub Total</b></td>
+                <td><b>{!totalQuantity}</b></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"></td>
+                <td class="text-right">{!subTotal}</td>
+            </tr>
+            
+        </table>
+        
+        <div class="flex-container" style="display: flex;margin-top:1%;">
+            <table class="left-table" style="border:1px solid black;border-collapse:collapse;margin-top:1%;">
+                <tr>
+                    <th rowspan="2">HSN/SAC</th>
+                    <th rowspan="2">Taxable Value</th>
+                    <th rowspan="2">Freight</th>
+                    <th colspan="2">Central Tax</th>
+                    <th colspan="2">State Tax</th>
+                    <th colspan="2">Integrated Tax</th>
+                    <th rowspan="2">Total</th>
+                </tr>
+                <tr>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>94016100</td>
+                    <td>{!subTotal}</td>
+                    <td>0.00</td>
+                    <td>9.00%</td>
+                    <td>{!cgst}</td>
+                    <td>9.00%</td>
+                    <td>{!sgst}</td>
+                    <td>0%</td>
+                    <td>0.00</td>
+                    <td>{!cgst + sgst}</td>
+                </tr>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td><b>{!subTotal}</b></td>
+                    <td><b>0.00</b></td>
+                    <td></td>
+                    <td><b>{!cgst}</b></td>
+                    <td></td>
+                    <td><b>{!sgst}</b></td>
+                    <td></td>
+                    <td><b>0.00</b></td>
+                    <td><b>{!cgst + sgst}</b></td>
+                </tr>
+            </table>
+            <table class="right-table" style="width:30%;">
+                <tr>
+                    <td>CGST@9</td>
+                    <td>9.000</td>
+                    <td>{!cgst}</td>
+                </tr>
+                <tr>
+                    <td>SGST@9</td>
+                    <td>9.000</td>
+                    <td>{!sgst}</td>
+                </tr>
+                <tr>
+                    <td>ROUNDING</td>
+                    <td></td>
+                    <td>{!rounding}</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{!totalRounded}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+    </div>
+    <!------------------Invoice Duplicate Blank Page---------------------->
+    <div class="new-page">
+        <div style="height:500px;">
+            
+        </div>
+        <table class="declaration-table">
+            <tr>
+                <td style="text-align:left;border: none;">
+                    <div>Remarks :-</div>
+                    <div>
+                        Based On Sales Orders 240200750.
+                    </div>
+                </td>
+                <td valign="top" style="width:15%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>Account Name </div>
+                        <div>Bank Name </div>
+                        <div>A/C No. </div>
+                        <div>Branch &amp; IFSC Code</div>
+                    </div>
+                </td>
+                <td valign="top" style="width:30%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>: {!accountName}</div>
+                        <div>: {!bankName}</div>
+                        <div>: {!accountNo}</div>
+                        <div>: {!branchName} &amp; {!ifscCode}</div>
+                    </div>
+                </td>
+            </tr>
+            <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+            <tr>
+                <td style="text-align:left;border: none;width:45%">
+                    <p><b>Declaration</b>: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Payment terms should be as per Mode/Terms of Payment as above. Any delay in payment beyond the due date shall attract interest @ 18% P.A.</p>
+                </td>
+                <td style="border: none;">
+                    <div><b>Pradeep</b></div><br/>
+                    <div style="">Prepared / Checked By</div>
+                </td>
+                <td style="text-align:right;border: none;">
+                    <div><b>FOR Stanley Retail Limited</b></div><br/><br/><br/>Authorized Signatory
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="clear"></div>
+    <!------------------Invoice Acknowledgement Copy---------------------->
+    <div class="new-page">
+        <table style="width: 100%;">
+            <tr>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:100px;height: 29px;" src="{!$Resource.stanletLogo}" alt="HeaderImage" />
+                    </div> 
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <img style="width:90px;" src="{!$Resource.TUV_ISO_9001}" alt="HeaderImage" />
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="float:center;text-align:center;">
+                        <div class="header">{!companyName}</div>
+                        <div style="clear: both;"></div>
+                        <div style="font-size: 12px;">{!street}, {!city}-{!zipCode}, {!countryName}</div>
+                        <div style="font-size: 12px;">GSTIN/UIN: {!CIN} <br/> STATE: {!state} CODE: {!code}</div>
+                    </div>
+                </td>
+                <td style="border: none;">
+                    <div style="">
+                        <div style="font-size: 18px;text-transform: uppercase;color:#7c7c7c;">TAX INVOICE</div><br/>
+                        <div>(Acknowledgement Copy)</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width:100%;border:1px solid black;border-collapse:collapse;">
+            <tr>
+                <td rowspan="4" colspan="3" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div style=""><b>Bill To:</b> 2007215</div><br/> 
+                    <div>
+                        <div><b>Gopalan Enterprises</b></div>
+                        <div><apex:outputText value="{!billTo}" escape="false"/></div>
+                    </div>
+                    <div><b>Contact No.:</b></div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td rowspan="4" colspan="2" valign="top" style="text-align:left;line-height: 1.6;width:25%;">
+                    <div><b>Ship To:</b> (If other than consignee)</div><br/> 
+                    <div style="">
+                        <div><b>Gopalan Enterprises</b></div>
+                        <div> <apex:outputText value="{!shipTo}" escape="false"/></div>
+                    </div>
+                    <div><b>GSTIN/UIN :</b></div>
+                    <div><b>State Name :</b> Karnataka <b>Code :</b> 29</div>
+                </td>
+                <td style="text-align:center;"><b>Document No</b><br/> {!documentNo}</td>
+                <td colspan="3" style="text-align:center;"><b>Document Date</b><br/> {!documentDate}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer's Ref</b><br/> {!customerRef}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Mode/Terms of payment</b><br/>{!modelTermPay}</td>
+                <td colspan="3" style="text-align:center;"><b>Destination</b><br/>{!destination}</td>
+                <td rowspan="4" colspan="3" style="text-align:center;"><div style="text-align:center;"><img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></div></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><b>Branch</b><br/>{!branch}</td>
+                <td colspan="3" style="text-align:center;"><b>Customer PO Date</b><br/> {!documentDate}</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <div >
+                        <b>E-Way Bill No.</b>
+                    </div><br/><br/>
+                    <div>
+                        <b>Despatched thro</b>
+                    </div><br/><br/>
+                </td>
+                <td colspan="3" style="text-align:center;">
+                    <div >
+                        <b>E-Way Bill Date</b>
+                    </div><br/><br/>
+                    <div>
+                        <b>Motor Vehicle No.</b>
+                    </div><br/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td  colspan="5" style="text-align:left;">
+                    <div><b>IRN N0:</b> 132ce47d638f079bf83208a48a16c8301844e557108cf617553db25508710894</div>
+                </td>
+                <td style="text-align:center;"><b>Sale Order No</b><br/>240232489</td>
+                <td colspan="3" style="text-align:center;"><b>Sales Employee</b><br/> Divakar Shirva (SRL-020)</td>
+            </tr>
+            
+            <tr>
+                <th>Sl.No</th>
+                <th>Classification</th>
+                <th >Model</th>
+                <th >Special Case / Legs</th>
+                <th>Range</th>
+                <th>Colour</th>
+                <th>Seater</th>
+                <th>Quantity</th>
+                <th>UOM</th>
+                <th>Pack</th>
+                <th>Rate</th>
+                <th>Net Value</th>
+            </tr>
+            <apex:repeat value="{!orderItems}" var="item">
+                <tr>
+                    <td>{!item.slNo}</td>
+                    <td></td>
+                    <td style="text-align:left;">{!item.model}</td>
+                    <td>{!item.specialCase}</td>
+                    <td>{!item.range}</td>
+                    <td>{!item.colour}</td>
+                    <td>{!item.seater}</td>
+                    <td>{!item.quantity}</td>
+                    <td>{!item.uom}</td>
+                    <td></td>
+                    <td>{!item.rate}</td>
+                    <td>{!item.netValue}</td>
+                </tr>
+            </apex:repeat>
+            <tr>
+                <td colspan="6"></td>
+                <td><b>Sub Total</b></td>
+                <td><b>{!totalQuantity}</b></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"></td>
+                <td class="text-right">{!subTotal}</td>
+            </tr>
+            
+        </table>
+        <div class="flex-container" style="display: flex;margin-top:1%;">
+            <table class="left-table" style="border:1px solid black;border-collapse:collapse;margin-top:1%;">
+                <tr>
+                    <th rowspan="2">HSN/SAC</th>
+                    <th rowspan="2">Taxable Value</th>
+                    <th rowspan="2">Freight</th>
+                    <th colspan="2">Central Tax</th>
+                    <th colspan="2">State Tax</th>
+                    <th colspan="2">Integrated Tax</th>
+                    <th rowspan="2">Total</th>
+                </tr>
+                <tr>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>94016100</td>
+                    <td>{!subTotal}</td>
+                    <td>0.00</td>
+                    <td>9.00%</td>
+                    <td>{!cgst}</td>
+                    <td>9.00%</td>
+                    <td>{!sgst}</td>
+                    <td>0%</td>
+                    <td>0.00</td>
+                    <td>{!cgst + sgst}</td>
+                </tr>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td><b>{!subTotal}</b></td>
+                    <td><b>0.00</b></td>
+                    <td></td>
+                    <td><b>{!cgst}</b></td>
+                    <td></td>
+                    <td><b>{!sgst}</b></td>
+                    <td></td>
+                    <td><b>0.00</b></td>
+                    <td><b>{!cgst + sgst}</b></td>
+                </tr>
+            </table>
+            <table class="right-table" style="width:30%;">
+                <tr>
+                    <td>CGST@9</td>
+                    <td>9.000</td>
+                    <td>{!cgst}</td>
+                </tr>
+                <tr>
+                    <td>SGST@9</td>
+                    <td>9.000</td>
+                    <td>{!sgst}</td>
+                </tr>
+                <tr>
+                    <td>ROUNDING</td>
+                    <td></td>
+                    <td>{!rounding}</td>
+                </tr>
+                <tr>
+                    <td>Total</td>
+                    <td></td>
+                    <td>{!totalRounded}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+    </div>
+    <!------------------Invoice  Acknowledgement Copy Blank Page---------------------->
+    <div class="new-page">
+        <div style="height:500px;">
+            
+        </div>
+        <table class="declaration-table">
+            <tr>
+                <td style="text-align:left;border: none;">
+                    <div>Remarks :-</div>
+                    <div>
+                        Based On Sales Orders 240200750.
+                    </div>
+                </td>
+                <td valign="top" style="width:15%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>Account Name </div>
+                        <div>Bank Name </div>
+                        <div>A/C No. </div>
+                        <div>Branch &amp; IFSC Code</div>
+                    </div>
+                </td>
+                <td valign="top" style="width:30%;border: none;">
+                    <div style="float:left;text-align:left;line-height: 1.5;">
+                        <div>: {!accountName}</div>
+                        <div>: {!bankName}</div>
+                        <div>: {!accountNo}</div>
+                        <div>: {!branchName} &amp; {!ifscCode}</div>
+                    </div>
+                </td>
+            </tr>
+            <div style="border:1px solid black;border-collapse:collapse;margin-top:1%;"></div>
+            <tr>
+                <td style="text-align:left;border: none;width:45%">
+                    <p><b>Declaration</b>: We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. Payment terms should be as per Mode/Terms of Payment as above. Any delay in payment beyond the due date shall attract interest @ 18% P.A.</p>
+                </td>
+                <td style="border: none;">
+                    <div><b>Pradeep</b></div><br/>
+                    <div style="">Prepared / Checked By</div>
+                </td>
+                <td style="text-align:right;border: none;">
+                    <div><b>FOR Stanley Retail Limited</b></div><br/><br/><br/>Authorized Signatory
+                </td>
+            </tr>
+        </table>
+    </div>
+</apex:page>

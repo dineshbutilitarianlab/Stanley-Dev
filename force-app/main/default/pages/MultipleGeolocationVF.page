@@ -1,0 +1,158 @@
+<apex:page controller="UservisitTrackingController" applyBodyTag="False" sidebar="false"     showHeader="false" >
+    <html  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-app="userVisit">
+        <apex:pageMessages />
+        <apex:includeLightning />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+            <apex:slds /> 
+                <c:scriptComponent />
+                    <script>   
+                    debugger;
+            var userId = '{!userId}'; 
+            var userName='{!userName}';
+            var selecteVisitDate = '{!visitdate}';
+            
+            var visitRecordList = '{!visitRecList}';
+            console.log("visitRecordList === >"+visitRecordList);
+            var tbMarker = '{!URLFOR($Resource.Marker_Orange)}';
+            var pendingMarker = '{!URLFOR($Resource.Marker_Green)}';
+            var completedMarker = '{!URLFOR($Resource.Marker_Gray)}';
+            var lapseMarker = '{!URLFOR($Resource.Marker_Red)}';
+            var currentMarker = '{!URLFOR($Resource.Marker_Blue)}';
+            var currentDate = '{!$CurrentPage.parameters.currentDate}';
+            </script>
+            <title>My Visits</title>
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=default">
+            </script>
+            <style type="text/css">
+                body{
+                overflow-x:hidden;
+                font-size:1.2rem !important;
+                }
+                #map {
+                height: 600px;
+                }
+                .dot {
+                height: 30px;
+                width: 30px;
+                cursor:pointer;
+                background-color: #bbb;
+                border-radius: 50%;
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+                font-size: large;
+                /* padding: 2px; */
+                padding-top: 3%;
+                }
+                .previousButtonCSS{
+                display: inline;
+                
+                
+                }
+                .nextButtonCSS{
+                display: inline;
+                margin-top: 0;
+                margin-left: 3%;
+                
+                }
+                .btn-primary {
+                color: #fff;
+                background-color: #337ab7;
+                border-color: #2e6da4;
+                }
+                .button:hover {
+                background-color: #f1f1f1;
+                }
+                .dot:hover {
+                background-color: #337ab7;
+                }
+                
+                .today {
+                background-color: #337ab7;
+                color: white;
+                font-size: large;
+                }
+                .pbtn{
+                background:#f7941d !important;
+                padding:5px !important;
+                }
+                .dbtn{
+                padding:5px !important;
+                background:#696969 !important;
+                }
+                .pheader{
+                background: #073e5f ! important;
+                }
+                .small-size{
+                }
+                @media screen and (max-width: 800px) 
+                {
+                .slds-scope .slds-size_8-of-12 ,.slds-scope .slds-size_4-of-12{
+                width:100%;
+                margin-left: 2% !important;
+                }
+                .slds-scope .slds-grid{
+                display:block;
+                }
+                .slds-scope .slds-size_3-of-12{
+                padding:2%;
+                }
+                .left-button{
+                width:initial !important;
+                }
+                .small-size{
+                padding-left:initial !important;
+                padding-right:initial !important;
+                }
+                
+                }
+                @media only screen and (max-width: 800px){
+                .small-margin{
+                padding:unset !important;
+                }
+                
+                .small-padding{
+                margin-left: unset !important; 
+                
+                }
+                .small-btns{
+                display: flex;
+                flex-flow: column;
+                justify-content: space-between;
+                }
+                .small-padding{
+                margin-top:6px !important;
+                }
+                }
+                button:disabled {
+                background:gray !important;
+                }
+                
+                hr {
+                margin: 0px !important;
+                padding: 0px !important;
+                }
+            </style>
+        </head>
+        
+        <body class="slds-scope" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+            <div class="slds-col slds-size_12-of-12 slds-p-top_small">
+                <article class="slds-card">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div id="map" ></div>
+                        <div id="info_div"></div>
+                        <script src="{!$Resource.MultipleGeolocationVF}">
+                        </script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAki1KNhw8H36mkjnT_BBsJyX-dsV3hmnA&callback=initMap&libraries=&v=weekly">
+                        </script>
+                    </div>
+                </article> 
+                <!-- AIzaSyB4SPqkO0ZQbxT-EU4l886H9Y3ipf1NMW0 ---->
+            </div>
+        </body>
+        
+    </html>
+    
+</apex:page>

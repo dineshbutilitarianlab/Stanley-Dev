@@ -1,0 +1,33 @@
+@media (min-width:820px)and (max-width:1680px){
+    .THIS .BeatMobile{
+        display:none;
+    }  
+    .THIS.BeatDesktop{
+        display:block;
+    } 
+}
+@media (min-width:1680px){
+    .THIS .BeatMobile{
+        display:none;
+    }  
+    .THIS.BeatDesktop{
+        display:block;
+    } 
+}
+
+@media (max-width:820px){
+    .THIS .BeatDesktop{
+        display:none;
+    }  
+    .THIS .BeatMobile{
+        overflow-y: scroll;
+        max-height: 55vw;
+        display:block;
+        max-width: 97%;
+    }  
+    .THIS .cardInfo {
+        margin-left: 2%;
+        margin-top: 1.5%;
+        margin-bottom: 1.5%;
+    }
+}

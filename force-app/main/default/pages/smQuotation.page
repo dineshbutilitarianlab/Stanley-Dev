@@ -1,0 +1,173 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" renderAs="pdf" standardStylesheets="true" lightningStylesheets="false" applyBodyTag="false" showHeader="false" sidebar="false" controller="smQuotationController"> 
+    <html>
+        <head>
+            <style>
+                @page{
+                size: 14.5in 11.5in;               
+                }
+            </style>
+        </head>
+        <body>
+            
+        </body>
+    </html>
+    
+    <div style="font-size:12px;width:100%">
+        
+        
+        <table style=" width: 100%; border-collapse: collapse;font-size:20px">
+            <tr  style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:100%;text-align: center; height: 40px;" colSpan="6" ><b>SOFAS AND MORE STANLEY</b></td>
+            </tr>
+            
+            <tr  style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:100%;text-align: center; height: 30px; font-size: 15px;" colSpan="4" ><b>QUTATION OF SELECTED PRODUCTS</b></td>
+                <td style="border: 1px solid black;width:15%" ></td>
+                <td style="border: 1px solid black;width:15%" ></td>
+            </tr>
+            
+            <tr style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:15%; font-size: 12px; background-color: #7ca2c2;" ><b>CUSTOMER DETAILS</b></td>
+                <td style="border: 1px solid black;width:15%; font-size: 12px;" ></td>
+                <td style="border: 1px solid black;width:15%;font-size: 12px; align-items: center; justify-content: center;" rowspan="5">
+                 <img style="width:90px;" src="{!$Resource.stanleyDearLogo}" alt="HeaderImage" /></td>
+                <td style="border: 1px solid black; width:15%; font-size: 12px; background-color: #7ca2c2;"><b>DATE 27/12/2022</b></td>
+                <td style="border: 1px solid black;width:15%; font-size: 12px;"></td>
+                <td style="border: 1px solid black;width:15%;font-size: 12px;" ></td>
+            </tr>
+            
+            <tr style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:15%;font-size: 12px; background-color: #7ca2c2;" ><b>NAME</b></td>
+                <td style="border: 1px solid black;width:15% ;font-size: 12px;" ><b>Mr.Nithin</b></td>
+                
+                <td style="border: 1px solid black;width:15%;border-bottom:hidden ; text-align: center;font-size: 12px;" colSpan="3"><b> 1/14, FIRST FLOOR, ABOVE GIRIAS 7TH CROSS NEW </b>
+                </td>
+            </tr>
+            
+            <tr style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:15%; background-color: #7ca2c2;font-size: 12px;" ><b>ADDRESS</b></td>
+                <td style="border: 1px solid black;width:15%;font-size: 12px;"><b>BANGALORE</b></td>
+                
+                <td style="border: 1px solid black;width:15%;  text-align: center;font-size: 12px;" colSpan="3"><b> GUDDADAHALLI -560026 </b>
+                </td>
+            </tr>
+            
+            <tr style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:15%" rowSpan="2"></td>
+                <td style="border: 1px solid black;width:15%" ></td>
+                <td style="border: 1px solid black;width:15% ;text-align: center;font-size: 12px;" rowSpan="2"><b>MYSORE ROAD</b></td>
+                <td style="border: 1px solid black; width:15%; text-align: center;font-size: 12px;" colSpan="2"><b>LAKSHMINARYANA</b> </td>
+            </tr>
+            <tr style="border-bottom: 1px solid black;">
+                <td style="border: 1px solid black;width:15%" ></td>
+                
+                <td style="border: 1px solid black; width:15%; text-align: center;font-size: 12px;" colSpan="2"><b>9606400760</b></td>
+            </tr>
+            
+        </table>
+        <table style="width: 100%; border-collapse: collapse; ">
+            <tr>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>SL NO</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>PRODUCT</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;width: 300px;"><center><b>IMAGE</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>MODEL</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>SITTER</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>MRP</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>OFFER PRICE</b></center></th>
+                <th style="border: 1px solid black; background-color: #7ca2c2;"><center><b>FINAL PRICE</b></center></th>
+            </tr>
+            <apex:repeat value="{!productDatas}" var="ProductData">
+                <tr Style= "height: 100px">
+                    <td style="border: 1px solid black;width:10%;"><center><b>{!ProductData.slno}</b></center></td>
+                    <td style="border: 1px solid black;"><center><b>{!ProductData.product} <br/></b></center></td>
+                    <td style="border: 1px solid black;"><center><b></b></center></td>
+                    <td style="border: 1px solid black;"><center><b>{!ProductData.model}</b></center></td>
+                    <td style="border: 1px solid black;"><center><b>{!ProductData.sitter}</b></center></td>
+                    <td style="border: 1px solid black;"><center><b>{!ProductData.mrp}</b></center></td>
+                    <td style="border: 1px solid black; "><center><b>{!ProductData.offerprice}</b></center></td>
+                    <td style="border: 1px solid black;"><center><b>{!ProductData.finalprice}</b></center></td>
+                </tr>
+            </apex:repeat>
+            <tr>
+                <td style="border: 1px solid black; padding: 8px; width: 60%; background-color: #c19770;" colspan="4"><center>NOTE- THIS OFFER VALID ONLY UP TO 31ST DECEMBER 2022</center> </td>
+                <td style="border: 1px solid black; padding: 8px; background-color: #7ca2c2;"><b>TOTAL</b></td>
+                <td style="border: 1px solid black; padding: 8px;background-color: #7ca2c2;"><b>13,05,600</b></td>
+                <td style="border: 1px solid black; padding: 8px;background-color: #7ca2c2;"><b>9,45,600</b></td>
+                <td style="border: 1px solid black; padding: 8px;background-color: #7ca2c2;"><b>0</b></td>
+            </tr>
+        </table>
+        
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="border: 1px solid black;  width: 60%; font-size:15px"><center><b>Terms and Conditions</b></center></td>
+                <td style="border: 1px solid black; width: 40%; font-size:18px; background-color: yellow;" colSpan="2" ><center><b>Bank Details</b></center></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >* PLEASE ISSUE ALL CHEQUES / DEMAND DRAFTS IN 
+                    FAVOUR TO STANLEY RETAIL LTD.PAYABLE AT BANGALORE 
+                </td>
+                <td style="border: 1px solid black; width: 15%; font-size:15px" rowSpan="2"><b>ACCOUNT NAME</b></td>
+                <td style="border: 1px solid black; width: 25%; font-size:15px" rowSpan="2"><b>{!AccountName} </b></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >
+                    * KINDLY PROVIDE US A FORMAL PURCHASE ORDER ALONG WITH ADVANCE PAYEMENTS TO CONFIRM ORDER.
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >* PLEASE PROVIDE ANY STATUATORY FORMS AS MAY BE REQURIED.</td>
+                <td style="border: 1px solid black; width: 15%; font-size: 15px;" rowSpan="2"><b>BANK</b></td>
+                <td style="border: 1px solid black; width: 25%; font-size: 15px;" rowSpan="2"><b>{!Bank}</b></td> 
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >
+                    * DELIVERY IS SUBJECTED TO REALISATION OF CHECQUES PAYMENTS RECIVED AGAINST THIS PARTICULAR ORDER
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >* TRANSPORTATION AND PACKING CHARGES WILL BE EXTRA AND AT ACTUALS.
+                </td>
+                <td style="border: 1px solid black; width: 15%; font-size:15px"  rowSpan="2" colSpan="2"><b>ACCOUNT NUMBER:  &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; {!AccountNumber} </b></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >
+                    * AIR FREIGHT. IF ANY ,FOR IMPORTS ON URGENT BASIS WILL BE EXTRA.          
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >* THE ABOVE PRICES WILL BE VALID FOR 3 DAYS FROM THE DATE OF ISSUE OF THIS QUTATION.
+                    
+                </td>
+                <td style="border: 1px solid black; width: 15%; font-size:15px" rowSpan="2" >
+                    <div style="border-bottom: 1px solid black;">
+                        <b>ACCOUNT TYPE</b>
+                    </div>
+                    <div>
+                        <b>BRANCH</b>
+                    </div>
+                </td>
+                <td style="border: 1px solid black; width: 15%; font-size:15px" rowSpan="2">
+                    <div style="border-bottom: 1px solid black;">
+                        <b>{!AaccountType}</b>
+                    </div>
+                    <div > <b>{!Branch}</b> </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;">* FLOAR STOCK SUBJECTED TO AVAILABILITY AT TIME OF CONFIRMATION. </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%;" >* ORDER ONCE PLACED CANNOT BE CHANGED UNDER ANY CIRCUMSTANCES. </td>
+                <td style="border: 1px solid black; width: 15%; font-size:15px" rowSpan="2"><b>IFSC CODE</b></td>
+                <td style="border: 1px solid black; width: 25%; font-size:15px" rowSpan="2"><b>{!IFSCCode}</b> </td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; width: 60%; height: 20px;" > 
+                </td>
+            </tr>            
+        </table>
+        
+    </div>
+    
+</apex:page>

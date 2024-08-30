@@ -1,0 +1,109 @@
+<template>
+    <lightning-quick-action-panel header="WhatsApp Dashboard">
+        <lightning-card variant="narrow" icon-name="standard:whatsapp" title="Whats APP">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="2" padding="around-small">
+                <template if:true={showObj}>  
+                <lightning-combobox
+                    name="progress"
+                    label="Object"
+                    value={value}
+                    placeholder="Select Object"
+                    options={objectResults}
+                    onchange={handleChange} ></lightning-combobox>
+                </template>   
+                <br/>   
+                <br/>   
+                <br/> 
+                <br/>   
+                <br/>   
+                <br/>                              
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" padding="around-small">
+            <template if:true={showFields}>  
+                            <lightning-combobox
+                                name="progress"
+                                label="Fields"
+                                value={fieldValue}
+                                placeholder="Select Fields"
+                                options={mapOfField}
+                                onchange={handleChange} ></lightning-combobox>
+            </template>
+             <template if:false={showFields}>  
+                           <!-- <lightning-input type="text" label="Fields" disabled value={fieldValue}></lightning-input>    -->
+                             <lightning-combobox
+                                name="progress"
+                                label="Fields"
+                                value={fieldValue}
+                                placeholder="Select Fields"
+                                options={mapOfField}
+                                onchange={handleChange} ></lightning-combobox>
+            </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1" padding="around-small">
+                   <lightning-input type="text" label="Field Type" disabled value={fieldType}></lightning-input>   
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" padding="around-small">
+                <template if:true={showMatchType}>
+                    <lightning-combobox
+                                name="progress"
+                                label="Match Type"
+                                value={matchTypeValue}
+                                placeholder="Select Fields"
+                                options={matchTypeList}
+                                onchange={handleChange} ></lightning-combobox>
+                </template>
+                 <template if:false={showMatchType}>
+                      <!-- <lightning-input type="text" label="Field Type" disabled value={fieldType}></lightning-input>  -->
+                      <lightning-combobox
+                                name="progress"
+                                label="Match Type"
+                                value={matchTypeValue}
+                                placeholder="Select Fields"
+                                options={matchTypeList}
+                                onchange={handleChange} ></lightning-combobox>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" padding="around-small">
+                <template if:true={showMatchPick}>
+                        <lightning-combobox
+                                name="progress"
+                                label="Match value"
+                                value={matchingValue}
+                                placeholder="Select Fields"
+                                options={matchPickList}
+                                onchange={handleChange} ></lightning-combobox>
+                </template>
+                  <template if:false={showMatchPick}>
+                   <lightning-input type="text" label="Match value"  value={matchingValue} onchange={handleChange}></lightning-input> 
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="2" padding="around-small">
+                <template if:true={showTemp}>
+                <!-- <template if:true={showMatchPick}>  </template> -->
+                    <lightning-combobox
+                                name="progress"
+                                label="Templates"
+                                value={templateId}
+                                placeholder="Select Template"
+                                options={templateList}
+                                onchange={handleChange} ></lightning-combobox>      
+                </template>
+            </lightning-layout-item>
+             <lightning-layout-item size="1" padding="around-small">
+                 </br>
+                <lightning-button variant="brand" label="Clear" title="Primary action" onclick={handleClear} class="slds-m-left_x-small"></lightning-button>
+             </lightning-layout-item>
+        </lightning-layout>
+        <div slot="footer">
+            <lightning-button variant="neutral"  label="Cancel" onchange={handleClose}></lightning-button>
+            <lightning-button variant="success" label="Submit" onclick={handleSubmit} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        </lightning-card>
+    </lightning-quick-action-panel>
+</template>

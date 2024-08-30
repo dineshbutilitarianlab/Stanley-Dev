@@ -1,0 +1,73 @@
+<template>
+
+    Selected Month is : {selectedMonth} <br/><br/>
+
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered " style="width:100%;" >
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                    <div class="slds-truncate">
+                        S.NO.
+                    </div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Name">Product Name</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Name">SKU</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Phone">Existing Projected Quantity</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Quantity">Projected Quantity</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Last 3 months Sales">Last 3 Months Sales Quantity</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Last 3 months Sales">Last 3 Months Sales</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={salesprojList} for:item="selectedRec" for:index="indexVar">
+                <tr key={selectedRec.productId}>
+                    <th scope="col">
+                        <div>
+                            <c-indexchild-l-w-c indexchild={indexVar}></c-indexchild-l-w-c>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div>{selectedRec.productName}</div>
+                    </th>
+                    <th scope="col">
+                        <div>{selectedRec.sku}</div>
+                    </th>
+                    <th scope="col">
+                        <div>{selectedRec.Quantity}</div>
+                    </th>
+                    <th scope="col">
+                        <div>
+                            <lightning-input type='number' data-id={selectedRec.Id} data-product={selectedRec.productId} name="input1"
+                                value={selectedRec.qty} variant="label-hidden" onchange={handleSelectedRecQuanChange}
+                                ></lightning-input>                                             
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div>{selectedRec.last3monthsSales}</div>
+                    </th>
+                    <th scope="col">
+                        <div>{selectedRec.last3monthsSalesPrice}</div>
+                    </th>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    <div class="slds-modal__footer">
+        <lightning-button variant="success" label="Cancel" onclick={closeModal}></lightning-button>
+        <lightning-button variant="success" class="slds-m-left_x-small" label="Submit" 
+            onclick={SubmitAllSalesProjection} disabled={disableSalesbutton}></lightning-button>
+    </div>
+
+</template>

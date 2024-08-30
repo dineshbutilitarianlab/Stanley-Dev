@@ -1,0 +1,120 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global"  controller="FullCalendarController"> 
+    
+    <aura:attribute name="wrapper" type="object" />
+    <aura:attribute name="Monthly_Beat_Plan__c" type="object" />
+    <aura:attribute name="Visits" type="object[]" />
+    <aura:attribute name="Weeklybp" type="Weekly_Beat_Plan__c[]" />
+    <aura:attribute name="month" type="String" />
+    <aura:attribute name="year" type="integer"/>
+    
+    
+    <ltng:require styles="{!$Resource.Calendar     + '/FullCalendarJS/fullcalendar.min.css'}"
+                  scripts="{!join(',',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/moment.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/theme.js',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery-ui.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/fullcalendar.min.js',
+                           $Resource.Calendar  + '/FullCalendarJS/jquery.ui.touch-punch.min.js'
+                           )}"
+                  afterScriptsLoaded="{!c.afterScriptsLoaded}" />
+    
+    
+    
+    <!---<ltng:require styles="{!$Resource.FullCalenderJs     + '/fullcalendar/fullcalendar/fullcalendar.css'}"
+                  scripts="{!join(',',
+                           $Resource.FullCalenderJs  + '/fullcalendar/fullcalendar/lib/jquery.min.js',
+                           $Resource.FullCalenderJs  + '/fullcalendar/fullcalendar/lib/moment.min.js',
+                           $Resource.FullCalenderJs  + '/fullcalendar/fullcalendar/fullcalendar.js'
+                           )}"
+                  afterScriptsLoaded="{!c.afterScriptsLoaded}" /-->
+    
+    
+    <ltng:require styles="/resource/fullcalendar/fullcalendar/fullcalendar.css"/>
+    <!--aura:attribute name="events" type="Object[]" /-->
+    <aura:html tag="style">
+        .mainContainer{
+        background-color: #ffffff;
+        display: flex;
+        align-items: start;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .boxContainer{
+        width: 25%;
+        margin:2rem;
+        }
+        .callyContainer{
+        width: 70%;
+        }
+        
+        .box {
+        margin-bottom: 10px;
+        padding: 5px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        }
+        .box h3{
+        font-weight: bold;
+        }
+        
+        .boxButtons{
+        
+        }
+        .box-buttons {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 10px;
+        }
+        .box-buttons button {
+        margin-left: 1px;
+        }
+        .button-light-green {
+        background-color: #6BBD6E; /* Light green */
+        color: #ffffff; /* Darker text color for light green button */
+        border-radius: 6px;
+        }
+        .button-light-blue {
+        background-color: #1589EE; /* Light blue */
+        color: #ffffff; /* Darker text color for light blue button */
+        border-radius: 6px;
+        }
+        .button-light-red {
+        background-color: #F2678D; /* Light red */
+        color: #ffffff; /* Darker text color for light red button */
+        border-radius: 6px;
+        }
+        
+        
+        
+        .external-events .fc-event {
+        margin: 10px 0;
+        cursor: pointer !important;
+        padding: 5px;
+        background-color: #5a6ccc !important;
+        border: #5a6ccc !important;
+        }        
+        
+    </aura:html> 
+    <div class="mainContainer" style="height:90vh;">               
+        <div class="boxContainer" aura:id="external-events">
+            <div class="event-container" style="max-height: 650px;padding-top:2%;">
+                    <aura:iteration items="{!v.Weeklybp}" var="item">
+                        {!item.Start_Day_of_Week__c}
+                        <div class="box draggable-event" id="listCalender" draggable="true">
+                            <h3>{!item.Week_Number__c}</h3>
+                            <p style="text:bold">( <lightning:formattedDateTime value="{!item.Start_Day_of_Week__c}" day="2-digit" month="short"/> To <lightning:formattedDateTime value="{!item.End_Day_of_Week__c}" day="2-digit" month="short"/> )</p>
+                            <div class="box-buttons">
+                                <button class="slds-button slds-button_neutral button-light-blue">4 Site Visit</button>
+                                <button class="slds-button slds-button_brand button-light-green">2 CP Visit</button>
+                            </div>
+                        </div>
+                    </aura:iteration>
+            </div>
+        </div>
+        <div class="callyContainer">
+            <div  id="calendar"></div> 
+        </div>
+    </div>
+</aura:component>

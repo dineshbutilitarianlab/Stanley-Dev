@@ -1,0 +1,8 @@
+/* Media query for screens with a maximum width of 768px (adjust the breakpoint as needed) */
+@media (max-width: 768px) {
+    .vfFrame {
+        width: 100%;
+        height: 400px; /* Adjust the height as needed for mobile screens */
+		margin-bottom: 2%;
+    }
+}

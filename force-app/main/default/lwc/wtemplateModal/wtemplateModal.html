@@ -1,0 +1,14 @@
+<template>
+
+    <lightning-modal-header label="My Modal Heading"></lightning-modal-header>
+    <lightning-modal-body> 
+        <c-customm-look-up obj-name="Whatsapp_Message_Template__c" search-placeholder="Select Template"
+            icon-name="standard:messaging_user" onlookupselected={handleTemplateSelection} style="width:100%">
+        </c-customm-look-up>
+        test
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="OK" onclick={handleOkay}></lightning-button>
+    </lightning-modal-footer>
+   
+</template>

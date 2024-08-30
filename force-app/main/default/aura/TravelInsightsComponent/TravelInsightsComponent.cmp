@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="Scheduler_Insight_MonthYear_handler">
+    
+    <aura:attribute name="selectedMonth" type="String" default="January" />    
+    <aura:attribute name="currentMonth" type="String"/>
+    <aura:attribute name="currentYear" type="String"/>
+    <aura:attribute name="months" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="ShowBeatPlannerName" type="Boolean" default="true"/>
+    <aura:attribute name="MonthlyBeatPlanDataList" type="Object"/>
+    <aura:attribute name="approvalDetails" type="object" />
+    <aura:attribute name="userName" type="String" />
+    
+    <!--aura:registerEvent name="sampleCmpEvent" type="c:SampleComponentEvent" /-->
+    <div class="slds-col slds-size_12-of-12" style="margin-top:10px;">
+        <article class="slds-card cardDetails" style="background: linear-gradient(90.51deg, #6DA2EA 0%, #DDB5FF 100%);border-radius: 10px;">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <span class="monthDetails" >{!v.MonthlyBeatPlanDataList.Month_Name__c}-{!v.MonthlyBeatPlanDataList.Name}-{!v.userName}</span>
+                        </h2>
+                    </div>
+                    <div class="slds-no-flex">
+                        <span class="top-button">{!v.MonthlyBeatPlanDataList.Status__c}</span>
+                        
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                   <p class="createDate">Created Date:&nbsp;<lightning:formattedDateTime value="{!v.MonthlyBeatPlanDataList.CreatedDate}" year="numeric" month="numeric" day="numeric"/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>    <p class="Approved">Approved By:{!v.approvalDetails.name}</p>       
+            </div>
+        </article>
+    </div>
+    
+    
+</aura:component>
